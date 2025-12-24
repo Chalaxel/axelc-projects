@@ -1,0 +1,29 @@
+{
+  "name": "monorepo",
+  "version": "1.0.0",
+  "description": "Multi-app monorepo with shared services",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "shared/*",
+    "backend",
+    "frontend",
+    "apps/*/backend",
+    "apps/*/frontend"
+  ],
+  "scripts": {
+    "build": "npm run build:shared && npm run build:apps && npm run build:main",
+    "build:shared": "npm run build:types && cd shared/backend && npm run build && cd ../frontend && npm run build",
+    "build:types": "cd packages/shared-types && npm run build",
+    "build:apps": "cd apps/ladm/backend && npm run build && cd ../frontend && npm run build",
+    "build:main": "cd backend && npm run build && cd ../frontend && npm run build",
+    "dev": "npm run dev:backend",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "install-all": "npm install",
+    "lint": "npm run lint:apps",
+    "lint:apps": "cd apps/ladm/backend && npm run lint && cd ../frontend && npm run lint",
+    "lint:fix": "cd apps/ladm/backend && npm run lint:fix && cd ../frontend && npm run lint:fix",
+    "clean": "rm -rf node_modules && cd backend && rm -rf node_modules dist && cd ../frontend && rm -rf node_modules dist && cd ../apps/ladm/backend && rm -rf node_modules dist && cd ../frontend && rm -rf node_modules dist"
+  }
+}

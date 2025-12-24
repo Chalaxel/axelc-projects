@@ -1,0 +1,115 @@
+.skeleton {
+    padding: 4rem 0;
+    min-height: 100vh;
+}
+
+.shimmer {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 8px;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+.titleSkeleton {
+    height: 3rem;
+    width: 60%;
+    margin-bottom: 2rem;
+}
+
+.mainContentSkeleton {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    padding: 2rem;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    margin-bottom: 3rem;
+}
+
+.imageSkeleton {
+    aspect-ratio: 1;
+    border-radius: 12px;
+}
+
+.infoSkeleton {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1rem 0;
+}
+
+.line1 {
+    height: 2.5rem;
+    width: 80%;
+}
+
+.line2 {
+    height: 3rem;
+    width: 40%;
+}
+
+.line3 {
+    height: 1.5rem;
+    width: 30%;
+}
+
+.buttonSkeleton {
+    height: 3.5rem;
+    width: 100%;
+    margin-top: auto;
+}
+
+.otherVariantsTitleSkeleton {
+    height: 2rem;
+    width: 250px;
+    margin-bottom: 1.5rem;
+}
+
+.miniGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1.5rem;
+}
+
+.miniCardSkeleton {
+    aspect-ratio: 0.8;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.miniImage {
+    flex: 1;
+    border-radius: 0;
+}
+
+.miniName {
+    height: 1rem;
+    width: 60%;
+    margin: 0.75rem auto;
+}
+
+@media (max-width: 900px) {
+    .mainContentSkeleton {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .miniGrid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+}

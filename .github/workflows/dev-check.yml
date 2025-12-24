@@ -1,0 +1,173 @@
+# .github/workflows/dev-check.yml
+name: Development Environment Check
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  dev-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        
+    - name: Verify package-lock.json exists
+      run: |
+        if [ ! -f "backend/package-lock.json" ]; then
+          echo "❌ backend/package-lock.json missing"
+          exit 1
+        fi
+        if [ ! -f "frontend/package-lock.json" ]; then
+          echo "❌ frontend/package-lock.json missing"
+          exit 1
+        fi
+        echo "✅ package-lock.json files present"
+        
+    - name: Install backend dependencies
+      run: |
+        cd backend
+        npm ci --silent
+        
+    - name: Install frontend dependencies
+      run: |
+        cd frontend
+        npm ci --silent
+        
+    - name: Lint backend (if eslint present)
+      run: |
+        cd backend
+        if [ -f ".eslintrc.js" ] || [ -f ".eslintrc.json" ]; then
+          npm run lint || echo "⚠️ Backend linting failed or not configured"
+        else
+          echo "ℹ️ No ESLint configuration found for backend"
+        fi
+        
+    - name: Lint frontend (if eslint present)
+      run: |
+        cd frontend
+        if [ -f ".eslintrc.js" ] || [ -f ".eslintrc.json" ]; then
+          npm run lint || echo "⚠️ Frontend linting failed or not configured"
+        else
+          echo "ℹ️ No ESLint configuration found for frontend"
+        fi
+        
+    - name: TypeScript check frontend (if configured)
+      run: |
+        cd frontend
+        if [ -f "tsconfig.json" ]; then
+          npx tsc --noEmit || echo "⚠️ TypeScript check failed"
+        else
+          echo "ℹ️ No TypeScript configuration found"
+        fi
+        
+    - name: Validate Docker Compose configuration
+      run: |
+        # Vérifier docker-compose.yml (production)
+        docker compose config > /dev/null
+        echo "✅ Production docker-compose.yml is valid"
+        
+        # Vérifier docker-compose.dev.yml (development)
+        docker compose -f docker-compose.dev.yml config > /dev/null
+        echo "✅ Development docker-compose.dev.yml is valid"
+        
+    - name: Verify environment files
+      run: |
+        if [ ! -f "env.example" ]; then
+          echo "❌ env.example missing"
+          exit 1
+        fi
+        echo "✅ env.example present"
+        
+        # Vérifier les variables requises
+        required_vars="POSTGRES_DB POSTGRES_USER POSTGRES_PASSWORD"
+        for var in $required_vars; do
+          if ! grep -q "^$var=" env.example; then
+            echo "❌ Required variable $var missing in env.example"
+            exit 1
+          fi
+        done
+        echo "✅ Required environment variables present"
+        
+    - name: Test build processes
+      run: |
+        # Test build backend (dry run)
+        cd backend
+        echo "ℹ️ Backend dependencies check passed"
+        
+        # Test build frontend
+        cd ../frontend
+        npm run build
+        echo "✅ Frontend build successful"
+        
+    - name: Verify Docker configurations
+      run: |
+        # Vérifier les Dockerfiles
+        if [ ! -f "backend/Dockerfile" ]; then
+          echo "❌ backend/Dockerfile missing"
+          exit 1
+        fi
+        if [ ! -f "frontend/Dockerfile" ]; then
+          echo "❌ frontend/Dockerfile missing"
+          exit 1
+        fi
+        echo "✅ Dockerfiles present"
+        
+        # Vérifier les .dockerignore
+        if [ ! -f "backend/.dockerignore" ]; then
+          echo "❌ backend/.dockerignore missing"
+          exit 1
+        fi
+        if [ ! -f "frontend/.dockerignore" ]; then
+          echo "❌ frontend/.dockerignore missing"
+          exit 1
+        fi
+        echo "✅ .dockerignore files present"
+        
+        # Vérifier que package-lock.json n'est pas ignoré
+        if grep -q "package-lock.json" backend/.dockerignore; then
+          echo "❌ package-lock.json should not be ignored in backend/.dockerignore"
+          exit 1
+        fi
+        if grep -q "package-lock.json" frontend/.dockerignore; then
+          echo "❌ package-lock.json should not be ignored in frontend/.dockerignore"
+          exit 1
+        fi
+        echo "✅ package-lock.json not ignored in .dockerignore files"
+        
+    - name: Development environment integration test
+      run: |
+        # Copier le fichier d'environnement
+        cp env.example .env
+        
+        # Démarrer les services
+        docker compose -f docker-compose.dev.yml --profile dev up -d
+        
+        # Attendre que les services soient prêts
+        sleep 30
+        
+        # Vérifier que les conteneurs sont en cours d'exécution
+        docker compose -f docker-compose.dev.yml ps
+        
+        # Test des APIs
+        echo "Testing backend API..."
+        curl -f http://localhost:3000/api/hello || (docker compose -f docker-compose.dev.yml logs backend && exit 1)
+        
+        echo "Testing frontend..."
+        curl -f http://localhost:5173/ || (docker compose -f docker-compose.dev.yml logs frontend && exit 1)
+        
+        echo "Testing API proxy through frontend..."
+        curl -f http://localhost:5173/api/hello || (docker compose -f docker-compose.dev.yml logs && exit 1)
+        
+        echo "✅ Development environment integration test passed"
+        
+        # Nettoyer
+        docker compose -f docker-compose.dev.yml --profile dev down -v

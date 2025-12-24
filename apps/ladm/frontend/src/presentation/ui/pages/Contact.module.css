@@ -1,0 +1,139 @@
+.contact {
+    padding: 4rem 0;
+    background-color: var(--color-background-light);
+    min-height: 100vh;
+}
+
+.pageTitle {
+    font-family: var(--font-primary);
+    font-size: 2.5rem;
+    color: var(--color-text-primary);
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+}
+
+.formContainer {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+}
+
+.intro {
+    color: var(--color-text-secondary);
+    text-align: center;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.formGroup label {
+    font-size: 0.875rem;
+    color: var(--color-text-primary);
+    font-weight: 500;
+}
+
+.formGroup input,
+.formGroup textarea {
+    padding: 0.875rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    font-family: inherit;
+}
+
+.formGroup input:focus,
+.formGroup textarea:focus {
+    border-color: var(--color-primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(212, 165, 116, 0.1);
+}
+
+.formGroup input::placeholder,
+.formGroup textarea::placeholder {
+    color: #aaa;
+}
+
+.formGroup textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.submitButton {
+    background: var(--color-primary);
+    color: white;
+    padding: 1rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    margin-top: 0.5rem;
+}
+
+.submitButton:hover:not(:disabled) {
+    background: var(--color-accent-primary);
+    transform: translateY(-1px);
+}
+
+.submitButton:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.submitButton:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+.successMessage {
+    background: #e6f4ea;
+    color: #1e4620;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.errorMessage {
+    background: #fce8e6;
+    color: #c5221f;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    .contact {
+        padding: 2rem 0;
+    }
+
+    .pageTitle {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .formContainer {
+        padding: 1.5rem;
+        margin: 0 1rem;
+    }
+}

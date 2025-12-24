@@ -1,0 +1,42 @@
+.button {
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: var(--font-secondary);
+    transition: all 0.2s ease;
+}
+
+.primary {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+.secondary {
+    background-color: var(--color-secondary);
+    color: var(--color-text-primary);
+}
+
+.outline {
+    background-color: transparent;
+    border: 2px solid var(--color-primary);
+    color: var(--color-primary);
+}
+
+.small {
+    padding: 8px 16px;
+    font-size: 14px;
+}
+
+.medium {
+    padding: 12px 24px;
+    font-size: 16px;
+}
+
+.large {
+    padding: 16px 32px;
+    font-size: 18px;
+}
+
+.fullWidth {
+    width: 100%;
+} 
