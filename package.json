@@ -12,18 +12,22 @@
     "apps/*/frontend"
   ],
   "scripts": {
-    "build": "npm run build:shared && npm run build:apps && npm run build:main",
-    "build:shared": "npm run build:types && cd shared/backend && npm run build && cd ../frontend && npm run build",
-    "build:types": "cd packages/shared-types && npm run build",
-    "build:apps": "cd apps/ladm/backend && npm run build && cd ../frontend && npm run build",
-    "build:main": "cd backend && npm run build && cd ../frontend && npm run build",
-    "dev": "npm run dev:backend",
-    "dev:backend": "cd backend && npm run dev",
-    "dev:frontend": "cd frontend && npm run dev",
-    "install-all": "npm install",
-    "lint": "npm run lint:apps",
-    "lint:apps": "cd apps/ladm/backend && npm run lint && cd ../frontend && npm run lint",
-    "lint:fix": "cd apps/ladm/backend && npm run lint:fix && cd ../frontend && npm run lint:fix",
-    "clean": "rm -rf node_modules && cd backend && rm -rf node_modules dist && cd ../frontend && rm -rf node_modules dist && cd ../apps/ladm/backend && rm -rf node_modules dist && cd ../frontend && rm -rf node_modules dist"
+    "build": "yarn build:shared && yarn build:apps && yarn build:main",
+    "build:shared": "yarn build:types && cd shared/backend && yarn build && cd ../frontend && yarn build",
+    "build:types": "cd packages/shared-types && yarn build",
+    "build:apps": "cd apps/app1/backend && yarn build && cd ../frontend && yarn build && cd ../../app2/backend && yarn build && cd ../frontend && yarn build",
+    "build:main": "cd backend && yarn build && cd ../frontend && yarn build",
+    "dev": "bash scripts/dev.sh",
+    "dev:backend": "cd backend && yarn dev",
+    "dev:frontend": "cd frontend && yarn dev",
+    "install-all": "yarn install",
+    "lint": "yarn lint:apps",
+    "lint:apps": "cd apps/app1/backend && yarn lint && cd ../frontend && yarn lint && cd ../../app2/backend && yarn lint && cd ../frontend && yarn lint",
+    "lint:fix": "cd apps/app1/backend && yarn lint:fix && cd ../frontend && yarn lint:fix && cd ../../app2/backend && yarn lint:fix && cd ../frontend && yarn lint:fix",
+    "clean": "rm -rf node_modules && cd backend && rm -rf node_modules dist && cd ../frontend && rm -rf node_modules dist && cd ../apps/app1/backend && rm -rf node_modules dist && cd ../frontend && rm -rf node_modules dist && cd ../../app2/backend && rm -rf node_modules dist && cd ../frontend && rm -rf node_modules dist"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "ttab": "^0.9.0"
   }
 }

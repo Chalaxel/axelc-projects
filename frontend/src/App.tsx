@@ -1,7 +1,8 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
 
-const LadmApp = lazy(() => import('@apps/ladm/frontend/src/presentation/ui/App').then(m => ({ default: m.App })));
+const App1 = lazy(() => import('@apps/app1/frontend/src/presentation/ui/App').then(m => ({ default: m.App })));
+const App2 = lazy(() => import('@apps/app2/frontend/src/presentation/ui/App').then(m => ({ default: m.App })));
 
 const LoadingFallback = () => (
     <div style={{ 
@@ -27,14 +28,23 @@ const AppSelector = () => (
     }}>
         <h1>Monorepo Apps</h1>
         <nav style={{ display: 'flex', gap: '1rem' }}>
-            <a href="/ladm" style={{ 
+            <a href="/app1" style={{ 
                 padding: '1rem 2rem', 
                 background: '#333', 
                 color: 'white', 
                 textDecoration: 'none',
                 borderRadius: '8px'
             }}>
-                LADM App
+                App 1
+            </a>
+            <a href="/app2" style={{ 
+                padding: '1rem 2rem', 
+                background: '#333', 
+                color: 'white', 
+                textDecoration: 'none',
+                borderRadius: '8px'
+            }}>
+                App 2
             </a>
         </nav>
     </div>
@@ -45,7 +55,8 @@ export const App = () => {
         <Suspense fallback={<LoadingFallback />}>
             <Routes>
                 <Route path="/" element={<AppSelector />} />
-                <Route path="/ladm/*" element={<LadmApp />} />
+                <Route path="/app1/*" element={<App1 />} />
+                <Route path="/app2/*" element={<App2 />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
         </Suspense>

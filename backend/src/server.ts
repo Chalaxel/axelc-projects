@@ -3,6 +3,17 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
 
+// Register ts-node for dynamic TypeScript imports in development
+if (process.env.NODE_ENV !== 'production') {
+    require('ts-node').register({
+        transpileOnly: true,
+        compilerOptions: {
+            module: 'commonjs',
+            esModuleInterop: true,
+        },
+    });
+}
+
 dotenv.config();
 
 const logger = console;
@@ -25,7 +36,7 @@ app.get('/health', (req: Request, res: Response) => {
         status: 'healthy',
         timestamp: new Date().toISOString(),
         uptime: process.uptime(),
-        apps: ['ladm'],
+        apps: ['app1', 'app2'],
     });
 });
 
@@ -40,9 +51,20 @@ const loadedApps: Map<string, AppModule> = new Map();
 
 const loadApp = async (appName: string): Promise<AppModule | null> => {
     try {
-        const appPath = path.resolve(__dirname, `../../apps/${appName}/backend/dist`);
-        const appModule = await import(`${appPath}/index.js`);
-        logger.log(`App ${appName} loaded successfully`);
+        const isDev = process.env.NODE_ENV !== 'production';
+        let appModule: AppModule;
+        
+        if (isDev) {
+            // In development, load from src using require (ts-node is registered above)
+            const appPath = path.resolve(__dirname, `../../apps/${appName}/backend/src/index.ts`);
+            appModule = require(appPath);
+        } else {
+            // In production, load from dist
+            const appPath = path.resolve(__dirname, `../../apps/${appName}/backend/dist/index.js`);
+            appModule = await import(appPath);
+        }
+        
+        logger.log(`App ${appName} loaded successfully from ${isDev ? 'src' : 'dist'}`);
         return appModule;
     } catch (error) {
         logger.error(`Failed to load app ${appName}:`, error);
@@ -96,7 +118,7 @@ app.use((err: Error, req: Request, res: Response, _next: NextFunction) => {
 });
 
 const startServer = async (): Promise<void> => {
-    const enabledApps = (process.env.ENABLED_APPS || 'ladm').split(',').map(s => s.trim());
+    const enabledApps = (process.env.ENABLED_APPS || 'app1,app2').split(',').map(s => s.trim());
 
     for (const appName of enabledApps) {
         const appModule = await loadApp(appName);
