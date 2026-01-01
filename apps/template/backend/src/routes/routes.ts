@@ -3,7 +3,7 @@ import { Router, Request, Response } from 'express';
 const router = Router();
 
 router.get('/health', (req: Request, res: Response) => {
-    res.json({ status: 'healthy', app: 'app1' });
+    res.json({ status: 'healthy', app: 'template' });
 });
 
 // Add your routes here

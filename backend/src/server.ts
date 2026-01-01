@@ -36,7 +36,7 @@ app.get('/health', (req: Request, res: Response) => {
         status: 'healthy',
         timestamp: new Date().toISOString(),
         uptime: process.uptime(),
-        apps: ['app1', 'app2'],
+        apps: ['template', 'app2'],
     });
 });
 
@@ -118,7 +118,7 @@ app.use((err: Error, req: Request, res: Response, _next: NextFunction) => {
 });
 
 const startServer = async (): Promise<void> => {
-    const enabledApps = (process.env.ENABLED_APPS || 'app1,app2').split(',').map(s => s.trim());
+    const enabledApps = (process.env.ENABLED_APPS || 'template,app2').split(',').map(s => s.trim());
 
     for (const appName of enabledApps) {
         const appModule = await loadApp(appName);

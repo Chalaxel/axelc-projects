@@ -1,5 +1,5 @@
 {
-  "name": "@monorepo/app-app1-backend",
+  "name": "@monorepo/app-template-backend",
   "version": "1.0.0",
   "main": "dist/index.js",
   "scripts": {

@@ -1,5 +1,5 @@
 {
-  "name": "@monorepo/app-app1-frontend",
+  "name": "@monorepo/app-template-frontend",
   "version": "1.0.0",
   "type": "module",
   "dependencies": {
