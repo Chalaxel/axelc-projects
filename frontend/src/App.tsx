@@ -2,7 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
 
 const Template = lazy(() => import('@apps/template/frontend/src/presentation/ui/App').then(m => ({ default: m.App })));
-const App2 = lazy(() => import('@apps/app2/frontend/src/presentation/ui/App').then(m => ({ default: m.App })));
+const TodoList = lazy(() => import('@apps/todo-list/frontend/src/presentation/ui/App').then(m => ({ default: m.App })));
 
 const LoadingFallback = () => (
     <div style={{ 
@@ -37,14 +37,14 @@ const AppSelector = () => (
             }}>
                 Template
             </a>
-            <a href="/app2" style={{ 
+            <a href="/todo-list" style={{ 
                 padding: '1rem 2rem', 
                 background: '#333', 
                 color: 'white', 
                 textDecoration: 'none',
                 borderRadius: '8px'
             }}>
-                App 2
+                Todo List
             </a>
         </nav>
     </div>
@@ -56,7 +56,7 @@ export const App = () => {
             <Routes>
                 <Route path="/" element={<AppSelector />} />
                 <Route path="/template/*" element={<Template />} />
-                <Route path="/app2/*" element={<App2 />} />
+                <Route path="/todo-list/*" element={<TodoList />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
         </Suspense>

@@ -2,8 +2,6 @@
   "name": "@monorepo/shared-frontend",
   "version": "1.0.0",
   "description": "Shared frontend services and utilities",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
   "type": "module",
   "scripts": {
     "build": "tsc",
