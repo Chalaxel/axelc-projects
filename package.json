@@ -1,7 +1,7 @@
 {
-  "name": "todo-list",
+  "name": "p3rf",
   "version": "1.0.0",
-  "description": "Todo List Application",
+  "description": "P3RF - Application de gestion de programmes d'entraînement triathlon",
   "private": true,
   "scripts": {
     "build": "cd backend && npm run build && cd ../frontend && npm run build",
