@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import { Todo, TodoCreationAttributes, TodoUpdateAttributes } from '@shared/types/Todo';
 
 interface ApiResponse<T> {
@@ -15,6 +15,8 @@ const api: AxiosInstance = axios.create({
     },
 });
 
+// Test erreur ESLint - variable non utilisée
+
 export const todoApi = {
     async getTodos(): Promise<Todo[]> {
         const response = await api.get<ApiResponse<Todo[]>>('/todos');
@@ -25,8 +27,8 @@ export const todoApi = {
         try {
             const response = await api.get<ApiResponse<Todo>>(`/todos/${id}`);
             return response.data.data || null;
-        } catch (error: any) {
-            if (error.response?.status === 404) {
+        } catch (error) {
+            if (axios.isAxiosError(error) && error.response?.status === 404) {
                 return null;
             }
             throw error;

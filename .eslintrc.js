@@ -29,8 +29,9 @@ module.exports = {
     ecmaFeatures: {
       jsx: true,
     },
+    project: true, // Trouve automatiquement le tsconfig.json le plus proche
   },
-  plugins: ['react', 'react-hooks', 'react-refresh', '@typescript-eslint'],
+  plugins: ['react', 'react-hooks', 'react-refresh', '@typescript-eslint', 'prettier'],
   settings: {
     react: {
       version: 'detect',
@@ -48,6 +49,7 @@ module.exports = {
         varsIgnorePattern: '^_',
       },
     ],
+    'prettier/prettier': 'error',
     'no-console': ['warn', { allow: ['warn', 'error'] }],
     'react/prop-types': 'off',
     'react/react-in-jsx-scope': 'off',

@@ -3,22 +3,29 @@ FROM node:20-alpine AS backend-builder
 
 WORKDIR /app
 
-# Copy shared types first (needed for compilation)
+# Copy shared types first
 COPY shared/ ./shared/
 
+# Copy and install backend
 WORKDIR /app/backend
-
 COPY backend/package*.json ./
 RUN npm install
 
+# Copy backend source
 COPY backend/ .
+
 RUN npm run build
 
 # Stage 2: Build frontend
 FROM node:20-alpine AS frontend-builder
 
-WORKDIR /app/frontend
+WORKDIR /app
 
+# Copy shared types (needed for frontend compilation)
+COPY shared/ ./shared/
+
+# Copy and install frontend
+WORKDIR /app/frontend
 COPY frontend/package*.json ./
 RUN npm install
 
@@ -43,8 +50,6 @@ COPY --from=frontend-builder /app/frontend/dist /usr/share/nginx/html
 COPY --from=backend-builder /app/backend/dist /app/backend/dist
 COPY --from=backend-builder /app/backend/package*.json /app/backend/
 COPY --from=backend-builder /app/backend/node_modules /app/backend/node_modules
-# Copy shared types (needed at runtime after tsc-alias resolution)
-COPY --from=backend-builder /app/shared /app/shared
 
 # Copy configuration files
 COPY nginx.conf /etc/nginx/http.d/default.conf
