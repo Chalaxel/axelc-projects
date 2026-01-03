@@ -23,6 +23,14 @@ export const initSessionModel = (sequelize: Sequelize): ModelStatic<SessionInsta
                     type: DataTypes.JSONB,
                     allowNull: true,
                 },
+                userId: {
+                    type: DataTypes.UUID,
+                    allowNull: true,
+                    references: {
+                        model: 'users',
+                        key: 'id',
+                    },
+                },
                 createdAt: {
                     type: DataTypes.DATE,
                     allowNull: false,

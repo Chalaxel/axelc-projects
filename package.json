@@ -11,7 +11,6 @@
     "db:reset": "docker-compose down -v && docker-compose up -d db && sleep 3",
     "db:migrate": "cd backend && npm run migrate",
     "db:setup": "npm run db:reset && sleep 5 && npm run db:migrate",
-    "install": "cd backend && npm install && cd ../frontend && npm install",
     "clean": "rm -rf node_modules && cd backend && rm -rf node_modules dist && cd ../frontend && rm -rf node_modules dist",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,css,md}\""
@@ -25,7 +24,6 @@
     "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^4.6.2",
-    "eslint-plugin-react-refresh": "^0.4.26",
     "prettier": "^3.2.5"
   }
 }

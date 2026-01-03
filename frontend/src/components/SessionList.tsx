@@ -3,8 +3,10 @@ import { Session, SessionCreationAttributes } from '@shared/types';
 import { SessionItem } from './SessionItem';
 import { SessionForm } from './SessionForm';
 import { sessionApi } from '../services/sessionApi';
+import { useAuth } from '../context/AuthContext';
 
 export const SessionList = () => {
+    const { user, logout } = useAuth();
     const [sessions, setSessions] = useState<Session[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -91,7 +93,35 @@ export const SessionList = () => {
 
     return (
         <div style={{ maxWidth: '800px', margin: '0 auto', padding: '2rem' }}>
-            <h1 style={{ marginBottom: '2rem', color: '#333' }}>Mes Séances d'Entraînement</h1>
+            <div
+                style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: '2rem',
+                }}
+            >
+                <h1 style={{ margin: 0, color: '#333' }}>{"Mes Séances d'Entraînement"}</h1>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                    {user && (
+                        <span style={{ color: '#666', fontSize: '0.9rem' }}>{user.email}</span>
+                    )}
+                    <button
+                        onClick={logout}
+                        style={{
+                            padding: '0.5rem 1rem',
+                            backgroundColor: '#dc3545',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '4px',
+                            cursor: 'pointer',
+                            fontSize: '0.9rem',
+                        }}
+                    >
+                        Déconnexion
+                    </button>
+                </div>
+            </div>
 
             {error && (
                 <div
@@ -129,7 +159,9 @@ export const SessionList = () => {
 
             {showForm && (
                 <div style={{ marginBottom: '2rem' }}>
-                    <h2 style={{ marginBottom: '1rem', color: '#333' }}>Créer une nouvelle séance</h2>
+                    <h2 style={{ marginBottom: '1rem', color: '#333' }}>
+                        Créer une nouvelle séance
+                    </h2>
                     <SessionForm onSubmit={handleCreate} onCancel={handleCancelCreate} />
                 </div>
             )}
@@ -162,7 +194,7 @@ export const SessionList = () => {
                         <p>Aucune séance pour le moment. Créez-en une ci-dessus !</p>
                     </div>
                 ) : (
-                    sessions.map((session) => (
+                    sessions.map(session => (
                         <SessionItem
                             key={session.id}
                             session={session}

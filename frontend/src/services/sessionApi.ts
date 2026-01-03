@@ -1,5 +1,6 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance, AxiosError } from 'axios';
 import { Session, SessionCreationAttributes } from '@shared/types';
+import { TOKEN_KEY } from './authApi';
 
 interface ApiResponse<T> {
     success: boolean;
@@ -14,6 +15,30 @@ const api: AxiosInstance = axios.create({
         'Content-Type': 'application/json',
     },
 });
+
+api.interceptors.request.use(
+    config => {
+        const token = localStorage.getItem(TOKEN_KEY);
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    },
+    error => {
+        return Promise.reject(error);
+    },
+);
+
+api.interceptors.response.use(
+    response => response,
+    (error: AxiosError) => {
+        if (error.response?.status === 401) {
+            localStorage.removeItem(TOKEN_KEY);
+            window.location.href = '/';
+        }
+        return Promise.reject(error);
+    },
+);
 
 export const sessionApi = {
     async getSessions(): Promise<Session[]> {
