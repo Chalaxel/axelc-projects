@@ -84,7 +84,7 @@ export const createSequelizeInstance = (config: DatabaseConfig): Sequelize => {
 
 export const createDatabase = (appName?: string): Sequelize => {
     const config = createDatabaseConfig(appName);
-    console.log('config', config);
+
     return createSequelizeInstance(config);
 };
 

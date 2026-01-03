@@ -3,17 +3,6 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
 
-// Register ts-node for dynamic TypeScript imports in development
-if (process.env.NODE_ENV !== 'production') {
-    require('ts-node').register({
-        transpileOnly: true,
-        compilerOptions: {
-            module: 'commonjs',
-            esModuleInterop: true,
-        },
-    });
-}
-
 const envPath = path.resolve(__dirname, '../.env');
 dotenv.config({ path: envPath });
 

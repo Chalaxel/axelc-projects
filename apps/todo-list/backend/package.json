@@ -9,7 +9,9 @@
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "clean": "rm -rf dist",
     "migrate": "ts-node src/scripts/runMigrations.ts",
-    "migrate:status": "ts-node src/scripts/migrationStatus.ts"
+    "migrate:status": "ts-node src/scripts/migrationStatus.ts",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix"
   },
   "dependencies": {
     "express": "^4.18.2",
