@@ -8,7 +8,7 @@ export default defineConfig({
         alias: {
             '@apps': path.resolve(__dirname, '../../../apps'),
             '@monorepo/shared-types': path.resolve(__dirname, '../../../packages/shared-types/src'),
-            '@monorepo/shared-frontend': path.resolve(__dirname, '../../../shared/frontend/src'),
+            '@monorepo/shared-frontend': path.resolve(__dirname, '../../../shared/frontend'),
         },
     },
     server: {

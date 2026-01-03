@@ -805,6 +805,11 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
+"@monorepo/shared-frontend@file:shared/frontend":
+  version "1.0.0"
+  dependencies:
+    axios "^1.12.2"
+
 "@monorepo/shared-types@file:packages/shared-types":
   version "1.0.0"
 

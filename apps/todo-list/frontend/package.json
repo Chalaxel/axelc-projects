@@ -4,6 +4,7 @@
   "type": "module",
   "dependencies": {
     "@monorepo/shared-types": "file:../../../packages/shared-types",
+    "@monorepo/shared-frontend": "file:../../../shared/frontend",
     "react": "^18.2.0",
     "react-router-dom": "^7.9.3"
   },
