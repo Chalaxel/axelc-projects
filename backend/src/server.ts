@@ -8,6 +8,7 @@ dotenv.config({ path: envPath });
 
 import { router } from './routes/routes';
 import { initializeDatabase, closeDatabase } from './utils/dbSync';
+import { getUserMiddleware } from './middleware/auth';
 
 const logger = console;
 
@@ -30,6 +31,18 @@ app.get('/health', (req: Request, res: Response) => {
         timestamp: new Date().toISOString(),
         uptime: process.uptime(),
     });
+});
+
+const publicRoutes = ['/health', '/api/auth/login', '/api/auth/register'];
+
+app.use((req: Request, res: Response, next: NextFunction) => {
+    const path = req.path;
+
+    if (publicRoutes.includes(path)) {
+        return next();
+    }
+
+    return getUserMiddleware(req, res, next);
 });
 
 app.use('/api', router);

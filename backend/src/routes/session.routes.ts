@@ -1,11 +1,11 @@
 import { Router, Response } from 'express';
-import { getUserMiddleware, AuthenticatedRequest } from '../middleware/auth';
+import { AuthenticatedRequest } from '../middleware/auth';
 import { sessionService } from 'src/services/SessionService';
 import { SessionCreationAttributes } from '@shared/types';
 
 const router = Router();
 
-router.get('/', getUserMiddleware, async (req: AuthenticatedRequest, res: Response) => {
+router.get('/', async (req: AuthenticatedRequest, res: Response) => {
     try {
         if (!req.user) {
             return res.status(401).json({ success: false, message: 'Non autorisé' });
@@ -18,7 +18,7 @@ router.get('/', getUserMiddleware, async (req: AuthenticatedRequest, res: Respon
     }
 });
 
-router.get('/:id', getUserMiddleware, async (req: AuthenticatedRequest, res: Response) => {
+router.get('/:id', async (req: AuthenticatedRequest, res: Response) => {
     try {
         if (!req.user) {
             return res.status(401).json({ success: false, message: 'Non autorisé' });
@@ -37,7 +37,7 @@ router.get('/:id', getUserMiddleware, async (req: AuthenticatedRequest, res: Res
     }
 });
 
-router.post('/', getUserMiddleware, async (req: AuthenticatedRequest, res: Response) => {
+router.post('/', async (req: AuthenticatedRequest, res: Response) => {
     try {
         if (!req.user) {
             return res.status(401).json({ success: false, message: 'Non autorisé' });
@@ -56,7 +56,7 @@ router.post('/', getUserMiddleware, async (req: AuthenticatedRequest, res: Respo
     }
 });
 
-router.put('/:id', getUserMiddleware, async (req: AuthenticatedRequest, res: Response) => {
+router.put('/:id', async (req: AuthenticatedRequest, res: Response) => {
     try {
         if (!req.user) {
             return res.status(401).json({ success: false, message: 'Non autorisé' });
@@ -77,7 +77,7 @@ router.put('/:id', getUserMiddleware, async (req: AuthenticatedRequest, res: Res
     }
 });
 
-router.delete('/:id', getUserMiddleware, async (req: AuthenticatedRequest, res: Response) => {
+router.delete('/:id', async (req: AuthenticatedRequest, res: Response) => {
     try {
         if (!req.user) {
             return res.status(401).json({ success: false, message: 'Non autorisé' });

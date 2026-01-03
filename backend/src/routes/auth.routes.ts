@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { authService } from '../services/AuthService';
-import { getUserMiddleware, AuthenticatedRequest } from '../middleware/auth';
+import { AuthenticatedRequest } from '../middleware/auth';
 import { RegisterRequest, LoginRequest, AuthResponse, AuthErrorResponse } from '@shared/types';
 
 const router = Router();
@@ -76,7 +76,6 @@ router.post('/login', async (req: Request, res: Response<AuthResponse | AuthErro
 
 router.get(
     '/me',
-    getUserMiddleware,
     async (req: AuthenticatedRequest, res: Response<AuthResponse | AuthErrorResponse>) => {
         try {
             if (!req.user) {
