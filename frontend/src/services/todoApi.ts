@@ -15,8 +15,6 @@ const api: AxiosInstance = axios.create({
     },
 });
 
-// Test erreur ESLint - variable non utilisée
-
 export const todoApi = {
     async getTodos(): Promise<Todo[]> {
         const response = await api.get<ApiResponse<Todo[]>>('/todos');
