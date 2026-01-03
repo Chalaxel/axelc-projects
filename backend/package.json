@@ -13,7 +13,9 @@
     "migrate": "ts-node src/scripts/runMigrations.ts",
     "migrate:status": "ts-node src/scripts/migrationStatus.ts",
     "lint": "eslint src --ext .ts",
-    "lint:fix": "eslint src --ext .ts --fix"
+    "lint:fix": "eslint src --ext .ts --fix",
+    "format": "prettier --write \"src/**/*.{ts,json}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,json}\""
   },
   "dependencies": {
     "cors": "^2.8.5",

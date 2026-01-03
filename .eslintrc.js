@@ -11,6 +11,7 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
     'plugin:react/jsx-runtime',
+    'prettier', // Doit être en dernier pour désactiver les règles ESLint qui entrent en conflit avec Prettier
   ],
   ignorePatterns: [
     'dist',
@@ -55,7 +56,7 @@ module.exports = {
   overrides: [
     {
       // Configuration pour les fichiers backend (sans React)
-      files: ['**/backend/**/*.ts', '**/shared/backend/**/*.ts'],
+      files: ['**/backend/**/*.ts'],
       rules: {
         'react/react-in-jsx-scope': 'off',
         'react/prop-types': 'off',

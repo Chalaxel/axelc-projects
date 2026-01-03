@@ -14,9 +14,13 @@
     "db:stop": "docker-compose stop db",
     "db:restart": "docker-compose restart db",
     "install": "cd backend && npm install && cd ../frontend && npm install",
-    "clean": "rm -rf node_modules && cd backend && rm -rf node_modules dist && cd ../frontend && rm -rf node_modules dist"
+    "clean": "rm -rf node_modules && cd backend && rm -rf node_modules dist && cd ../frontend && rm -rf node_modules dist",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,css,md}\""
   },
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.2.5"
   }
 }
