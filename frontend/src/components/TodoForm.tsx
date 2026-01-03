@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { TodoCreationAttributes } from '../types/Todo';
+import { TodoCreationAttributes } from '@shared/types/Todo';
 
 interface TodoFormProps {
     onSubmit: (data: TodoCreationAttributes) => void;

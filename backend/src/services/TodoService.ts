@@ -1,6 +1,6 @@
 import { getDatabase } from '../utils/dbSync';
 import { initTodoModel, getTodoModel } from '../models/Todo';
-import { Todo, TodoCreationAttributes, TodoUpdateAttributes } from '../types/Todo';
+import { Todo, TodoCreationAttributes, TodoUpdateAttributes } from '@shared/types/Todo';
 
 const db = getDatabase();
 initTodoModel(db);

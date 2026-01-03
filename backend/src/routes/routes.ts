@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { todoService } from '../services/TodoService';
-import { TodoCreationAttributes, TodoUpdateAttributes } from '../types/Todo';
+import { TodoCreationAttributes, TodoUpdateAttributes } from '@shared/types/Todo';
 
 const router = Router();
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Todo } from '../types/Todo';
+import { Todo } from '@shared/types/Todo';
 import { TodoItem } from './TodoItem';
 import { TodoForm } from './TodoForm';
 import { todoApi } from '../services/todoApi';

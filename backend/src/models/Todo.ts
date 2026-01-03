@@ -1,5 +1,5 @@
 import { DataTypes, Model, ModelStatic, Sequelize } from 'sequelize';
-import { Todo, TodoCreationAttributes } from '../types/Todo';
+import { Todo, TodoCreationAttributes } from '@shared/types/Todo';
 
 interface TodoInstance extends Model<Todo, TodoCreationAttributes>, Todo {}
 

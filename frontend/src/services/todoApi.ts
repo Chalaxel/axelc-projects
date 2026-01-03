@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
-import { Todo, TodoCreationAttributes, TodoUpdateAttributes } from '../types/Todo';
+import { Todo, TodoCreationAttributes, TodoUpdateAttributes } from '@shared/types/Todo';
 
 interface ApiResponse<T> {
     success: boolean;

@@ -1,3 +1,8 @@
+/**
+ * Types partagés entre le frontend et le backend
+ * Ce fichier centralise les définitions de types pour éviter la duplication
+ */
+
 export interface Todo {
   id: string;
   title: string;
