@@ -1,23 +1,9 @@
 version: '3.8'
 
 services:
-  app:
-    build: .
-    ports:
-      - "8080:8080"
-    environment:
-      - NODE_ENV=production
-      - ENABLED_APPS=ladm
-      - POSTGRESQL_ADDON_HOST=db
-      - POSTGRESQL_ADDON_PORT=5432
-      - POSTGRESQL_ADDON_DB=monorepo
-      - POSTGRESQL_ADDON_USER=postgres
-      - POSTGRESQL_ADDON_PASSWORD=password
-    depends_on:
-      - db
-
   db:
     image: postgres:15-alpine
+    container_name: monorepo-postgres
     environment:
       POSTGRES_DB: monorepo
       POSTGRES_USER: postgres
@@ -26,6 +12,12 @@ services:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
 
 volumes:
   postgres_data:
