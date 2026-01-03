@@ -63,12 +63,20 @@ FROM node:20-alpine AS frontend-builder
 
 WORKDIR /app
 
-# Copy shared packages
+# Copy shared packages (built)
 COPY --from=shared-builder /app/packages/shared-types /app/packages/shared-types
+COPY --from=shared-builder /app/shared/frontend /app/shared/frontend
 
-# Copy app frontends for importing
-COPY apps/template/frontend /app/apps/template/frontend
-COPY apps/todo-list/frontend /app/apps/todo-list/frontend
+# Copy and install dependencies for app frontends (needed for TypeScript compilation)
+WORKDIR /app/apps/template/frontend
+COPY apps/template/frontend/package*.json ./
+RUN npm install
+COPY apps/template/frontend/ .
+
+WORKDIR /app/apps/todo-list/frontend
+COPY apps/todo-list/frontend/package*.json ./
+RUN npm install
+COPY apps/todo-list/frontend/ .
 
 # Build main frontend
 WORKDIR /app/frontend
