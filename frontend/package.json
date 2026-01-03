@@ -1,7 +1,7 @@
 {
-  "name": "@monorepo/frontend",
+  "name": "todo-list-frontend",
   "version": "1.0.0",
-  "description": "Main frontend with multi-app routing",
+  "description": "Todo List Frontend",
   "license": "UNLICENSED",
   "private": true,
   "type": "module",
@@ -14,11 +14,9 @@
     "lint:fix": "eslint src --ext .ts,.tsx --fix"
   },
   "dependencies": {
-    "@monorepo/shared-frontend": "*",
-    "@tanstack/react-query": "^5.90.2",
+    "axios": "^1.6.2",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^7.9.3"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",
@@ -28,4 +26,3 @@
     "vite": "^5.0.8"
   }
 }
-

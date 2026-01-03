@@ -1,48 +1,22 @@
 {
-  "name": "monorepo",
+  "name": "todo-list",
   "version": "1.0.0",
-  "description": "Multi-app monorepo with shared services",
+  "description": "Todo List Application",
   "private": true,
-  "workspaces": [
-    "packages/*",
-    "shared/*",
-    "backend",
-    "frontend",
-    "apps/*/backend",
-    "apps/*/frontend"
-  ],
   "scripts": {
-    "build": "yarn build:shared && yarn build:apps && yarn build:main",
-    "build:shared": "yarn build:types && cd shared/backend && yarn build && cd ../frontend && yarn build",
-    "build:types": "cd packages/shared-types && yarn build",
-    "build:apps": "cd apps/template/backend && yarn build && cd ../frontend && yarn build && cd ../../todo-list/backend && yarn build && cd ../frontend && yarn build",
-    "build:main": "cd backend && yarn build && cd ../frontend && yarn build",
-    "dev": "bash scripts/dev.sh",
-    "dev:backend": "cd backend && yarn dev",
-    "dev:frontend": "cd frontend && yarn dev",
+    "build": "cd backend && npm run build && cd ../frontend && npm run build",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
     "db:up": "docker-compose up -d db",
     "db:down": "docker-compose down",
     "db:logs": "docker-compose logs -f db",
     "db:stop": "docker-compose stop db",
     "db:restart": "docker-compose restart db",
-    "install-all": "yarn install",
-    "lint": "yarn lint:apps",
-    "lint:apps": "cd apps/template/backend && yarn lint && cd ../frontend && yarn lint && cd ../../todo-list/backend && yarn lint && cd ../frontend && yarn lint",
-    "lint:fix": "cd apps/template/backend && yarn lint:fix && cd ../frontend && yarn lint:fix && cd ../../todo-list/backend && yarn lint:fix && cd ../frontend && yarn lint:fix",
-    "clean": "rm -rf node_modules && cd backend && rm -rf node_modules dist && cd ../frontend && rm -rf node_modules dist && cd ../apps/template/backend && rm -rf node_modules dist && cd ../frontend && rm -rf node_modules dist && cd ../../todo-list/backend && rm -rf node_modules dist && cd ../frontend && rm -rf node_modules dist"
-  },
-  "dependencies": {
-    "@monorepo/shared-types": "*"
+    "install": "cd backend && npm install && cd ../frontend && npm install",
+    "clean": "rm -rf node_modules && cd backend && rm -rf node_modules dist && cd ../frontend && rm -rf node_modules dist"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^7.0.0",
-    "@typescript-eslint/parser": "^7.0.0",
-    "concurrently": "^8.2.2",
-    "eslint": "^8.57.0",
-    "eslint-plugin-react": "^7.33.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.5",
-    "ttab": "^0.9.0",
-    "typescript": "^5.3.0"
+    "concurrently": "^8.2.2"
   }
 }

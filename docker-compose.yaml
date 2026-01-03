@@ -3,9 +3,9 @@ version: '3.8'
 services:
   db:
     image: postgres:15-alpine
-    container_name: monorepo-postgres
+    container_name: todo-list-postgres
     environment:
-      POSTGRES_DB: monorepo
+      POSTGRES_DB: todo_list
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
     volumes:

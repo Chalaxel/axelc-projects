@@ -1,16 +1,6 @@
 #!/bin/bash
 
-echo "Starting monorepo development environment..."
-
-# Build shared packages first
-echo "Building shared packages..."
-cd packages/shared-types && npm run build && cd ../..
-cd shared/backend && npm run build && cd ../..
-cd shared/frontend && npm run build && cd ../..
-
-# Build app backends
-echo "Building app backends..."
-cd apps/ladm/backend && npm run build && cd ../../..
+echo "Starting Todo List application..."
 
 # Start backend
 echo "Starting backend server..."
@@ -34,4 +24,3 @@ echo "Press Ctrl+C to stop all servers"
 
 # Wait for interrupt
 wait $BACKEND_PID $FRONTEND_PID
-

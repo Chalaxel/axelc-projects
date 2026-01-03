@@ -11,17 +11,8 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "paths": {
-      "@apps/*": ["../apps/*"],
-      "@monorepo/shared-types": ["../packages/shared-types"],
-      "@monorepo/shared-frontend": ["../shared/frontend"]
-    }
+    "strict": true
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
-
