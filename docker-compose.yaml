@@ -3,9 +3,9 @@ version: '3.8'
 services:
   db:
     image: postgres:15-alpine
-    container_name: todo-list-postgres
+    container_name: db-P3RF
     environment:
-      POSTGRES_DB: todo_list
+      POSTGRES_DB: db-p3rf
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
     volumes:

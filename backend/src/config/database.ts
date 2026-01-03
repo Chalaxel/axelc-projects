@@ -12,7 +12,7 @@ export interface DatabaseConfig {
 export const createDatabaseConfig = (): DatabaseConfig => {
     const host = process.env.POSTGRESQL_ADDON_HOST || process.env.DB_HOST || 'localhost';
     const port = process.env.POSTGRESQL_ADDON_PORT || process.env.DB_PORT || '5432';
-    const database = process.env.POSTGRESQL_ADDON_DB || process.env.DB_NAME || 'todo_list';
+    const database = process.env.POSTGRESQL_ADDON_DB || process.env.DB_NAME || 'db-p3rf';
     const username = process.env.POSTGRESQL_ADDON_USER || process.env.DB_USER || 'postgres';
     const password = process.env.POSTGRESQL_ADDON_PASSWORD || process.env.DB_PASSWORD || 'password';
     

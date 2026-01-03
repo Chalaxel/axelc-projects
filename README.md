@@ -46,7 +46,7 @@ npm run db:up
 ```
 DB_HOST=localhost
 DB_PORT=5432
-DB_NAME=todo_list
+DB_NAME=db-p3rf
 DB_USER=postgres
 DB_PASSWORD=password
 ```
@@ -82,7 +82,7 @@ docker build -t todo-list .
 
 Lancer le conteneur :
 ```bash
-docker run -p 8080:8080 -e DB_HOST=host.docker.internal -e DB_PORT=5432 -e DB_NAME=todo_list -e DB_USER=postgres -e DB_PASSWORD=password todo-list
+docker run -p 8080:8080 -e DB_HOST=host.docker.internal -e DB_PORT=5432 -e DB_NAME=db-p3rf -e DB_USER=postgres -e DB_PASSWORD=password todo-list
 ```
 
 ## API
