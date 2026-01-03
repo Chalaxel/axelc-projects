@@ -1,14 +1,6 @@
-// Models
-export * from './models/Category';
-export * from './models/Product';
-export * from './models/ProductVariant';
-export * from './models/Actualite';
-export * from './models/Cart';
-export * from './models/Order';
-export * from './models/Notification';
-export * from './models/Page';
-export * from './models/Todo';
-
-// API
+// Shared API types
 export * from './api/responses';
 
+// App-specific types are organized by app
+// Import only what you need from specific apps
+export * from './apps/todo-list';
