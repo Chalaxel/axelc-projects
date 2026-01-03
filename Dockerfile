@@ -93,6 +93,7 @@ RUN apk add --no-cache nginx supervisor curl
 RUN mkdir -p /app/backend \
              /app/apps/template/backend \
              /app/apps/todo-list/backend \
+             /app/shared/backend \
              /var/log/supervisor \
              /var/log/nginx \
              /run/nginx \
@@ -100,6 +101,11 @@ RUN mkdir -p /app/backend \
 
 # Copy frontend build
 COPY --from=frontend-builder /app/frontend/dist /usr/share/nginx/html
+
+# Copy shared backend (needed by apps)
+COPY --from=shared-builder /app/shared/backend/dist /app/shared/backend/dist
+COPY --from=shared-builder /app/shared/backend/package*.json /app/shared/backend/
+COPY --from=shared-builder /app/shared/backend/node_modules /app/shared/backend/node_modules
 
 # Copy main backend
 COPY --from=main-backend-builder /app/backend/dist /app/backend/dist

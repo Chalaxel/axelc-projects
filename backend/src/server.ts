@@ -21,7 +21,8 @@ dotenv.config({ path: envPath });
 const logger = console;
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+// Backend should always listen on 3000, Nginx listens on 8080
+const PORT = process.env.BACKEND_PORT || process.env.PORT || 3000;
 const HOST = '0.0.0.0';
 
 app.use(cors());
