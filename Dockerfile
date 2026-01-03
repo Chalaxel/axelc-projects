@@ -35,11 +35,18 @@ WORKDIR /app
 COPY --from=shared-builder /app/packages/shared-types /app/packages/shared-types
 COPY --from=shared-builder /app/shared /app/shared
 
-# Build ladm backend
-WORKDIR /app/apps/ladm/backend
-COPY apps/ladm/backend/package*.json ./
+# Build template backend
+WORKDIR /app/apps/template/backend
+COPY apps/template/backend/package*.json ./
 RUN npm install
-COPY apps/ladm/backend/ .
+COPY apps/template/backend/ .
+RUN npm run build
+
+# Build todo-list backend
+WORKDIR /app/apps/todo-list/backend
+COPY apps/todo-list/backend/package*.json ./
+RUN npm install
+COPY apps/todo-list/backend/ .
 RUN npm run build
 
 # Stage 3: Build main backend
@@ -60,7 +67,8 @@ WORKDIR /app
 COPY --from=shared-builder /app/packages/shared-types /app/packages/shared-types
 
 # Copy app frontends for importing
-COPY apps/ladm/frontend /app/apps/ladm/frontend
+COPY apps/template/frontend /app/apps/template/frontend
+COPY apps/todo-list/frontend /app/apps/todo-list/frontend
 
 # Build main frontend
 WORKDIR /app/frontend
@@ -75,7 +83,8 @@ FROM node:20-alpine
 RUN apk add --no-cache nginx supervisor curl
 
 RUN mkdir -p /app/backend \
-             /app/apps/ladm/backend \
+             /app/apps/template/backend \
+             /app/apps/todo-list/backend \
              /var/log/supervisor \
              /var/log/nginx \
              /run/nginx \
@@ -90,9 +99,13 @@ COPY --from=main-backend-builder /app/backend/package*.json /app/backend/
 COPY --from=main-backend-builder /app/backend/node_modules /app/backend/node_modules
 
 # Copy app backends
-COPY --from=apps-backend-builder /app/apps/ladm/backend/dist /app/apps/ladm/backend/dist
-COPY --from=apps-backend-builder /app/apps/ladm/backend/package*.json /app/apps/ladm/backend/
-COPY --from=apps-backend-builder /app/apps/ladm/backend/node_modules /app/apps/ladm/backend/node_modules
+COPY --from=apps-backend-builder /app/apps/template/backend/dist /app/apps/template/backend/dist
+COPY --from=apps-backend-builder /app/apps/template/backend/package*.json /app/apps/template/backend/
+COPY --from=apps-backend-builder /app/apps/template/backend/node_modules /app/apps/template/backend/node_modules
+
+COPY --from=apps-backend-builder /app/apps/todo-list/backend/dist /app/apps/todo-list/backend/dist
+COPY --from=apps-backend-builder /app/apps/todo-list/backend/package*.json /app/apps/todo-list/backend/
+COPY --from=apps-backend-builder /app/apps/todo-list/backend/node_modules /app/apps/todo-list/backend/node_modules
 
 # Nginx configuration
 RUN echo 'server {\

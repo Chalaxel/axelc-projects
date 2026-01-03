@@ -1,0 +1,16 @@
+{
+  "build": {
+    "type": "dockerfile",
+    "dockerfile_path": "Dockerfile"
+  },
+  "deploy": {
+    "type": "docker"
+  },
+  "healthcheck": {
+    "path": "/health",
+    "port": 8080
+  },
+  "hooks": {
+    "prebuild": "echo 'Starting build...'"
+  }
+}

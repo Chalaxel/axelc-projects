@@ -39,13 +39,38 @@ export const createDatabaseConfig = (appName?: string): DatabaseConfig => {
     
     const prefix = appName ? `${appName.toUpperCase().replace(/-/g, '_')}_` : '';
     
+    // Support Clever Cloud PostgreSQL Addon variables (POSTGRESQL_ADDON_*)
+    // Fallback to custom DB_* variables or defaults
+    const getEnvVar = (key: string, defaultValue: string): string => {
+        // Try app-specific prefix first
+        if (prefix) {
+            const appSpecific = process.env[`${prefix}${key}`];
+            if (appSpecific) return appSpecific;
+        }
+        
+        // Try Clever Cloud PostgreSQL Addon variables
+        const cleverCloudKey = key.replace('DB_', 'POSTGRESQL_ADDON_');
+        const cleverCloudValue = process.env[cleverCloudKey];
+        if (cleverCloudValue) return cleverCloudValue;
+        
+        // Try custom DB_* variables
+        const customValue = process.env[`DB_${key}`];
+        if (customValue) return customValue;
+        
+        // Fallback to default
+        return defaultValue;
+    };
+    
     return {
-        host: process.env[`${prefix}DB_HOST`] || process.env.DB_HOST || 'localhost',
-        port: parseInt(process.env[`${prefix}DB_PORT`] || process.env.DB_PORT || '5432'),
-        database: process.env[`${prefix}DB_NAME`] || process.env.DB_NAME || 'monorepo',
-        username: process.env[`${prefix}DB_USER`] || process.env.DB_USER || 'postgres',
-        password: process.env[`${prefix}DB_PASSWORD`] || process.env.DB_PASSWORD || 'password',
-        ssl: process.env[`${prefix}DB_SSL`] === 'true' || process.env.DB_SSL === 'true',
+        host: getEnvVar('HOST', 'localhost'),
+        port: parseInt(getEnvVar('PORT', '5432')),
+        database: getEnvVar('NAME', 'monorepo'),
+        username: getEnvVar('USER', 'postgres'),
+        password: getEnvVar('PASSWORD', 'password'),
+        // SSL is typically required for Clever Cloud PostgreSQL
+        ssl: process.env[`${prefix}DB_SSL`] === 'true' || 
+             process.env.DB_SSL === 'true' || 
+             !!process.env.POSTGRESQL_ADDON_HOST, // Auto-enable SSL if using Clever Cloud
         tablePrefix: appName ? `${appName.replace(/-/g, '_')}_` : undefined,
     };
 };
