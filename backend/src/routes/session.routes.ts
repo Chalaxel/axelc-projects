@@ -1,6 +1,6 @@
 import { Router, Response } from 'express';
 import { AuthenticatedRequest } from '../middleware/auth';
-import { sessionService } from 'src/services/SessionService';
+import { sessionService } from '../services/SessionService';
 import { SessionCreationAttributes } from '@shared/types';
 
 const router = Router();
