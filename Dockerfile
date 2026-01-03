@@ -27,7 +27,11 @@ COPY shared/ ./shared/
 # Copy and install frontend
 WORKDIR /app/frontend
 COPY frontend/package*.json ./
-RUN npm install
+# Fix pour le bug npm avec Rollup - nettoyer et réinstaller pour forcer les dépendances optionnelles
+RUN rm -rf node_modules package-lock.json && \
+    npm install && \
+    npm rebuild rollup || npm install rollup --force && \
+    npm cache clean --force
 
 COPY frontend/ .
 RUN npm run build
