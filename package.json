@@ -31,6 +31,9 @@
     "lint:fix": "cd apps/template/backend && yarn lint:fix && cd ../frontend && yarn lint:fix && cd ../../todo-list/backend && yarn lint:fix && cd ../frontend && yarn lint:fix",
     "clean": "rm -rf node_modules && cd backend && rm -rf node_modules dist && cd ../frontend && rm -rf node_modules dist && cd ../apps/template/backend && rm -rf node_modules dist && cd ../frontend && rm -rf node_modules dist && cd ../../todo-list/backend && rm -rf node_modules dist && cd ../frontend && rm -rf node_modules dist"
   },
+  "dependencies": {
+    "@monorepo/shared-types": "*"
+  },
   "devDependencies": {
     "concurrently": "^8.2.2",
     "ttab": "^0.9.0"

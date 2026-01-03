@@ -16,7 +16,9 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
-      "@apps/*": ["../apps/*"]
+      "@apps/*": ["../apps/*"],
+      "@monorepo/shared-types": ["../packages/shared-types"],
+      "@monorepo/shared-frontend": ["../shared/frontend"]
     }
   },
   "include": ["src"],

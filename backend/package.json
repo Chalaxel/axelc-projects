@@ -11,7 +11,8 @@
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "clean": "rm -rf dist"
   },
-  "dependencies": {
+  "dependencies": { 
+    "@monorepo/shared-backend": "*",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2"

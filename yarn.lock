@@ -805,22 +805,6 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@monorepo/shared-backend@file:shared/backend":
-  version "1.0.0"
-  dependencies:
-    dotenv "^16.3.1"
-    nodemailer "^7.0.10"
-    pg "^8.11.3"
-    sequelize "^6.35.0"
-
-"@monorepo/shared-frontend@file:shared/frontend":
-  version "1.0.0"
-  dependencies:
-    axios "^1.12.2"
-
-"@monorepo/shared-types@file:packages/shared-types":
-  version "1.0.0"
-
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz#7619c2eb21b25483f6d167548b4cfd5a7488c3d5"

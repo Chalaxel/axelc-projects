@@ -19,7 +19,7 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "outDir": "./dist",
-    "rootDir": "./"
+    "rootDir": "./",
   },
   "include": ["./**/*.ts"],
   "exclude": ["node_modules", "dist"]

@@ -11,7 +11,11 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "declaration": true,
-    "declarationMap": true
+    "declarationMap": true,
+    "paths": {
+      "@monorepo/shared-backend": ["../shared/backend"],
+      "@monorepo/shared-types": ["../packages/shared-types"]
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]

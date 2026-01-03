@@ -14,8 +14,7 @@ if (process.env.NODE_ENV !== 'production') {
     });
 }
 
-// Load .env from project root (2 levels up from backend/src)
-const envPath = path.resolve(__dirname, '../../.env');
+const envPath = path.resolve(__dirname, '../.env');
 dotenv.config({ path: envPath });
 
 const logger = console;
