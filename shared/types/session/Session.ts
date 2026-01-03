@@ -13,6 +13,7 @@ export interface Session {
     id: string;
     sport: SportEnum;
     blocks: SessionBlock[];
+    userId?: string;
     createdAt: string;
     updatedAt: string;
 }
@@ -20,6 +21,7 @@ export interface Session {
 export interface SessionCreationAttributes {
     sport: SportEnum;
     blocks?: SessionBlock[];
+    userId?: string;
 }
 
 export default Session;

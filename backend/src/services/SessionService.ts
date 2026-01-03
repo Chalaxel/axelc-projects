@@ -7,28 +7,38 @@ initSessionModel(db);
 const SessionModel = getSessionModel();
 
 export class SessionService {
-    async getAll(): Promise<Session[]> {
+    async getAll(userId: string): Promise<Session[]> {
         const sessions = await SessionModel.findAll({
+            where: { userId },
             order: [['createdAt', 'DESC']],
         });
         return sessions.map(session => session.toJSON() as Session);
     }
 
-    async getById(id: string): Promise<Session | null> {
-        const session = await SessionModel.findByPk(id);
+    async getById(id: string, userId: string): Promise<Session | null> {
+        const session = await SessionModel.findOne({
+            where: { id, userId },
+        });
         return session ? (session.toJSON() as Session) : null;
     }
 
-    async create(data: SessionCreationAttributes): Promise<Session> {
+    async create(data: SessionCreationAttributes, userId: string): Promise<Session> {
         const session = await SessionModel.create({
             sport: data.sport,
             blocks: data.blocks || [],
+            userId,
         });
         return session.toJSON() as Session;
     }
 
-    async update(id: string, data: Partial<SessionCreationAttributes>): Promise<Session | null> {
-        const session = await SessionModel.findByPk(id);
+    async update(
+        id: string,
+        data: Partial<SessionCreationAttributes>,
+        userId: string,
+    ): Promise<Session | null> {
+        const session = await SessionModel.findOne({
+            where: { id, userId },
+        });
         if (!session) {
             return null;
         }
@@ -44,8 +54,10 @@ export class SessionService {
         return session.toJSON() as Session;
     }
 
-    async delete(id: string): Promise<boolean> {
-        const session = await SessionModel.findByPk(id);
+    async delete(id: string, userId: string): Promise<boolean> {
+        const session = await SessionModel.findOne({
+            where: { id, userId },
+        });
         if (!session) {
             return false;
         }

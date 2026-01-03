@@ -31,17 +31,13 @@ module.exports = {
     },
     project: true, // Trouve automatiquement le tsconfig.json le plus proche
   },
-  plugins: ['react', 'react-hooks', 'react-refresh', '@typescript-eslint', 'prettier'],
+  plugins: ['react', 'react-hooks', '@typescript-eslint', 'prettier'],
   settings: {
     react: {
       version: 'detect',
     },
   },
   rules: {
-    'react-refresh/only-export-components': [
-      'warn',
-      { allowConstantExport: true },
-    ],
     '@typescript-eslint/no-unused-vars': [
       'error',
       {
