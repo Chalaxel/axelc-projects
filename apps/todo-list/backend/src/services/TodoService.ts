@@ -1,12 +1,11 @@
 import { getDatabase } from '../utils/dbSync';
 import { initTodoModel, getTodoModel } from '../models/Todo';
+import { Todo, TodoCreationAttributes, TodoUpdateAttributes } from '@monorepo/shared-types';
 
 // Initialize model
 const db = getDatabase();
 initTodoModel(db);
 const TodoModel = getTodoModel();
-import { Todo, TodoCreationAttributes, TodoUpdateAttributes } from '@monorepo/shared-types';
-import { Op } from 'sequelize';
 
 export class TodoService {
     async getAll(): Promise<Todo[]> {
@@ -36,14 +35,15 @@ export class TodoService {
             return null;
         }
 
+        // Use set() method to update properties
         if (data.title !== undefined) {
-            todo.title = data.title;
+            todo.set('title', data.title);
         }
         if (data.description !== undefined) {
-            todo.description = data.description;
+            todo.set('description', data.description);
         }
         if (data.completed !== undefined) {
-            todo.completed = data.completed;
+            todo.set('completed', data.completed);
         }
 
         await todo.save();

@@ -805,6 +805,14 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
+"@monorepo/shared-backend@file:shared/backend":
+  version "1.0.0"
+  dependencies:
+    dotenv "^16.3.1"
+    nodemailer "^7.0.10"
+    pg "^8.11.3"
+    sequelize "^6.35.0"
+
 "@monorepo/shared-frontend@file:shared/frontend":
   version "1.0.0"
   dependencies:

@@ -1,11 +1,11 @@
-import { DataTypes, Model, Sequelize } from 'sequelize';
+import { DataTypes, Model, ModelStatic, Sequelize } from 'sequelize';
 import { Todo, TodoCreationAttributes } from '@monorepo/shared-types';
 
 interface TodoInstance extends Model<Todo, TodoCreationAttributes>, Todo {}
 
-let TodoModel: typeof Model<Todo, TodoCreationAttributes> | null = null;
+let TodoModel: ModelStatic<TodoInstance> | null = null;
 
-export const initTodoModel = (sequelize: Sequelize) => {
+export const initTodoModel = (sequelize: Sequelize): ModelStatic<TodoInstance> => {
     if (!TodoModel) {
         TodoModel = sequelize.define<TodoInstance>(
             'Todo',
@@ -43,12 +43,12 @@ export const initTodoModel = (sequelize: Sequelize) => {
                 tableName: 'todo_list_todos',
                 timestamps: true,
             }
-        ) as typeof Model<Todo, TodoCreationAttributes>;
+        ) as ModelStatic<TodoInstance>;
     }
     return TodoModel;
 };
 
-export const getTodoModel = () => {
+export const getTodoModel = (): ModelStatic<TodoInstance> => {
     if (!TodoModel) {
         throw new Error('TodoModel not initialized. Call initTodoModel first.');
     }
