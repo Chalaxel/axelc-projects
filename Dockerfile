@@ -115,54 +115,9 @@ COPY --from=apps-backend-builder /app/apps/todo-list/backend/dist /app/apps/todo
 COPY --from=apps-backend-builder /app/apps/todo-list/backend/package*.json /app/apps/todo-list/backend/
 COPY --from=apps-backend-builder /app/apps/todo-list/backend/node_modules /app/apps/todo-list/backend/node_modules
 
-# Nginx configuration
-RUN echo 'server {\
-    listen 8080;\
-    server_name localhost;\
-    \
-    location / {\
-        root /usr/share/nginx/html;\
-        index index.html;\
-        try_files $uri $uri/ /index.html;\
-    }\
-    \
-    location /api {\
-        proxy_pass http://127.0.0.1:3000;\
-        proxy_http_version 1.1;\
-        proxy_set_header Upgrade $http_upgrade;\
-        proxy_set_header Connection "upgrade";\
-        proxy_set_header Host $host;\
-        proxy_set_header X-Real-IP $remote_addr;\
-        proxy_cache_bypass $http_upgrade;\
-    }\
-    \
-    location /health {\
-        proxy_pass http://127.0.0.1:3000/health;\
-    }\
-}' > /etc/nginx/http.d/default.conf
-
-# Supervisor configuration
-RUN echo '[supervisord]\
-nodaemon=true\
-logfile=/var/log/supervisor/supervisord.log\
-\
-[program:nginx]\
-command=nginx -g "daemon off;"\
-autostart=true\
-autorestart=true\
-stdout_logfile=/var/log/nginx/access.log\
-stderr_logfile=/var/log/nginx/error.log\
-\
-[program:backend]\
-command=node /app/backend/dist/server.js\
-directory=/app/backend\
-autostart=true\
-autorestart=true\
-stdout_logfile=/dev/stdout\
-stdout_logfile_maxbytes=0\
-stderr_logfile=/dev/stderr\
-stderr_logfile_maxbytes=0\
-environment=NODE_ENV="production"' > /etc/supervisord.conf
+# Copy configuration files
+COPY nginx.conf /etc/nginx/http.d/default.conf
+COPY supervisord.conf /etc/supervisord.conf
 
 EXPOSE 8080
 
