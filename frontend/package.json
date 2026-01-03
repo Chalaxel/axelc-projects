@@ -2,6 +2,8 @@
   "name": "@monorepo/frontend",
   "version": "1.0.0",
   "description": "Main frontend with multi-app routing",
+  "license": "UNLICENSED",
+  "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite",

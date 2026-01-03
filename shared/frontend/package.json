@@ -2,6 +2,8 @@
   "name": "@monorepo/shared-frontend",
   "version": "1.0.0",
   "description": "Shared frontend services and utilities",
+  "license": "UNLICENSED",
+  "private": true,
   "type": "module",
   "scripts": {
     "build": "tsc",
