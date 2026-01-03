@@ -61,9 +61,9 @@ const LengthField = ({ goalData, sport, lengthTypeId, onChange }: LengthFieldPro
                     }}
                 >
                     <input
-                        type='radio'
+                        type='number'
                         name={lengthTypeId}
-                        checked={goalData.distance !== undefined}
+                        value={goalData.distance}
                         onChange={() => {
                             onChange('distance', goalData.distance || 0);
                             onChange('time', undefined);
@@ -80,9 +80,9 @@ const LengthField = ({ goalData, sport, lengthTypeId, onChange }: LengthFieldPro
                     }}
                 >
                     <input
-                        type='radio'
+                        type='number'
                         name={lengthTypeId}
-                        checked={goalData.time !== undefined}
+                        value={goalData.time}
                         onChange={() => {
                             onChange('time', goalData.time || 0);
                             onChange('distance', undefined);
