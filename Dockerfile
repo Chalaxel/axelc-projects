@@ -70,18 +70,18 @@ COPY --from=shared-builder /app/shared/frontend /app/shared/frontend
 # Copy and install dependencies for app frontends (needed for TypeScript compilation)
 WORKDIR /app/apps/template/frontend
 COPY apps/template/frontend/package*.json ./
-RUN npm install
+RUN npm install --legacy-peer-deps
 COPY apps/template/frontend/ .
 
 WORKDIR /app/apps/todo-list/frontend
 COPY apps/todo-list/frontend/package*.json ./
-RUN npm install
+RUN npm install --legacy-peer-deps
 COPY apps/todo-list/frontend/ .
 
 # Build main frontend
 WORKDIR /app/frontend
 COPY frontend/package*.json ./
-RUN npm install
+RUN npm install --legacy-peer-deps
 COPY frontend/ .
 RUN npm run build
 
