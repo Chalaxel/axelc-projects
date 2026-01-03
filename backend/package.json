@@ -1,7 +1,7 @@
 {
-  "name": "todo-list-backend",
+  "name": "p3rf-backend",
   "version": "1.0.0",
-  "description": "Todo List Backend",
+  "description": "P3RF Backend",
   "license": "UNLICENSED",
   "private": true,
   "main": "dist/backend/src/server.js",

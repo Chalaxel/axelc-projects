@@ -1,6 +1,6 @@
 import { type Sequelize } from 'sequelize';
 import { createDatabase } from '../config/database';
-import { initTodoModel } from '../models/Todo';
+import { initSessionModel } from '../models/Session';
 import { runMigrations } from './migrate';
 
 let sequelize: Sequelize | null = null;
@@ -16,11 +16,11 @@ export const getDatabase = (): Sequelize => {
 
 export const initializeDatabase = async (): Promise<void> => {
     const db = getDatabase();
-    
-    initTodoModel(db);
-    
+
+    initSessionModel(db);
+
     await runMigrations();
-    
+
     logger.log('Database initialized');
 };
 

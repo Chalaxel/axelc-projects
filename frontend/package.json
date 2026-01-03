@@ -1,7 +1,7 @@
 {
-  "name": "todo-list-frontend",
+  "name": "p3rf-frontend",
   "version": "1.0.0",
-  "description": "Todo List Frontend",
+  "description": "P3RF Frontend",
   "license": "UNLICENSED",
   "private": true,
   "type": "module",
