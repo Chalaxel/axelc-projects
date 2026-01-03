@@ -1,6 +1,6 @@
 import { getDatabase } from '../utils/dbSync';
 import { initSessionModel, getSessionModel } from '../models/Session';
-import { Session, SessionCreationAttributes } from '@shared/types';
+import { Session, SessionCreationAttributes, SessionData } from '@shared/types';
 
 const db = getDatabase();
 initSessionModel(db);
@@ -19,6 +19,9 @@ export class SessionService {
         const session = await SessionModel.findOne({
             where: { id, userId },
         });
+        if (!session) {
+            return null;
+        }
         return session ? (session.toJSON() as Session) : null;
     }
 
@@ -26,6 +29,7 @@ export class SessionService {
         const session = await SessionModel.create({
             sport: data.sport,
             blocks: data.blocks || [],
+            data: data.data || {},
             userId,
         });
         return session.toJSON() as Session;
@@ -49,6 +53,14 @@ export class SessionService {
         if (data.blocks !== undefined) {
             session.set('blocks', data.blocks);
         }
+
+        const currentData = session.get('data') || {};
+        const newData: SessionData = {
+            ...currentData,
+            ...data.data,
+        };
+
+        session.set('data', newData);
 
         await session.save();
         return session.toJSON() as Session;

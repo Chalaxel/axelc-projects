@@ -1,10 +1,9 @@
-import { useState, useEffect } from 'react';
-import { SessionCreationAttributes, SportEnum } from '@shared/types';
-
-interface SessionBlock {
-    duration: number;
-    note?: string;
-}
+import { SessionCreationAttributes, SportEnum, SessionBlockType } from '@shared/types';
+import { useSessionForm } from '../hooks/useSessionForm';
+import { SimpleBlock } from './blocks/SimpleBlock';
+import { SeriesBlock } from './blocks/SeriesBlock';
+import { SessionDetails } from './SessionDetails';
+import { formStyles } from '../styles/formStyles';
 
 interface SessionFormProps {
     onSubmit: (data: SessionCreationAttributes) => void;
@@ -13,63 +12,34 @@ interface SessionFormProps {
 }
 
 export const SessionForm = ({ onSubmit, onCancel, initialData }: SessionFormProps) => {
-    const [sport, setSport] = useState<SportEnum>(initialData?.sport || SportEnum.RUN);
-    const [blocks, setBlocks] = useState<SessionBlock[]>(initialData?.blocks || [{ duration: 0 }]);
-
-    useEffect(() => {
-        if (initialData) {
-            setSport(initialData.sport);
-            setBlocks(initialData.blocks && initialData.blocks.length > 0 ? initialData.blocks : [{ duration: 0 }]);
-        }
-    }, [initialData]);
+    const {
+        sport,
+        setSport,
+        blocks,
+        notes,
+        setNotes,
+        addBlock,
+        removeBlock,
+        updateBlockGoal,
+        addStep,
+        removeStep,
+        updateStepGoal,
+        updateStep,
+        updateBlockNote,
+        updateSeriesRepetitions,
+        updateSeriesRecovery,
+        getFormData,
+    } = useSessionForm(initialData);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        const filteredBlocks = blocks.filter(block => block.duration > 0);
-        onSubmit({ 
-            sport, 
-            blocks: filteredBlocks.length > 0 ? filteredBlocks : undefined 
-        });
-        if (!initialData) {
-            setSport(SportEnum.RUN);
-            setBlocks([{ duration: 0 }]);
-        }
-    };
-
-    const addBlock = () => {
-        setBlocks([...blocks, { duration: 0 }]);
-    };
-
-    const removeBlock = (index: number) => {
-        if (blocks.length > 1) {
-            setBlocks(blocks.filter((_, i) => i !== index));
-        }
-    };
-
-    const updateBlock = (index: number, field: 'duration' | 'note', value: number | string) => {
-        const updatedBlocks = [...blocks];
-        updatedBlocks[index] = { ...updatedBlocks[index], [field]: value };
-        setBlocks(updatedBlocks);
+        onSubmit(getFormData());
     };
 
     return (
-        <form
-            onSubmit={handleSubmit}
-            style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '1rem',
-                padding: '1.5rem',
-                border: '1px solid #ddd',
-                borderRadius: '8px',
-                backgroundColor: '#f9f9f9',
-            }}
-        >
+        <form onSubmit={handleSubmit} style={formStyles.container}>
             <div>
-                <label
-                    htmlFor='sport'
-                    style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}
-                >
+                <label htmlFor='sport' style={formStyles.label}>
                     Sport *
                 </label>
                 <select
@@ -77,13 +47,7 @@ export const SessionForm = ({ onSubmit, onCancel, initialData }: SessionFormProp
                     value={sport}
                     onChange={e => setSport(e.target.value as SportEnum)}
                     required
-                    style={{
-                        width: '100%',
-                        padding: '0.75rem',
-                        border: '1px solid #ddd',
-                        borderRadius: '4px',
-                        fontSize: '1rem',
-                    }}
+                    style={formStyles.input}
                 >
                     <option value={SportEnum.RUN}>Course</option>
                     <option value={SportEnum.SWIM}>Natation</option>
@@ -91,92 +55,104 @@ export const SessionForm = ({ onSubmit, onCancel, initialData }: SessionFormProp
                 </select>
             </div>
 
+            <SessionDetails notes={notes} onNotesChange={setNotes} />
+
             <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-                    <label style={{ fontWeight: 'bold' }}>Blocs d'entraînement</label>
-                    <button
-                        type='button'
-                        onClick={addBlock}
-                        style={{
-                            padding: '0.5rem 1rem',
-                            backgroundColor: '#28a745',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '4px',
-                            cursor: 'pointer',
-                            fontSize: '0.9rem',
-                        }}
-                    >
-                        + Ajouter un bloc
-                    </button>
-                </div>
-                {blocks.map((block, index) => (
-                    <div
-                        key={index}
-                        style={{
-                            display: 'flex',
-                            gap: '0.5rem',
-                            marginBottom: '0.5rem',
-                            padding: '0.75rem',
-                            border: '1px solid #ddd',
-                            borderRadius: '4px',
-                            backgroundColor: 'white',
-                        }}
-                    >
-                        <div style={{ flex: 1 }}>
-                            <label style={{ display: 'block', marginBottom: '0.25rem', fontSize: '0.9rem' }}>
-                                Durée (min)
-                            </label>
-                            <input
-                                type='number'
-                                min='0'
-                                value={block.duration || ''}
-                                onChange={e => updateBlock(index, 'duration', parseInt(e.target.value) || 0)}
-                                required
-                                style={{
-                                    width: '100%',
-                                    padding: '0.5rem',
-                                    border: '1px solid #ddd',
-                                    borderRadius: '4px',
-                                }}
-                            />
-                        </div>
-                        <div style={{ flex: 2 }}>
-                            <label style={{ display: 'block', marginBottom: '0.25rem', fontSize: '0.9rem' }}>
-                                Note (optionnel)
-                            </label>
-                            <input
-                                type='text'
-                                value={block.note || ''}
-                                onChange={e => updateBlock(index, 'note', e.target.value)}
-                                style={{
-                                    width: '100%',
-                                    padding: '0.5rem',
-                                    border: '1px solid #ddd',
-                                    borderRadius: '4px',
-                                }}
-                                placeholder='Ex: Échauffement, Intensité...'
-                            />
-                        </div>
-                        {blocks.length > 1 && (
-                            <button
-                                type='button'
-                                onClick={() => removeBlock(index)}
-                                style={{
-                                    padding: '0.5rem',
-                                    backgroundColor: '#dc3545',
-                                    color: 'white',
-                                    border: 'none',
-                                    borderRadius: '4px',
-                                    cursor: 'pointer',
-                                    alignSelf: 'flex-end',
-                                }}
-                            >
-                                ×
-                            </button>
-                        )}
+                <div
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        marginBottom: '1rem',
+                    }}
+                >
+                    <label style={{ fontWeight: 'bold' }}>{"Blocs d'entraînement"}</label>
+                    <div style={{ display: 'flex', gap: '0.5rem' }}>
+                        <button
+                            type='button'
+                            onClick={() => addBlock(SessionBlockType.SIMPLE)}
+                            style={{
+                                ...formStyles.button,
+                                padding: '0.5rem 1rem',
+                                ...formStyles.buttonPrimary,
+                                fontSize: '0.9rem',
+                            }}
+                        >
+                            + Bloc simple
+                        </button>
+                        <button
+                            type='button'
+                            onClick={() => addBlock(SessionBlockType.SERIES)}
+                            style={{
+                                ...formStyles.button,
+                                padding: '0.5rem 1rem',
+                                ...formStyles.buttonSuccess,
+                                fontSize: '0.9rem',
+                            }}
+                        >
+                            + Série
+                        </button>
                     </div>
-                ))}
+                </div>
+
+                {blocks.length === 0 && (
+                    <div
+                        style={{
+                            padding: '2rem',
+                            textAlign: 'center',
+                            color: '#666',
+                            backgroundColor: 'white',
+                            borderRadius: '4px',
+                            border: '1px dashed #ddd',
+                        }}
+                    >
+                        Aucun bloc. Ajoutez un bloc simple ou une série pour commencer.
+                    </div>
+                )}
+
+                {blocks.map((block, blockIndex) => {
+                    if (block.type === SessionBlockType.SIMPLE) {
+                        return (
+                            <SimpleBlock
+                                key={blockIndex}
+                                block={block}
+                                sport={sport}
+                                onGoalChange={(field, value) =>
+                                    updateBlockGoal(blockIndex, field, value)
+                                }
+                                onNoteChange={value => updateBlockNote(blockIndex, value)}
+                                onRemove={() => removeBlock(blockIndex)}
+                            />
+                        );
+                    } else {
+                        return (
+                            <SeriesBlock
+                                key={blockIndex}
+                                block={block}
+                                sport={sport}
+                                onRepetitionsChange={value =>
+                                    updateSeriesRepetitions(blockIndex, value)
+                                }
+                                onRecoveryChange={value => updateSeriesRecovery(blockIndex, value)}
+                                onNoteChange={value => updateBlockNote(blockIndex, value)}
+                                onAddStep={() => addStep(blockIndex)}
+                                onRemoveStep={stepIndex => removeStep(blockIndex, stepIndex)}
+                                onStepGoalChange={(stepIndex, field, value) =>
+                                    updateStepGoal(blockIndex, stepIndex, field, value)
+                                }
+                                onStepRecoveryChange={(stepIndex, value) => {
+                                    updateStep(blockIndex, stepIndex, {
+                                        recovery: value === '' ? undefined : Number(value),
+                                    });
+                                }}
+                                onStepNoteChange={(stepIndex, value) => {
+                                    updateStep(blockIndex, stepIndex, { note: value || undefined });
+                                }}
+                                onRemove={() => removeBlock(blockIndex)}
+                            />
+                        );
+                    }
+                })}
             </div>
 
             <div style={{ display: 'flex', gap: '1rem', justifyContent: 'flex-end' }}>
@@ -184,31 +160,12 @@ export const SessionForm = ({ onSubmit, onCancel, initialData }: SessionFormProp
                     <button
                         type='button'
                         onClick={onCancel}
-                        style={{
-                            padding: '0.75rem 1.5rem',
-                            backgroundColor: '#6c757d',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '4px',
-                            cursor: 'pointer',
-                            fontSize: '1rem',
-                        }}
+                        style={{ ...formStyles.button, ...formStyles.buttonSecondary }}
                     >
                         Annuler
                     </button>
                 )}
-                <button
-                    type='submit'
-                    style={{
-                        padding: '0.75rem 1.5rem',
-                        backgroundColor: '#007bff',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '4px',
-                        cursor: 'pointer',
-                        fontSize: '1rem',
-                    }}
-                >
+                <button type='submit' style={{ ...formStyles.button, ...formStyles.buttonPrimary }}>
                     {initialData ? 'Enregistrer' : 'Créer'}
                 </button>
             </div>
