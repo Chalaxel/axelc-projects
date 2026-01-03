@@ -1,7 +1,27 @@
 import { Sequelize, Options } from 'sequelize';
 import dotenv from 'dotenv';
+import * as path from 'path';
+import * as fs from 'fs';
 
-dotenv.config();
+// Load .env files in order: project root, then app-specific if appName provided
+const loadEnvFiles = (appName?: string) => {
+    // Always load root .env first
+    const rootEnvPath = path.resolve(__dirname, '../../../.env');
+    if (fs.existsSync(rootEnvPath)) {
+        dotenv.config({ path: rootEnvPath });
+    }
+    
+    // Then load app-specific .env if it exists
+    if (appName) {
+        const appEnvPath = path.resolve(__dirname, `../../../apps/${appName}/backend/.env`);
+        if (fs.existsSync(appEnvPath)) {
+            dotenv.config({ path: appEnvPath, override: false }); // Don't override root .env
+        }
+    }
+};
+
+// Load root .env on module load
+loadEnvFiles();
 
 export interface DatabaseConfig {
     host: string;
@@ -14,16 +34,19 @@ export interface DatabaseConfig {
 }
 
 export const createDatabaseConfig = (appName?: string): DatabaseConfig => {
-    const prefix = appName ? `${appName.toUpperCase()}_` : '';
+    // Load env files when creating config (in case appName wasn't known at module load)
+    loadEnvFiles(appName);
+    
+    const prefix = appName ? `${appName.toUpperCase().replace(/-/g, '_')}_` : '';
     
     return {
-        host: process.env[`${prefix}POSTGRESQL_ADDON_HOST`] || process.env.POSTGRESQL_ADDON_HOST || 'localhost',
-        port: parseInt(process.env[`${prefix}POSTGRESQL_ADDON_PORT`] || process.env.POSTGRESQL_ADDON_PORT || '5432'),
-        database: process.env[`${prefix}POSTGRESQL_ADDON_DB`] || process.env.POSTGRESQL_ADDON_DB || 'myapp',
-        username: process.env[`${prefix}POSTGRESQL_ADDON_USER`] || process.env.POSTGRESQL_ADDON_USER || 'postgres',
-        password: process.env[`${prefix}POSTGRESQL_ADDON_PASSWORD`] || process.env.POSTGRESQL_ADDON_PASSWORD || 'password',
+        host: process.env[`${prefix}DB_HOST`] || process.env.DB_HOST || 'localhost',
+        port: parseInt(process.env[`${prefix}DB_PORT`] || process.env.DB_PORT || '5432'),
+        database: process.env[`${prefix}DB_NAME`] || process.env.DB_NAME || 'monorepo',
+        username: process.env[`${prefix}DB_USER`] || process.env.DB_USER || 'postgres',
+        password: process.env[`${prefix}DB_PASSWORD`] || process.env.DB_PASSWORD || 'password',
         ssl: process.env[`${prefix}DB_SSL`] === 'true' || process.env.DB_SSL === 'true',
-        tablePrefix: appName ? `${appName}_` : undefined,
+        tablePrefix: appName ? `${appName.replace(/-/g, '_')}_` : undefined,
     };
 };
 

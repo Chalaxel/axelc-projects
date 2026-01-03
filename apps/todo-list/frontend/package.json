@@ -1,5 +1,5 @@
 {
-  "name": "@monorepo/app-app2-frontend",
+  "name": "@monorepo/app-todo-list-frontend",
   "version": "1.0.0",
   "type": "module",
   "dependencies": {

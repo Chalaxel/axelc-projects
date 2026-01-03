@@ -1,5 +1,5 @@
 export const API_CONFIG = {
-    baseURL: '/api/app2',
+    baseURL: '/api/todo-list',
     timeout: 10000,
 };
 

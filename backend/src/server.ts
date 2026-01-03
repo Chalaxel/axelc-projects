@@ -14,7 +14,9 @@ if (process.env.NODE_ENV !== 'production') {
     });
 }
 
-dotenv.config();
+// Load .env from project root (2 levels up from backend/src)
+const envPath = path.resolve(__dirname, '../../.env');
+dotenv.config({ path: envPath });
 
 const logger = console;
 
@@ -36,7 +38,7 @@ app.get('/health', (req: Request, res: Response) => {
         status: 'healthy',
         timestamp: new Date().toISOString(),
         uptime: process.uptime(),
-        apps: ['template', 'app2'],
+        apps: ['template', 'todo-list'],
     });
 });
 
@@ -118,7 +120,7 @@ app.use((err: Error, req: Request, res: Response, _next: NextFunction) => {
 });
 
 const startServer = async (): Promise<void> => {
-    const enabledApps = (process.env.ENABLED_APPS || 'template,app2').split(',').map(s => s.trim());
+    const enabledApps = (process.env.ENABLED_APPS || 'template,todo-list').split(',').map(s => s.trim());
 
     for (const appName of enabledApps) {
         const appModule = await loadApp(appName);

@@ -15,7 +15,7 @@
     "build": "yarn build:shared && yarn build:apps && yarn build:main",
     "build:shared": "yarn build:types && cd shared/backend && yarn build && cd ../frontend && yarn build",
     "build:types": "cd packages/shared-types && yarn build",
-    "build:apps": "cd apps/template/backend && yarn build && cd ../frontend && yarn build && cd ../../app2/backend && yarn build && cd ../frontend && yarn build",
+    "build:apps": "cd apps/template/backend && yarn build && cd ../frontend && yarn build && cd ../../todo-list/backend && yarn build && cd ../frontend && yarn build",
     "build:main": "cd backend && yarn build && cd ../frontend && yarn build",
     "dev": "bash scripts/dev.sh",
     "dev:backend": "cd backend && yarn dev",
@@ -27,9 +27,9 @@
     "db:restart": "docker-compose restart db",
     "install-all": "yarn install",
     "lint": "yarn lint:apps",
-    "lint:apps": "cd apps/template/backend && yarn lint && cd ../frontend && yarn lint && cd ../../app2/backend && yarn lint && cd ../frontend && yarn lint",
-    "lint:fix": "cd apps/template/backend && yarn lint:fix && cd ../frontend && yarn lint:fix && cd ../../app2/backend && yarn lint:fix && cd ../frontend && yarn lint:fix",
-    "clean": "rm -rf node_modules && cd backend && rm -rf node_modules dist && cd ../frontend && rm -rf node_modules dist && cd ../apps/template/backend && rm -rf node_modules dist && cd ../frontend && rm -rf node_modules dist && cd ../../app2/backend && rm -rf node_modules dist && cd ../frontend && rm -rf node_modules dist"
+    "lint:apps": "cd apps/template/backend && yarn lint && cd ../frontend && yarn lint && cd ../../todo-list/backend && yarn lint && cd ../frontend && yarn lint",
+    "lint:fix": "cd apps/template/backend && yarn lint:fix && cd ../frontend && yarn lint:fix && cd ../../todo-list/backend && yarn lint:fix && cd ../frontend && yarn lint:fix",
+    "clean": "rm -rf node_modules && cd backend && rm -rf node_modules dist && cd ../frontend && rm -rf node_modules dist && cd ../apps/template/backend && rm -rf node_modules dist && cd ../frontend && rm -rf node_modules dist && cd ../../todo-list/backend && rm -rf node_modules dist && cd ../frontend && rm -rf node_modules dist"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
