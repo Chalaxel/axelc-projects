@@ -61,28 +61,36 @@ export const createDatabaseConfig = (appName?: string): DatabaseConfig => {
         return defaultValue;
     };
     
+    // Determine SSL requirement
+    // Explicitly disabled takes precedence
+    const sslDisabled = process.env[`${prefix}DB_SSL`] === 'false' || 
+                        process.env.DB_SSL === 'false';
+    
+    // SSL is enabled if explicitly set to true, or auto-enabled for Clever Cloud
+    const sslEnabled = !sslDisabled && (
+        process.env[`${prefix}DB_SSL`] === 'true' || 
+        process.env.DB_SSL === 'true' || 
+        !!process.env.POSTGRESQL_ADDON_HOST // Auto-enable SSL if using Clever Cloud
+    );
+    
     return {
         host: getEnvVar('HOST', 'localhost'),
         port: parseInt(getEnvVar('PORT', '5432')),
         database: getEnvVar('NAME', 'monorepo'),
         username: getEnvVar('USER', 'postgres'),
         password: getEnvVar('PASSWORD', 'password'),
-        // SSL is typically required for Clever Cloud PostgreSQL
-        ssl: process.env[`${prefix}DB_SSL`] === 'true' || 
-             process.env.DB_SSL === 'true' || 
-             !!process.env.POSTGRESQL_ADDON_HOST, // Auto-enable SSL if using Clever Cloud
+        ssl: sslEnabled,
         tablePrefix: appName ? `${appName.replace(/-/g, '_')}_` : undefined,
     };
 };
 
 export const createSequelizeInstance = (config: DatabaseConfig): Sequelize => {
-    const options: Options = {
+    // Check if we have a connection URI (e.g., from Clever Cloud POSTGRESQL_ADDON_URI)
+    // If so, use it directly - the URI typically includes SSL parameters
+    const connectionUri = process.env.POSTGRESQL_ADDON_URI || process.env.DATABASE_URL;
+    
+    const baseOptions: Options = {
         dialect: 'postgres',
-        host: config.host,
-        port: config.port,
-        database: config.database,
-        username: config.username,
-        password: config.password,
         pool: {
             max: 5,
             min: 0,
@@ -90,15 +98,42 @@ export const createSequelizeInstance = (config: DatabaseConfig): Sequelize => {
             idle: 10000,
         },
         logging: false,
+        timezone: '+00:00',
+    };
+    
+    if (connectionUri) {
+        // When using a connection URI, the URI typically includes SSL parameters
+        // Only override if SSL is explicitly disabled (to allow disabling SSL when needed)
+        const options: Options = {
+            ...baseOptions,
+            ...(config.ssl === false && {
+                dialectOptions: {
+                    ssl: false,
+                },
+            }),
+        };
+        
+        return new Sequelize(connectionUri, options);
+    }
+    
+    // Otherwise, use individual connection parameters
+    const options: Options = {
+        ...baseOptions,
+        host: config.host,
+        port: config.port,
+        database: config.database,
+        username: config.username,
+        password: config.password,
         dialectOptions: {
             ssl: config.ssl
                 ? {
-                      require: true,
+                      // Use 'prefer' mode: try SSL but don't require it
+                      // This allows fallback to non-SSL if SSL fails
+                      require: false,
                       rejectUnauthorized: false,
                   }
                 : false,
         },
-        timezone: '+00:00',
     };
 
     return new Sequelize(options);
