@@ -108,9 +108,9 @@ export const SessionList = () => {
                         </p>
                     )}
                 </div>
-                <Button 
-                    variant='ghost' 
-                    size='sm' 
+                <Button
+                    variant='ghost'
+                    size='sm'
                     onClick={logout}
                     className='text-slate-400 hover:text-red-400 hover:bg-red-400/5 transition-all'
                 >
@@ -127,7 +127,7 @@ export const SessionList = () => {
 
             <div className='mb-12'>
                 {!showForm && !editingSession && (
-                    <Button 
+                    <Button
                         onClick={() => setShowForm(true)}
                         className='bg-blue-600 hover:bg-blue-700 text-white font-bold h-12 px-8 shadow-xl shadow-blue-500/20 rounded-xl transition-all hover:scale-105'
                     >
@@ -176,8 +176,12 @@ export const SessionList = () => {
                 {sessions.length === 0 ? (
                     <div className='flex flex-col items-center justify-center py-24 text-slate-500 border-2 border-dashed border-white/5 rounded-3xl bg-white/2 grayscale opacity-50 transition-opacity hover:opacity-100'>
                         <Calendar className='w-12 h-12 mb-4 opacity-20' />
-                        <p className='font-bold uppercase tracking-[0.2em] text-[10px]'>Aucune séance enregistrée</p>
-                        <p className='text-sm mt-2 font-medium opacity-60'>Planifiez votre première sortie pour commencer.</p>
+                        <p className='font-bold uppercase tracking-[0.2em] text-[10px]'>
+                            Aucune séance enregistrée
+                        </p>
+                        <p className='text-sm mt-2 font-medium opacity-60'>
+                            Planifiez votre première sortie pour commencer.
+                        </p>
                     </div>
                 ) : (
                     <div className='grid gap-6'>

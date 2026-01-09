@@ -3,11 +3,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { ChevronDown, ChevronRight, MessageSquare } from 'lucide-react';
-import {
-    Collapsible,
-    CollapsibleContent,
-    CollapsibleTrigger,
-} from '@/components/ui/collapsible';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
 interface SessionDetailsProps {
     notes: string;
@@ -18,19 +14,19 @@ export const SessionDetails = ({ notes, onNotesChange }: SessionDetailsProps) =>
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <Collapsible
-            open={isOpen}
-            onOpenChange={setIsOpen}
-            className='w-full space-y-2'
-        >
+        <Collapsible open={isOpen} onOpenChange={setIsOpen} className='w-full space-y-2'>
             <div className='flex items-center justify-between space-x-4'>
                 <CollapsibleTrigger asChild>
-                    <Button 
-                        variant='ghost' 
-                        size='sm' 
+                    <Button
+                        variant='ghost'
+                        size='sm'
                         className='p-0 hover:bg-transparent text-slate-400 hover:text-blue-400 transition-all font-bold text-[10px] uppercase tracking-widest'
                     >
-                        {isOpen ? <ChevronDown className='h-4 w-4 mr-2' /> : <ChevronRight className='h-4 w-4 mr-2' />}
+                        {isOpen ? (
+                            <ChevronDown className='h-4 w-4 mr-2' />
+                        ) : (
+                            <ChevronRight className='h-4 w-4 mr-2' />
+                        )}
                         Notes de session
                     </Button>
                 </CollapsibleTrigger>
