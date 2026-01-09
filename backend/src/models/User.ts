@@ -23,6 +23,10 @@ export const initUserModel = (sequelize: Sequelize): ModelStatic<UserInstance> =
                         isEmail: true,
                     },
                 },
+                profile: {
+                    type: DataTypes.JSON,
+                    allowNull: false,
+                },
                 password: {
                     type: DataTypes.STRING,
                     allowNull: false,

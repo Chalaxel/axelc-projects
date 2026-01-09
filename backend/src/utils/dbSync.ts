@@ -2,6 +2,7 @@ import { type Sequelize } from 'sequelize';
 import { createDatabase } from '../config/database';
 import { initSessionModel } from '../models/Session';
 import { initUserModel } from '../models/User';
+import { initTriathlonPlanModel } from '../models/TriathlonPlan';
 import { runMigrations } from './migrate';
 
 let sequelize: Sequelize | null = null;
@@ -20,6 +21,7 @@ export const initializeDatabase = async (): Promise<void> => {
 
     initSessionModel(db);
     initUserModel(db);
+    initTriathlonPlanModel(db);
 
     await runMigrations();
 

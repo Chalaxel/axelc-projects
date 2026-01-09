@@ -8,6 +8,7 @@ interface AuthContextType {
     isLoading: boolean;
     login: (email: string, password: string) => Promise<void>;
     register: (email: string, password: string) => Promise<void>;
+    updateUser: (user: UserPublic) => void;
     logout: () => void;
 }
 
@@ -74,12 +75,17 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setUser(null);
     };
 
+    const updateUser = (updatedUser: UserPublic) => {
+        setUser(updatedUser);
+    };
+
     const value: AuthContextType = {
         user,
         isAuthenticated: !!user,
         isLoading,
         login,
         register,
+        updateUser,
         logout,
     };
 

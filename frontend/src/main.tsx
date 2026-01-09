@@ -1,6 +1,5 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { SessionList } from './components/SessionList';
 import { AuthPage } from './components/AuthPage';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import './index.css';
@@ -11,18 +10,30 @@ if (!rootElement) {
     throw new Error('Root element #root not found');
 }
 
+import { OnboardingWizard } from './components/onboarding/OnboardingWizard';
+import { PlanDashboard } from './components/dashboard/PlanDashboard';
+
 const App = () => {
-    const { isAuthenticated, isLoading } = useAuth();
+    const { user, isAuthenticated, isLoading } = useAuth();
 
     if (isLoading) {
         return (
-            <div style={{ textAlign: 'center', padding: '2rem' }}>
-                <p>Chargement...</p>
+            <div className='loading-screen'>
+                <p>Initialisation de votre coach...</p>
             </div>
         );
     }
 
-    return isAuthenticated ? <SessionList /> : <AuthPage />;
+    if (!isAuthenticated) return <AuthPage />;
+
+    // Simple routing based on URL or profile
+    const path = window.location.pathname;
+
+    if (path === '/onboarding' || !user?.profile) {
+        return <OnboardingWizard />;
+    }
+
+    return <PlanDashboard />;
 };
 
 createRoot(rootElement).render(

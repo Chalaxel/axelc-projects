@@ -100,13 +100,7 @@ export class AuthService {
             return null;
         }
 
-        const userJson = user.toJSON() as User;
-        return {
-            id: userJson.id,
-            email: userJson.email,
-            createdAt: userJson.createdAt,
-            updatedAt: userJson.updatedAt,
-        };
+        return user.toJSON() as User;
     }
 
     private generateToken(payload: JWTPayload): string {

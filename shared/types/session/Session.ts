@@ -4,6 +4,14 @@ export enum SportEnum {
     CYCLING = 'cycling',
 }
 
+export enum TriathlonDistance {
+    XS = 'XS',
+    S = 'S',
+    M = 'M',
+    L = 'L',
+    XL = 'XL',
+}
+
 export enum StrokeEnum {
     CRAWL = 'crawl',
     BREASTSTROKE = 'breaststroke',
@@ -67,6 +75,26 @@ export interface SessionCreationAttributes {
     blocks?: SessionBlock[];
     data?: SessionData;
     userId?: string;
+}
+
+export interface TriathlonPlan {
+    id: string;
+    userId: string;
+    distance: TriathlonDistance;
+    weeklyHours: number;
+    startDate: string;
+    endDate: string; // Race date
+    sessions?: Session[];
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface TriathlonPlanCreationAttributes {
+    userId: string;
+    distance: TriathlonDistance;
+    weeklyHours: number;
+    startDate: string;
+    endDate: string;
 }
 
 export default Session;

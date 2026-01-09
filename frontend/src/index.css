@@ -4,17 +4,144 @@
     box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
     height: 100%;
 }
 
 body {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    font-family:
+        'Inter',
+        system-ui,
+        -apple-system,
+        sans-serif;
+    background: #0f172a;
+    color: #f8fafc;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
 }
 
 #root {
     height: 100%;
 }
 
+.onboarding-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+.onboarding-card {
+    background: rgba(30, 41, 59, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 3rem;
+    border-radius: 20px;
+    width: 600px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.progress-bar {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    margin-bottom: 3rem;
+    border-radius: 2px;
+}
+
+.progress {
+    height: 100%;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+    transition: width 0.3s ease;
+}
+
+h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    font-weight: 700;
+}
+
+.distance-grid,
+.level-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.distance-btn,
+.level-btn {
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.distance-btn.active,
+.level-btn.active {
+    background: #3b82f6;
+    border-color: #3b82f6;
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+}
+
+.next-btn,
+.submit-btn {
+    width: 100%;
+    padding: 1.2rem;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+    border: none;
+    color: white;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1.1rem;
+}
+
+.dashboard-container {
+    padding: 4rem 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4rem;
+}
+
+.plan-info span {
+    margin-left: 2rem;
+    background: rgba(59, 130, 246, 0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+}
+
+.goals-badges {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.goal-badge {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.goal-badge.active {
+    background: rgba(59, 130, 246, 0.3);
+    border: 1px solid #3b82f6;
+}
+
+.active-goal-info {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 2rem;
+    border-radius: 16px;
+    margin-bottom: 3rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
