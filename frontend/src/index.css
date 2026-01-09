@@ -107,10 +107,32 @@ h2 {
 }
 
 .dashboard-header {
+    margin-bottom: 4rem;
+}
+
+.header-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 4rem;
+    margin-bottom: 2rem;
+}
+
+.delete-plan-btn {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+}
+
+.delete-plan-btn:hover {
+    background: #dc2626;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
 }
 
 .plan-info span {

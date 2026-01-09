@@ -57,12 +57,21 @@ router.post('/goal', async (req: AuthenticatedRequest, res: Response) => {
                 .json({ success: false, message: 'Non autorisé - Session expirée ou invalide' });
         }
         const user = await triathlonPlanService.addGoal(req.user.userId, req.body);
-
-        console.log(user);
         res.json({ success: true, data: user });
     } catch (error) {
         console.error('Error adding goal:', error);
         res.status(500).json({ success: false, message: 'Failed to add goal' });
+    }
+});
+
+router.delete('/current', async (req: AuthenticatedRequest, res: Response) => {
+    try {
+        if (!req.user) return res.status(401).json({ success: false, message: 'Non autorisé' });
+        await triathlonPlanService.deleteCurrentPlan(req.user.userId);
+        res.json({ success: true, message: 'Plan deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting plan:', error);
+        res.status(500).json({ success: false, message: 'Failed to delete plan' });
     }
 });
 

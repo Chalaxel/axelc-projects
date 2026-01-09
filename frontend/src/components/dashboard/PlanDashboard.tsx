@@ -63,10 +63,30 @@ export const PlanDashboard: React.FC = () => {
         }
     };
 
+    const handleDeletePlan = async () => {
+        if (
+            window.confirm(
+                'Voulez-vous vraiment supprimer votre programme actuel ? Cette action est irréversible.',
+            )
+        ) {
+            try {
+                await planApi.deleteCurrentPlan();
+                window.location.reload();
+            } catch {
+                alert('Erreur lors de la suppression du programme');
+            }
+        }
+    };
+
     return (
         <div className='dashboard-container'>
             <header className='dashboard-header'>
-                <h1>Mon Coaching</h1>
+                <div className='header-top'>
+                    <h1>Mon Coaching</h1>
+                    <button className='delete-plan-btn' onClick={handleDeletePlan}>
+                        Supprimer le programme
+                    </button>
+                </div>
                 <div className='goals-summary'>
                     {goals.length > 0 && (
                         <div className='objectives-list'>

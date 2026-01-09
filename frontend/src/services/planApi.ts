@@ -38,4 +38,8 @@ export const planApi = {
         const response = await axios.post(`${API_URL}/plans/goal`, goal, getAuthHeaders());
         return response.data.data;
     },
+
+    async deleteCurrentPlan(): Promise<void> {
+        await axios.delete(`${API_URL}/plans/current`, getAuthHeaders());
+    },
 };

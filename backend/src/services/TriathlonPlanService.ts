@@ -95,17 +95,32 @@ export class TriathlonPlanService {
         }));
 
         currentProfile.goals.push(newGoal);
-        console.log('currentProfile', currentProfile);
-        console.log('user', user);
         user.set('profile', currentProfile);
         user.changed('profile', true);
         await user.save();
 
-        console.log('user after save', user);
-
-        console.log('user.toJSON()', user.toJSON());
-
         return user.toJSON() as UserPublic;
+    }
+    async deleteCurrentPlan(userId: string): Promise<void> {
+        // Delete all sessions for the user
+        await SessionModel.destroy({
+            where: { userId },
+        });
+
+        // Delete all plans for the user
+        await TriathlonPlanModel.destroy({
+            where: { userId },
+        });
+
+        // Clear goals in user profile
+        const user = await UserModel.findByPk(userId);
+        if (user) {
+            const profile = (user.get('profile') as UserProfile) || { goals: [] };
+            profile.goals = [];
+            user.set('profile', profile);
+            user.changed('profile', true);
+            await user.save();
+        }
     }
 }
 
