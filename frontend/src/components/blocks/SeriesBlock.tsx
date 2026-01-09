@@ -1,6 +1,11 @@
 import { SessionBlock, SportEnum, StepGoal } from '@shared/types';
 import { StepForm } from './StepForm';
-import { formStyles } from '../../styles/formStyles';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Trash2, PlusCircle, Repeat } from 'lucide-react';
 
 interface SeriesBlockProps {
     block: SessionBlock;
@@ -36,120 +41,94 @@ export const SeriesBlock = ({
     const steps = block.steps || [];
 
     return (
-        <div style={formStyles.card}>
-            <div
-                style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    marginBottom: '1rem',
-                }}
-            >
-                <span style={{ ...formStyles.badge, backgroundColor: '#28a745' }}>
+        <div className='p-8 mb-8 border border-white/5 rounded-2xl bg-slate-900/40 relative group transition-all hover:border-emerald-500/20'>
+            <div className='flex justify-between items-center mb-8'>
+                <Badge className='bg-emerald-600 font-bold uppercase tracking-tighter'>
                     Série × {block.repetitions}
-                </span>
-                <button
-                    type='button'
+                </Badge>
+                <Button
+                    variant='ghost'
+                    size='sm'
                     onClick={onRemove}
-                    style={{
-                        ...formStyles.button,
-                        padding: '0.25rem 0.75rem',
-                        ...formStyles.buttonDanger,
-                        fontSize: '0.85rem',
-                    }}
+                    className='text-slate-500 hover:text-red-400 hover:bg-red-400/5 opacity-0 group-hover:opacity-100 transition-all'
                 >
-                    Supprimer
-                </button>
+                    <Trash2 className='w-4 h-4' />
+                </Button>
             </div>
 
-            <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
-                <div style={{ flex: 1 }}>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem' }}>
-                        Nombre de répétitions *
-                    </label>
-                    <input
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-8 mb-10'>
+                <div className='space-y-3'>
+                    <Label className='text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 flex items-center gap-2'>
+                        <Repeat className='w-3 h-3' /> Nombre de répétitions
+                    </Label>
+                    <Input
                         type='number'
                         min='1'
                         value={block.repetitions || 1}
                         onChange={e => onRepetitionsChange(Number(e.target.value) || 1)}
                         required
-                        style={{
-                            width: '100%',
-                            padding: '0.5rem',
-                            border: '1px solid #ddd',
-                            borderRadius: '4px',
-                        }}
+                        className='bg-white/5 border-white/5 focus:border-emerald-500/50 h-12 text-lg font-bold text-emerald-400'
                     />
                 </div>
-                <div style={{ flex: 1 }}>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem' }}>
-                        Récupération entre séries (secondes, optionnel)
-                    </label>
-                    <input
+                <div className='space-y-3'>
+                    <Label className='text-[10px] font-black uppercase tracking-[0.2em] text-slate-500'>
+                        Récup entre séries (sec)
+                    </Label>
+                    <Input
                         type='number'
                         min='0'
                         value={block.recovery || ''}
                         onChange={e => onRecoveryChange(e.target.value)}
-                        style={{
-                            width: '100%',
-                            padding: '0.5rem',
-                            border: '1px solid #ddd',
-                            borderRadius: '4px',
-                        }}
+                        className='bg-white/5 border-white/5 focus:border-emerald-500/50 h-12 text-slate-400'
                         placeholder='Secondes'
                     />
                 </div>
             </div>
 
-            <div style={{ marginBottom: '1rem' }}>
-                <div
-                    style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        marginBottom: '0.5rem',
-                    }}
-                >
-                    <label style={{ fontWeight: 'bold', fontSize: '0.9rem' }}>Étapes</label>
-                    <button
+            <div className='space-y-6 mb-10'>
+                <div className='flex justify-between items-center border-b border-white/5 pb-3'>
+                    <Label className='text-[10px] font-black uppercase tracking-[0.2em] text-slate-500'>
+                        Séquence d'étapes
+                    </Label>
+                    <Button
                         type='button'
+                        variant='ghost'
+                        size='sm'
                         onClick={onAddStep}
-                        style={{
-                            ...formStyles.button,
-                            padding: '0.25rem 0.75rem',
-                            ...formStyles.buttonInfo,
-                            fontSize: '0.85rem',
-                        }}
+                        className='text-emerald-400 hover:text-emerald-300 hover:bg-emerald-400/5 font-bold text-[10px] uppercase tracking-widest'
                     >
-                        + Ajouter une étape
-                    </button>
+                        <PlusCircle className='w-4 h-4 mr-2' />
+                        Ajouter une étape
+                    </Button>
                 </div>
 
-                {steps.map((step, stepIndex) => (
-                    <StepForm
-                        key={stepIndex}
-                        step={step}
-                        stepIndex={stepIndex}
-                        sport={sport}
-                        totalSteps={steps.length}
-                        onGoalChange={(field, value) => onStepGoalChange(stepIndex, field, value)}
-                        onRecoveryChange={value => onStepRecoveryChange(stepIndex, value)}
-                        onNoteChange={value => onStepNoteChange(stepIndex, value)}
-                        onRemove={() => onRemoveStep(stepIndex)}
-                    />
-                ))}
+                <div className='space-y-4'>
+                    {steps.map((step, stepIndex) => (
+                        <StepForm
+                            key={stepIndex}
+                            step={step}
+                            stepIndex={stepIndex}
+                            sport={sport}
+                            totalSteps={steps.length}
+                            onGoalChange={(field, value) => onStepGoalChange(stepIndex, field, value)}
+                            onRecoveryChange={value => onStepRecoveryChange(stepIndex, value)}
+                            onNoteChange={value => onStepNoteChange(stepIndex, value)}
+                            onRemove={() => onRemoveStep(stepIndex)}
+                        />
+                    ))}
+                </div>
             </div>
 
-            <div>
-                <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem' }}>
-                    Notes de la série (optionnel)
-                </label>
-                <textarea
+            <div className='space-y-3'>
+                <Label className='text-[10px] font-black uppercase tracking-[0.2em] text-slate-500'>
+                    Notes de la série
+                </Label>
+                <Textarea
                     value={block.note || ''}
                     onChange={e => onNoteChange(e.target.value)}
                     rows={2}
-                    style={formStyles.textarea}
-                    placeholder='Notes sur cette série...'
+                    className='bg-white/5 border-white/5 focus:border-emerald-500/50 transition-all resize-none text-slate-300'
+                    placeholder='Précisions sur cette série répétée...'
                 />
             </div>
         </div>

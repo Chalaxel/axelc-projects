@@ -1,69 +1,49 @@
 import { useState } from 'react';
 import { LoginForm } from './LoginForm';
 import { RegisterForm } from './RegisterForm';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 
 export const AuthPage = () => {
     const [activeTab, setActiveTab] = useState<'login' | 'register'>('login');
 
     return (
-        <div
-            style={{
-                maxWidth: '500px',
-                margin: '2rem auto',
-                padding: '2rem',
-                backgroundColor: '#fff',
-                borderRadius: '8px',
-                boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-            }}
-        >
-            <h1 style={{ textAlign: 'center', marginBottom: '2rem', color: '#333' }}>
-                {"Mes Séances d'Entraînement"}
-            </h1>
+        <div className='flex items-center justify-center min-h-screen bg-background'>
+            <Card className='w-full max-w-[500px] shadow-lg'>
+                <CardHeader>
+                    <CardTitle className='text-center text-3xl font-bold text-foreground'>
+                        Mes Séances d'Entraînement
+                    </CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <div className='flex border-b border-border mb-8'>
+                        <Button
+                            variant='ghost'
+                            className={`flex-1 rounded-none border-b-2 hover:bg-transparent transition-all ${
+                                activeTab === 'login'
+                                    ? 'border-primary font-bold text-primary'
+                                    : 'border-transparent text-muted-foreground'
+                            }`}
+                            onClick={() => setActiveTab('login')}
+                        >
+                            Connexion
+                        </Button>
+                        <Button
+                            variant='ghost'
+                            className={`flex-1 rounded-none border-b-2 hover:bg-transparent transition-all ${
+                                activeTab === 'register'
+                                    ? 'border-primary font-bold text-primary'
+                                    : 'border-transparent text-muted-foreground'
+                            }`}
+                            onClick={() => setActiveTab('register')}
+                        >
+                            Inscription
+                        </Button>
+                    </div>
 
-            <div
-                style={{
-                    display: 'flex',
-                    borderBottom: '2px solid #ddd',
-                    marginBottom: '2rem',
-                }}
-            >
-                <button
-                    onClick={() => setActiveTab('login')}
-                    style={{
-                        flex: 1,
-                        padding: '1rem',
-                        border: 'none',
-                        backgroundColor: 'transparent',
-                        cursor: 'pointer',
-                        fontSize: '1rem',
-                        fontWeight: activeTab === 'login' ? 'bold' : 'normal',
-                        color: activeTab === 'login' ? '#007bff' : '#666',
-                        borderBottom: activeTab === 'login' ? '2px solid #007bff' : 'none',
-                        marginBottom: '-2px',
-                    }}
-                >
-                    Connexion
-                </button>
-                <button
-                    onClick={() => setActiveTab('register')}
-                    style={{
-                        flex: 1,
-                        padding: '1rem',
-                        border: 'none',
-                        backgroundColor: 'transparent',
-                        cursor: 'pointer',
-                        fontSize: '1rem',
-                        fontWeight: activeTab === 'register' ? 'bold' : 'normal',
-                        color: activeTab === 'register' ? '#007bff' : '#666',
-                        borderBottom: activeTab === 'register' ? '2px solid #007bff' : 'none',
-                        marginBottom: '-2px',
-                    }}
-                >
-                    Inscription
-                </button>
-            </div>
-
-            {activeTab === 'login' ? <LoginForm /> : <RegisterForm />}
+                    {activeTab === 'login' ? <LoginForm /> : <RegisterForm />}
+                </CardContent>
+            </Card>
         </div>
     );
 };

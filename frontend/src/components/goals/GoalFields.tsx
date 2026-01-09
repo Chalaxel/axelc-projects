@@ -1,5 +1,9 @@
 import { SportEnum, StepGoal, StrokeEnum } from '@shared/types';
 import { getDistanceUnit, getStrokeOptions } from '../../utils/sessionHelpers';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 interface GoalFieldsProps {
     goal: StepGoal | undefined;
@@ -9,14 +13,12 @@ interface GoalFieldsProps {
 
 export const GoalFields = ({ goal, sport, onChange }: GoalFieldsProps) => {
     const goalData = goal || {};
-    const lengthTypeId = `length-type-${Math.random()}`;
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <div className='space-y-6'>
             <LengthField
                 goalData={goalData}
                 sport={sport}
-                lengthTypeId={lengthTypeId}
                 onChange={onChange}
             />
             <ObjectiveField goalData={goalData} sport={sport} onChange={onChange} />
@@ -27,104 +29,71 @@ export const GoalFields = ({ goal, sport, onChange }: GoalFieldsProps) => {
 interface LengthFieldProps {
     goalData: StepGoal;
     sport: SportEnum;
-    lengthTypeId: string;
     onChange: (field: keyof StepGoal, value: number | string | undefined) => void;
 }
 
-const LengthField = ({ goalData, sport, lengthTypeId, onChange }: LengthFieldProps) => {
+const LengthField = ({ goalData, sport, onChange }: LengthFieldProps) => {
+    const mode = goalData.time !== undefined ? 'time' : 'distance';
+
     return (
-        <div>
-            <label
-                style={{
-                    display: 'block',
-                    marginBottom: '0.5rem',
-                    fontWeight: 'bold',
-                    fontSize: '0.9rem',
-                }}
-            >
-                Longueur
-            </label>
-            <div
-                style={{
-                    display: 'flex',
-                    gap: '0.5rem',
-                    alignItems: 'center',
-                    marginBottom: '0.5rem',
-                }}
-            >
-                <label
-                    style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.25rem',
-                        cursor: 'pointer',
-                    }}
-                >
-                    <input
-                        type='number'
-                        name={lengthTypeId}
-                        value={goalData.distance}
-                        onChange={() => {
-                            onChange('distance', goalData.distance || 0);
-                            onChange('time', undefined);
-                        }}
-                    />
-                    <span>Distance ({getDistanceUnit(sport)})</span>
-                </label>
-                <label
-                    style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.25rem',
-                        cursor: 'pointer',
-                    }}
-                >
-                    <input
-                        type='number'
-                        name={lengthTypeId}
-                        value={goalData.time}
-                        onChange={() => {
-                            onChange('time', goalData.time || 0);
-                            onChange('distance', undefined);
-                        }}
-                    />
-                    <span>Temps (secondes)</span>
-                </label>
-            </div>
-            {goalData.distance !== undefined && (
-                <input
-                    type='number'
-                    min='0'
-                    step='0.01'
-                    value={goalData.distance || ''}
-                    onChange={e =>
-                        onChange('distance', e.target.value ? Number(e.target.value) : undefined)
+        <div className='space-y-4'>
+            <Label className='text-[10px] font-black uppercase tracking-[0.2em] text-slate-500'>
+                Type de mesure
+            </Label>
+            <RadioGroup 
+                value={mode} 
+                onValueChange={(val) => {
+                    if (val === 'time') {
+                        onChange('time', goalData.time || 0);
+                        onChange('distance', undefined);
+                    } else {
+                        onChange('distance', goalData.distance || 0);
+                        onChange('time', undefined);
                     }
-                    style={{
-                        width: '100%',
-                        padding: '0.5rem',
-                        border: '1px solid #ddd',
-                        borderRadius: '4px',
-                    }}
-                    placeholder={`Distance en ${getDistanceUnit(sport)}`}
-                />
-            )}
-            {goalData.time !== undefined && (
-                <input
-                    type='number'
-                    min='0'
-                    value={goalData.time || ''}
-                    onChange={e =>
-                        onChange('time', e.target.value ? Number(e.target.value) : undefined)
-                    }
-                    style={{
-                        width: '100%',
-                        padding: '0.5rem',
-                        border: '1px solid #ddd',
-                        borderRadius: '4px',
-                    }}
-                    placeholder='Temps en secondes'
-                />
+                }}
+                className='flex gap-4'
+            >
+                <div className='flex items-center space-x-2 bg-white/5 px-4 py-2 rounded-lg border border-white/5 transition-all hover:border-white/10'>
+                    <RadioGroupItem value='distance' id='mode-dist' className='border-blue-500 text-blue-500' />
+                    <Label htmlFor='mode-dist' className='text-xs font-bold text-slate-300 cursor-pointer'>Distance ({getDistanceUnit(sport)})</Label>
+                </div>
+                <div className='flex items-center space-x-2 bg-white/5 px-4 py-2 rounded-lg border border-white/5 transition-all hover:border-white/10'>
+                    <RadioGroupItem value='time' id='mode-time' className='border-blue-500 text-blue-500' />
+                    <Label htmlFor='mode-time' className='text-xs font-bold text-slate-300 cursor-pointer'>Temps (sec)</Label>
+                </div>
+            </RadioGroup>
+
+            {mode === 'distance' ? (
+                <div className='space-y-2'>
+                    <Label htmlFor='dist-input' className='text-[10px] uppercase tracking-widest text-slate-400'>Valeur distance</Label>
+                    <Input
+                        id='dist-input'
+                        type='number'
+                        min='0'
+                        step='0.01'
+                        value={goalData.distance || ''}
+                        onChange={e =>
+                            onChange('distance', e.target.value ? Number(e.target.value) : undefined)
+                        }
+                        className='bg-white/5 border-white/5 focus:border-blue-500/50 h-12 text-blue-400 font-bold'
+                        placeholder={`Distance en ${getDistanceUnit(sport)}`}
+                    />
+                </div>
+            ) : (
+                <div className='space-y-2'>
+                    <Label htmlFor='time-input' className='text-[10px] uppercase tracking-widest text-slate-400'>Valeur temps</Label>
+                    <Input
+                        id='time-input'
+                        type='number'
+                        min='0'
+                        value={goalData.time || ''}
+                        onChange={e =>
+                            onChange('time', e.target.value ? Number(e.target.value) : undefined)
+                        }
+                        className='bg-white/5 border-white/5 focus:border-blue-500/50 h-12 text-blue-400 font-bold'
+                        placeholder='Temps en secondes'
+                    />
+                </div>
             )}
         </div>
     );
@@ -138,34 +107,24 @@ interface ObjectiveFieldProps {
 
 const ObjectiveField = ({ goalData, sport, onChange }: ObjectiveFieldProps) => {
     return (
-        <div>
-            <label
-                style={{
-                    display: 'block',
-                    marginBottom: '0.5rem',
-                    fontWeight: 'bold',
-                    fontSize: '0.9rem',
-                }}
-            >
-                Objectif
-            </label>
+        <div className='space-y-4 pt-4 border-t border-white/5'>
+            <Label className='text-[10px] font-black uppercase tracking-[0.2em] text-slate-500'>
+                Objectif de performance
+            </Label>
             {sport === SportEnum.RUN && (
-                <input
-                    type='number'
-                    min='0'
-                    step='0.01'
-                    value={goalData.pace || ''}
-                    onChange={e =>
-                        onChange('pace', e.target.value ? Number(e.target.value) : undefined)
-                    }
-                    style={{
-                        width: '100%',
-                        padding: '0.5rem',
-                        border: '1px solid #ddd',
-                        borderRadius: '4px',
-                    }}
-                    placeholder='Allure (min/km)'
-                />
+                <div className='space-y-2'>
+                    <Label className='text-[10px] uppercase tracking-widest text-slate-400'>Allure (min/km)</Label>
+                    <Input
+                        type='number'
+                        min='0'
+                        step='0.01'
+                        value={goalData.pace || ''}
+                        onChange={e =>
+                            onChange('pace', e.target.value ? Number(e.target.value) : undefined)
+                        }
+                        className='bg-white/5 border-white/5 focus:border-blue-500/50 text-emerald-400 font-bold'
+                    />
+                </div>
             )}
             {sport === SportEnum.SWIM && (
                 <SwimObjectiveFields goalData={goalData} onChange={onChange} />
@@ -177,124 +136,77 @@ const ObjectiveField = ({ goalData, sport, onChange }: ObjectiveFieldProps) => {
     );
 };
 
-interface SwimObjectiveFieldsProps {
-    goalData: StepGoal;
-    onChange: (field: keyof StepGoal, value: number | string | undefined) => void;
-}
-
-const SwimObjectiveFields = ({ goalData, onChange }: SwimObjectiveFieldsProps) => {
+const SwimObjectiveFields = ({ goalData, onChange }: { goalData: StepGoal, onChange: any }) => {
     const strokeOptions = getStrokeOptions();
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-            <input
-                type='number'
-                min='0'
-                step='0.01'
-                value={goalData.speed || ''}
-                onChange={e =>
-                    onChange('speed', e.target.value ? Number(e.target.value) : undefined)
-                }
-                style={{
-                    width: '100%',
-                    padding: '0.5rem',
-                    border: '1px solid #ddd',
-                    borderRadius: '4px',
-                }}
-                placeholder='Vitesse (min/100m)'
-            />
-            <input
-                type='number'
-                min='0'
-                value={goalData.lengths || ''}
-                onChange={e =>
-                    onChange('lengths', e.target.value ? Number(e.target.value) : undefined)
-                }
-                style={{
-                    width: '100%',
-                    padding: '0.5rem',
-                    border: '1px solid #ddd',
-                    borderRadius: '4px',
-                }}
-                placeholder='Nombre de longueurs (optionnel)'
-            />
-            <select
-                value={goalData.stroke || ''}
-                onChange={e =>
-                    onChange('stroke', e.target.value ? (e.target.value as StrokeEnum) : undefined)
-                }
-                style={{
-                    width: '100%',
-                    padding: '0.5rem',
-                    border: '1px solid #ddd',
-                    borderRadius: '4px',
-                }}
-            >
-                <option value=''>Style (optionnel)</option>
-                {strokeOptions.map(option => (
-                    <option key={option.value} value={option.value}>
-                        {option.label}
-                    </option>
-                ))}
-            </select>
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+            <div className='space-y-2'>
+                <Label className='text-[10px] uppercase tracking-widest text-slate-400'>Vitesse (min/100m)</Label>
+                <Input
+                    type='number'
+                    min='0'
+                    step='0.01'
+                    value={goalData.speed || ''}
+                    onChange={e =>
+                        onChange('speed', e.target.value ? Number(e.target.value) : undefined)
+                    }
+                    className='bg-white/5 border-white/5 focus:border-blue-500/50 text-emerald-400 font-bold'
+                />
+            </div>
+            <div className='space-y-2'>
+                <Label className='text-[10px] uppercase tracking-widest text-slate-400'>Nage</Label>
+                <Select
+                    value={goalData.stroke || ''}
+                    onValueChange={val => onChange('stroke', val || undefined)}
+                >
+                    <SelectTrigger className='bg-white/5 border-white/5 text-slate-300'>
+                        <SelectValue placeholder='Style' />
+                    </SelectTrigger>
+                    <SelectContent>
+                        {strokeOptions.map(option => (
+                            <SelectItem key={option.value} value={option.value}>
+                                {option.label}
+                            </SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>
+            </div>
         </div>
     );
 };
 
-interface CyclingObjectiveFieldsProps {
-    goalData: StepGoal;
-    onChange: (field: keyof StepGoal, value: number | string | undefined) => void;
-}
-
-const CyclingObjectiveFields = ({ goalData, onChange }: CyclingObjectiveFieldsProps) => {
+const CyclingObjectiveFields = ({ goalData, onChange }: { goalData: StepGoal, onChange: any }) => {
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-            <input
-                type='number'
-                min='0'
-                value={goalData.power || ''}
-                onChange={e =>
-                    onChange('power', e.target.value ? Number(e.target.value) : undefined)
-                }
-                style={{
-                    width: '100%',
-                    padding: '0.5rem',
-                    border: '1px solid #ddd',
-                    borderRadius: '4px',
-                }}
-                placeholder='Puissance (W)'
-            />
-            <input
-                type='number'
-                min='0'
-                value={goalData.cadence || ''}
-                onChange={e =>
-                    onChange('cadence', e.target.value ? Number(e.target.value) : undefined)
-                }
-                style={{
-                    width: '100%',
-                    padding: '0.5rem',
-                    border: '1px solid #ddd',
-                    borderRadius: '4px',
-                }}
-                placeholder='Cadence (rpm, optionnel)'
-            />
-            <input
-                type='number'
-                min='0'
-                step='0.1'
-                value={goalData.speed || ''}
-                onChange={e =>
-                    onChange('speed', e.target.value ? Number(e.target.value) : undefined)
-                }
-                style={{
-                    width: '100%',
-                    padding: '0.5rem',
-                    border: '1px solid #ddd',
-                    borderRadius: '4px',
-                }}
-                placeholder='Vitesse (km/h, optionnel)'
-            />
+        <div className='grid grid-cols-2 md:grid-cols-3 gap-4'>
+            <div className='space-y-2'>
+                <Label className='text-[10px] uppercase tracking-widest text-slate-400'>Puissance (W)</Label>
+                <Input
+                    type='number'
+                    value={goalData.power || ''}
+                    onChange={e => onChange('power', e.target.value ? Number(e.target.value) : undefined)}
+                    className='bg-white/5 border-white/5 text-emerald-400 font-bold'
+                />
+            </div>
+            <div className='space-y-2'>
+                <Label className='text-[10px] uppercase tracking-widest text-slate-400'>Cadence (rpm)</Label>
+                <Input
+                    type='number'
+                    value={goalData.cadence || ''}
+                    onChange={e => onChange('cadence', e.target.value ? Number(e.target.value) : undefined)}
+                    className='bg-white/5 border-white/5 text-slate-300'
+                />
+            </div>
+            <div className='space-y-2 col-span-2 md:col-span-1'>
+                <Label className='text-[10px] uppercase tracking-widest text-slate-400'>Vitesse (km/h)</Label>
+                <Input
+                    type='number'
+                    step='0.1'
+                    value={goalData.speed || ''}
+                    onChange={e => onChange('speed', e.target.value ? Number(e.target.value) : undefined)}
+                    className='bg-white/5 border-white/5 text-slate-300'
+                />
+            </div>
         </div>
     );
 };

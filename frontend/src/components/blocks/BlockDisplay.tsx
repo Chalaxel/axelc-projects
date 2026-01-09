@@ -1,6 +1,6 @@
 import { SessionBlock, SportEnum, SessionBlockType } from '@shared/types';
 import { formatGoal } from '../../utils/sessionHelpers';
-import { formStyles } from '../../styles/formStyles';
+import { Badge } from '@/components/ui/badge';
 
 interface BlockDisplayProps {
     block: SessionBlock;
@@ -10,44 +10,20 @@ interface BlockDisplayProps {
 export const BlockDisplay = ({ block, sport }: BlockDisplayProps) => {
     if (block.type === SessionBlockType.SIMPLE) {
         return (
-            <div
-                style={{
-                    marginBottom: '1rem',
-                    padding: '1rem',
-                    border: '1px solid #e0e0e0',
-                    borderRadius: '6px',
-                    backgroundColor: '#f8f9fa',
-                }}
-            >
-                <div
-                    style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        marginBottom: '0.5rem',
-                    }}
-                >
-                    <span style={{ ...formStyles.badge, backgroundColor: '#007bff' }}>
+            <div className='mb-4 p-4 border border-white/5 rounded-lg bg-white/5'>
+                <div className='flex justify-between items-center mb-3'>
+                    <Badge variant='secondary' className='bg-blue-500/20 text-blue-400 border-none'>
                         Bloc simple
-                    </span>
+                    </Badge>
                 </div>
                 {block.goal && (
-                    <div style={{ marginBottom: '0.5rem', color: '#333', fontSize: '0.9rem' }}>
+                    <div className='text-slate-200 text-sm font-medium'>
                         {formatGoal(block.goal, sport)}
                     </div>
                 )}
                 {block.note && (
-                    <div
-                        style={{
-                            marginTop: '0.5rem',
-                            padding: '0.5rem',
-                            backgroundColor: 'white',
-                            borderRadius: '4px',
-                            fontSize: '0.85rem',
-                            color: '#666',
-                        }}
-                    >
-                        <strong>Note:</strong> {block.note}
+                    <div className='mt-3 p-3 bg-slate-950/50 rounded border border-white/5 text-xs text-slate-400 italic'>
+                        <strong className='text-slate-300 not-italic mr-1'>Note:</strong> {block.note}
                     </div>
                 )}
             </div>
@@ -55,82 +31,41 @@ export const BlockDisplay = ({ block, sport }: BlockDisplayProps) => {
     }
 
     return (
-        <div
-            style={{
-                marginBottom: '1rem',
-                padding: '1rem',
-                border: '1px solid #e0e0e0',
-                borderRadius: '6px',
-                backgroundColor: '#f8f9fa',
-            }}
-        >
-            <div
-                style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    marginBottom: '0.75rem',
-                }}
-            >
-                <span style={{ ...formStyles.badge, backgroundColor: '#28a745' }}>
+        <div className='mb-4 p-4 border border-white/5 rounded-lg bg-white/5'>
+            <div className='flex justify-between items-center mb-4'>
+                <Badge variant='secondary' className='bg-emerald-500/20 text-emerald-400 border-none'>
                     Série × {block.repetitions}
-                </span>
+                </Badge>
                 {block.recovery !== undefined && (
-                    <span style={{ fontSize: '0.85rem', color: '#666' }}>
-                        Récupération entre séries: {block.recovery}s
+                    <span className='text-xs text-slate-400'>
+                        Récup: {block.recovery}s
                     </span>
                 )}
             </div>
 
-            <div style={{ marginLeft: '1rem' }}>
+            <div className='space-y-3 pl-2 border-l-2 border-emerald-500/20'>
                 {block.steps?.map((step, stepIndex) => (
                     <div
                         key={stepIndex}
-                        style={{
-                            marginBottom: '0.75rem',
-                            padding: '0.75rem',
-                            border: '1px solid #ddd',
-                            borderRadius: '4px',
-                            backgroundColor: 'white',
-                        }}
+                        className='p-3 border border-white/5 rounded bg-slate-950/30'
                     >
-                        <div
-                            style={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                                marginBottom: '0.5rem',
-                            }}
-                        >
-                            <span style={{ fontWeight: 'bold', fontSize: '0.9rem', color: '#666' }}>
+                        <div className='flex justify-between items-center mb-2'>
+                            <span className='text-[10px] uppercase tracking-widest text-slate-500 font-bold'>
                                 Étape {stepIndex + 1}
                             </span>
                             {step.recovery !== undefined && (
-                                <span style={{ fontSize: '0.85rem', color: '#888' }}>
+                                <span className='text-[10px] text-slate-500'>
                                     Récup: {step.recovery}s
                                 </span>
                             )}
                         </div>
                         {step.goal && (
-                            <div
-                                style={{
-                                    marginBottom: '0.5rem',
-                                    color: '#333',
-                                    fontSize: '0.9rem',
-                                }}
-                            >
+                            <div className='text-slate-200 text-sm'>
                                 {formatGoal(step.goal, sport)}
                             </div>
                         )}
                         {step.note && (
-                            <div
-                                style={{
-                                    marginTop: '0.5rem',
-                                    fontSize: '0.85rem',
-                                    color: '#666',
-                                    fontStyle: 'italic',
-                                }}
-                            >
+                            <div className='mt-1 text-xs text-slate-400 italic'>
                                 {step.note}
                             </div>
                         )}
@@ -139,17 +74,8 @@ export const BlockDisplay = ({ block, sport }: BlockDisplayProps) => {
             </div>
 
             {block.note && (
-                <div
-                    style={{
-                        marginTop: '0.75rem',
-                        padding: '0.5rem',
-                        backgroundColor: 'white',
-                        borderRadius: '4px',
-                        fontSize: '0.85rem',
-                        color: '#666',
-                    }}
-                >
-                    <strong>Note série:</strong> {block.note}
+                <div className='mt-4 p-3 bg-slate-950/50 rounded border border-white/5 text-xs text-slate-400 italic'>
+                    <strong className='text-slate-300 not-italic mr-1'>Note série:</strong> {block.note}
                 </div>
             )}
         </div>

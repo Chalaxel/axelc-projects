@@ -2,7 +2,18 @@ import React, { useState } from 'react';
 import { TriathlonDistance, UserLevel, UserGoal } from '@shared/types';
 import { planApi } from '../../services/planApi';
 import { useAuth } from '../../context/AuthContext';
-import '../../index.css';
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Slider } from '@/components/ui/slider';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 export const OnboardingWizard: React.FC = () => {
     const { updateUser } = useAuth();
@@ -19,11 +30,9 @@ export const OnboardingWizard: React.FC = () => {
     const handleSubmit = async () => {
         setIsLoading(true);
         try {
-            // Add new goal to user profile
             const updatedUser = await planApi.addGoal(newGoal);
             updateUser(updatedUser);
 
-            // Generate plan for the new goal
             const startDate = new Date().toISOString().split('T')[0];
             await planApi.generatePlan({
                 distance: newGoal.targetDistance as TriathlonDistance,
@@ -42,97 +51,137 @@ export const OnboardingWizard: React.FC = () => {
     };
 
     return (
-        <div className='onboarding-container'>
-            <div className='onboarding-card'>
-                <div className='progress-bar'>
-                    <div className='progress' style={{ width: `${(step / 3) * 100}%` }}></div>
-                </div>
+        <div className='flex items-center justify-center min-h-screen bg-background p-4'>
+            <Card className='w-full max-w-[600px] border-none shadow-2xl bg-slate-900/50 backdrop-blur-xl'>
+                <CardHeader>
+                    <div className='w-full h-1 bg-white/10 rounded-full mb-6 overflow-hidden'>
+                        <div
+                            className='h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-500 ease-out'
+                            style={{ width: `${(step / 3) * 100}%` }}
+                        ></div>
+                    </div>
+                    <CardTitle className='text-3xl font-bold bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent'>
+                        {step === 1 && 'Quel est votre objectif ?'}
+                        {step === 2 && 'Votre profil de sportif'}
+                        {step === 3 && 'Votre date de course'}
+                    </CardTitle>
+                    <CardDescription>
+                        {step === 1 && 'Choisissez la distance de triathlon que vous visez.'}
+                        {step === 2 && 'Dites-en nous plus sur votre niveau et vos disponibilités.'}
+                        {step === 3 &&
+                            'Fixez la date de votre compétition pour caler votre pic de forme.'}
+                    </CardDescription>
+                </CardHeader>
 
-                {step === 1 && (
-                    <div className='step-content'>
-                        <h2>Quel est votre objectif ?</h2>
-                        <div className='distance-grid'>
+                <CardContent className='py-6'>
+                    {step === 1 && (
+                        <div className='grid grid-cols-2 gap-4'>
                             {Object.values(TriathlonDistance).map(d => (
-                                <button
+                                <Button
                                     key={d}
-                                    className={`distance-btn ${newGoal.targetDistance === d ? 'active' : ''}`}
+                                    variant={newGoal.targetDistance === d ? 'default' : 'outline'}
+                                    className={`h-24 text-lg font-bold transition-all ${
+                                        newGoal.targetDistance === d
+                                            ? 'bg-blue-600 hover:bg-blue-700 shadow-[0_0_20px_rgba(59,130,246,0.4)]'
+                                            : 'border-white/10 hover:bg-white/5'
+                                    }`}
                                     onClick={() => setNewGoal({ ...newGoal, targetDistance: d })}
                                 >
                                     {d}
-                                </button>
+                                </Button>
                             ))}
                         </div>
-                        <button className='next-btn' onClick={() => setStep(2)}>
-                            Suivant
-                        </button>
-                    </div>
-                )}
+                    )}
 
-                {step === 2 && (
-                    <div className='step-content'>
-                        <h2>Quel est votre niveau ?</h2>
-                        <div className='level-grid'>
-                            {Object.values(UserLevel).map(l => (
-                                <button
-                                    key={l}
-                                    className={`level-btn ${newGoal.level === l ? 'active' : ''}`}
-                                    onClick={() => setNewGoal({ ...newGoal, level: l })}
-                                >
-                                    {l.charAt(0).toUpperCase() + l.slice(1)}
-                                </button>
-                            ))}
+                    {step === 2 && (
+                        <div className='space-y-10'>
+                            <div className='space-y-4'>
+                                <Label className='text-sm uppercase tracking-widest text-slate-400'>
+                                    Niveau actuel
+                                </Label>
+                                <div className='grid grid-cols-3 gap-3'>
+                                    {Object.values(UserLevel).map(l => (
+                                        <Button
+                                            key={l}
+                                            variant={newGoal.level === l ? 'default' : 'outline'}
+                                            className={`transition-all ${
+                                                newGoal.level === l
+                                                    ? 'bg-blue-600 hover:bg-blue-700'
+                                                    : 'border-white/10 hover:bg-white/5'
+                                            }`}
+                                            onClick={() => setNewGoal({ ...newGoal, level: l })}
+                                        >
+                                            {l.charAt(0).toUpperCase() + l.slice(1)}
+                                        </Button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className='space-y-6'>
+                                <div className='flex justify-between items-end'>
+                                    <Label className='text-sm uppercase tracking-widest text-slate-400'>
+                                        Temps disponible par semaine
+                                    </Label>
+                                    <span className='text-2xl font-bold text-blue-400'>
+                                        {newGoal.weeklyAvailability}h
+                                    </span>
+                                </div>
+                                <Slider
+                                    defaultValue={[newGoal.weeklyAvailability]}
+                                    max={25}
+                                    min={3}
+                                    step={1}
+                                    className='py-4'
+                                    onValueChange={vals =>
+                                        setNewGoal({ ...newGoal, weeklyAvailability: vals[0] })
+                                    }
+                                />
+                            </div>
                         </div>
-                        <div className='availability-section'>
-                            <h3>Temps disponible par semaine (heures)</h3>
-                            <input
-                                type='range'
-                                min='3'
-                                max='25'
-                                value={newGoal.weeklyAvailability}
-                                onChange={e =>
-                                    setNewGoal({
-                                        ...newGoal,
-                                        weeklyAvailability: parseInt(e.target.value),
-                                    })
-                                }
+                    )}
+
+                    {step === 3 && (
+                        <div className='space-y-4'>
+                            <Label htmlFor='race-date'>Date de la compétition</Label>
+                            <Input
+                                id='race-date'
+                                type='date'
+                                className='h-12 bg-white/5 border-white/10'
+                                value={newGoal.raceDate}
+                                onChange={e => setNewGoal({ ...newGoal, raceDate: e.target.value })}
                             />
-                            <span className='hours-value'>{newGoal.weeklyAvailability}h</span>
                         </div>
-                        <div className='navigation-btns'>
-                            <button className='back-btn' onClick={() => setStep(1)}>
-                                Retour
-                            </button>
-                            <button className='next-btn' onClick={() => setStep(3)}>
-                                Suivant
-                            </button>
-                        </div>
-                    </div>
-                )}
+                    )}
+                </CardContent>
 
-                {step === 3 && (
-                    <div className='step-content'>
-                        <h2>Votre date de course</h2>
-                        <input
-                            type='date'
-                            className='date-input'
-                            value={newGoal.raceDate}
-                            onChange={e => setNewGoal({ ...newGoal, raceDate: e.target.value })}
-                        />
-                        <div className='navigation-btns'>
-                            <button className='back-btn' onClick={() => setStep(2)}>
-                                Retour
-                            </button>
-                            <button
-                                className='submit-btn'
-                                onClick={handleSubmit}
-                                disabled={isLoading}
-                            >
-                                {isLoading ? 'Génération...' : 'Générer mon programme'}
-                            </button>
-                        </div>
-                    </div>
-                )}
-            </div>
+                <CardFooter className='flex justify-between gap-4 pt-6'>
+                    {step > 1 && (
+                        <Button
+                            variant='outline'
+                            className='flex-1 border-white/10'
+                            onClick={() => setStep(step - 1)}
+                        >
+                            Retour
+                        </Button>
+                    )}
+                    {step < 3 ? (
+                        <Button
+                            className='flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:opacity-90 transition-opacity'
+                            onClick={() => setStep(step + 1)}
+                        >
+                            Suivant
+                        </Button>
+                    ) : (
+                        <Button
+                            className='flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:opacity-90 transition-opacity'
+                            onClick={handleSubmit}
+                            disabled={isLoading}
+                        >
+                            {isLoading ? 'Génération...' : 'Générer mon programme'}
+                        </Button>
+                    )}
+                </CardFooter>
+            </Card>
         </div>
     );
 };

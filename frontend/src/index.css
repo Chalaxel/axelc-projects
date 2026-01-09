@@ -1,169 +1,147 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+@import "tailwindcss";
+
+@theme {
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
 }
 
-html,
-body {
-    height: 100%;
+@layer base {
+  :root {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --radius: 0.5rem;
+  }
 }
 
-body {
-    font-family:
-        'Inter',
-        system-ui,
-        -apple-system,
-        sans-serif;
-    background: #0f172a;
-    color: #f8fafc;
-    -webkit-font-smoothing: antialiased;
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
 }
 
-#root {
-    height: 100%;
-}
+/* Custom styles below */
 
 .onboarding-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 2rem;
+    @apply flex justify-center items-center min-h-screen p-8;
 }
 
 .onboarding-card {
-    background: rgba(30, 41, 59, 0.7);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 3rem;
-    border-radius: 20px;
-    width: 600px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    @apply bg-slate-900/70 backdrop-blur-xl border border-white/10 p-12 rounded-[20px] w-[600px] shadow-2xl;
 }
 
 .progress-bar {
-    height: 4px;
-    background: rgba(255, 255, 255, 0.1);
-    margin-bottom: 3rem;
-    border-radius: 2px;
+    @apply h-1 bg-white/10 mb-12 rounded-sm overflow-hidden;
 }
 
 .progress {
-    height: 100%;
-    background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-    transition: width 0.3s ease;
+    @apply h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-300;
 }
 
 h2 {
-    font-size: 2rem;
-    margin-bottom: 2rem;
-    font-weight: 700;
+    @apply text-3xl mb-8 font-bold;
 }
 
 .distance-grid,
 .level-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 1rem;
-    margin-bottom: 2rem;
+    @apply grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))] gap-4 mb-8;
 }
 
 .distance-btn,
 .level-btn {
-    padding: 1rem;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: white;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.2s;
+    @apply p-4 bg-white/5 border border-white/10 text-white rounded-xl cursor-pointer transition-all hover:bg-white/10;
 }
 
 .distance-btn.active,
 .level-btn.active {
-    background: #3b82f6;
-    border-color: #3b82f6;
-    box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+    @apply bg-blue-600 border-blue-600 shadow-[0_0_20px_rgba(59,130,246,0.4)];
 }
 
 .next-btn,
 .submit-btn {
-    width: 100%;
-    padding: 1.2rem;
-    background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-    border: none;
-    color: white;
-    font-weight: 600;
-    border-radius: 12px;
-    cursor: pointer;
-    font-size: 1.1rem;
+    @apply w-full p-5 bg-gradient-to-r from-blue-500 to-purple-500 border-none text-white font-semibold rounded-xl cursor-pointer text-lg hover:opacity-90 transition-opacity;
 }
 
 .dashboard-container {
-    padding: 4rem 2rem;
-    max-width: 1000px;
-    margin: 0 auto;
+    @apply py-16 px-8 max-w-[1000px] mx-auto;
 }
 
 .dashboard-header {
-    margin-bottom: 4rem;
+    @apply mb-16;
 }
 
 .header-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
+    @apply flex justify-between items-center mb-8;
 }
 
 .delete-plan-btn {
-    background: #ef4444;
-    color: white;
-    border: none;
-    padding: 0.6rem 1.2rem;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    font-size: 0.9rem;
-}
-
-.delete-plan-btn:hover {
-    background: #dc2626;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+    @apply bg-red-500 text-white border-none py-2.5 px-5 rounded-lg font-semibold cursor-pointer transition-all text-sm hover:bg-red-600 active:translate-y-px hover:shadow-[0_4px_12px_rgba(239,68,68,0.3)];
 }
 
 .plan-info span {
-    margin-left: 2rem;
-    background: rgba(59, 130, 246, 0.1);
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
+    @apply ml-8 bg-blue-500/10 py-2 px-4 rounded-[20px];
 }
 
 .goals-badges {
-    display: flex;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
+    @apply flex gap-2 mt-2;
 }
 
 .goal-badge {
-    font-size: 0.8rem;
-    padding: 0.3rem 0.8rem;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.1);
+    @apply text-[0.8rem] py-1 px-3 rounded-xl bg-white/10;
 }
 
 .goal-badge.active {
-    background: rgba(59, 130, 246, 0.3);
-    border: 1px solid #3b82f6;
+    @apply bg-blue-500/30 border border-blue-500;
 }
 
 .active-goal-info {
-    background: rgba(255, 255, 255, 0.03);
-    padding: 2rem;
-    border-radius: 16px;
-    margin-bottom: 3rem;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    @apply bg-white/3 p-8 rounded-2xl mb-12 border border-white/5;
 }

@@ -4,6 +4,9 @@ import { SessionItem } from './SessionItem';
 import { SessionForm } from './SessionForm';
 import { sessionApi } from '../services/sessionApi';
 import { useAuth } from '../context/AuthContext';
+import { Button } from '@/components/ui/button';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Plus, LogOut, Loader2, Calendar } from 'lucide-react';
 
 export const SessionList = () => {
     const { user, logout } = useAuth();
@@ -85,125 +88,110 @@ export const SessionList = () => {
 
     if (loading) {
         return (
-            <div style={{ textAlign: 'center', padding: '2rem' }}>
-                <p>Chargement...</p>
+            <div className='flex flex-col items-center justify-center min-h-[60vh] gap-4'>
+                <Loader2 className='w-8 h-8 animate-spin text-blue-500' />
+                <p className='text-slate-400 font-medium'>Chargement...</p>
             </div>
         );
     }
 
     return (
-        <div style={{ maxWidth: '800px', margin: '0 auto', padding: '2rem' }}>
-            <div
-                style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    marginBottom: '2rem',
-                }}
-            >
-                <h1 style={{ margin: 0, color: '#333' }}>{"Mes Séances d'Entraînement"}</h1>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        <div className='max-w-4xl mx-auto py-12 px-6'>
+            <header className='flex justify-between items-center mb-12 border-b border-white/5 pb-8'>
+                <div className='flex flex-col gap-1'>
+                    <h1 className='text-3xl font-black tracking-tight text-white uppercase'>
+                        Mes Séances
+                    </h1>
                     {user && (
-                        <span style={{ color: '#666', fontSize: '0.9rem' }}>{user.email}</span>
+                        <p className='text-xs text-slate-500 font-bold uppercase tracking-widest'>
+                            Athlète: {user.email}
+                        </p>
                     )}
-                    <button
-                        onClick={logout}
-                        style={{
-                            padding: '0.5rem 1rem',
-                            backgroundColor: '#dc3545',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '4px',
-                            cursor: 'pointer',
-                            fontSize: '0.9rem',
-                        }}
-                    >
-                        Déconnexion
-                    </button>
                 </div>
-            </div>
+                <Button 
+                    variant='ghost' 
+                    size='sm' 
+                    onClick={logout}
+                    className='text-slate-400 hover:text-red-400 hover:bg-red-400/5 transition-all'
+                >
+                    <LogOut className='w-4 h-4 mr-2' />
+                    Déconnexion
+                </Button>
+            </header>
 
             {error && (
-                <div
-                    style={{
-                        padding: '1rem',
-                        backgroundColor: '#f8d7da',
-                        color: '#721c24',
-                        borderRadius: '4px',
-                        marginBottom: '1rem',
-                    }}
-                >
+                <div className='p-4 mb-8 bg-red-500/10 border border-red-500/20 text-red-400 rounded-lg text-sm font-bold'>
                     {error}
                 </div>
             )}
 
-            {!showForm && !editingSession && (
-                <div style={{ marginBottom: '2rem' }}>
-                    <button
+            <div className='mb-12'>
+                {!showForm && !editingSession && (
+                    <Button 
                         onClick={() => setShowForm(true)}
-                        style={{
-                            padding: '0.75rem 1.5rem',
-                            backgroundColor: '#28a745',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '4px',
-                            cursor: 'pointer',
-                            fontSize: '1rem',
-                            fontWeight: 'bold',
-                        }}
+                        className='bg-blue-600 hover:bg-blue-700 text-white font-bold h-12 px-8 shadow-xl shadow-blue-500/20 rounded-xl transition-all hover:scale-105'
                     >
-                        + Nouvelle séance
-                    </button>
-                </div>
-            )}
+                        <Plus className='w-5 h-5 mr-2' />
+                        Nouvelle séance
+                    </Button>
+                )}
 
-            {showForm && (
-                <div style={{ marginBottom: '2rem' }}>
-                    <h2 style={{ marginBottom: '1rem', color: '#333' }}>
-                        Créer une nouvelle séance
-                    </h2>
-                    <SessionForm onSubmit={handleCreate} onCancel={handleCancelCreate} />
-                </div>
-            )}
+                {showForm && (
+                    <Card className='border-white/10 bg-slate-900/60 shadow-2xl overflow-hidden'>
+                        <CardHeader className='bg-white/5 border-b border-white/5'>
+                            <CardTitle className='text-xl font-bold flex items-center gap-2'>
+                                <Plus className='w-5 h-5 text-blue-400' />
+                                Créer une nouvelle séance
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent className='pt-8'>
+                            <SessionForm onSubmit={handleCreate} onCancel={handleCancelCreate} />
+                        </CardContent>
+                    </Card>
+                )}
 
-            {editingSession && (
-                <div style={{ marginBottom: '2rem' }}>
-                    <h2 style={{ marginBottom: '1rem', color: '#333' }}>Éditer la séance</h2>
-                    <SessionForm
-                        onSubmit={handleUpdate}
-                        onCancel={handleCancelEdit}
-                        initialData={{
-                            sport: editingSession.sport,
-                            blocks: editingSession.blocks,
-                        }}
-                    />
-                </div>
-            )}
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                {sessions.length === 0 ? (
-                    <div
-                        style={{
-                            textAlign: 'center',
-                            padding: '3rem',
-                            color: '#666',
-                            backgroundColor: '#f9f9f9',
-                            borderRadius: '8px',
-                        }}
-                    >
-                        <p>Aucune séance pour le moment. Créez-en une ci-dessus !</p>
-                    </div>
-                ) : (
-                    sessions.map(session => (
-                        <SessionItem
-                            key={session.id}
-                            session={session}
-                            onEdit={handleEdit}
-                            onDelete={handleDelete}
-                        />
-                    ))
+                {editingSession && (
+                    <Card className='border-white/10 bg-slate-900/60 shadow-2xl overflow-hidden'>
+                        <CardHeader className='bg-white/5 border-b border-white/5'>
+                            <CardTitle className='text-xl font-bold flex items-center gap-2'>
+                                <Plus className='w-5 h-5 text-blue-400' />
+                                Éditer la séance
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent className='pt-8'>
+                            <SessionForm
+                                onSubmit={handleUpdate}
+                                onCancel={handleCancelEdit}
+                                initialData={{
+                                    sport: editingSession.sport,
+                                    blocks: editingSession.blocks,
+                                }}
+                            />
+                        </CardContent>
+                    </Card>
                 )}
             </div>
+
+            <section className='space-y-6'>
+                {sessions.length === 0 ? (
+                    <div className='flex flex-col items-center justify-center py-24 text-slate-500 border-2 border-dashed border-white/5 rounded-3xl bg-white/2 grayscale opacity-50 transition-opacity hover:opacity-100'>
+                        <Calendar className='w-12 h-12 mb-4 opacity-20' />
+                        <p className='font-bold uppercase tracking-[0.2em] text-[10px]'>Aucune séance enregistrée</p>
+                        <p className='text-sm mt-2 font-medium opacity-60'>Planifiez votre première sortie pour commencer.</p>
+                    </div>
+                ) : (
+                    <div className='grid gap-6'>
+                        {sessions.map(session => (
+                            <SessionItem
+                                key={session.id}
+                                session={session}
+                                onEdit={handleEdit}
+                                onDelete={handleDelete}
+                            />
+                        ))}
+                    </div>
+                )}
+            </section>
         </div>
     );
 };

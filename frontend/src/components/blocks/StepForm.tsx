@@ -1,6 +1,10 @@
 import { SportEnum, Step, StepGoal } from '@shared/types';
 import { GoalFields } from '../goals/GoalFields';
-import { formStyles } from '../../styles/formStyles';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Trash2 } from 'lucide-react';
 
 interface StepFormProps {
     step: Step;
@@ -24,65 +28,51 @@ export const StepForm = ({
     onRemove,
 }: StepFormProps) => {
     return (
-        <div style={formStyles.cardNested}>
-            <div
-                style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    marginBottom: '0.5rem',
-                }}
-            >
-                <span style={{ fontWeight: 'bold', fontSize: '0.9rem', color: '#666' }}>
+        <div className='p-6 mb-4 border border-white/5 rounded-xl bg-slate-950/30 relative group transition-all hover:border-emerald-500/20'>
+            <div className='flex justify-between items-center mb-6'>
+                <span className='text-[10px] font-black uppercase tracking-[0.2em] text-slate-500'>
                     Étape {stepIndex + 1}
                 </span>
                 {totalSteps > 1 && (
-                    <button
-                        type='button'
+                    <Button
+                        variant='ghost'
+                        size='sm'
                         onClick={onRemove}
-                        style={{
-                            ...formStyles.button,
-                            padding: '0.25rem 0.5rem',
-                            ...formStyles.buttonDanger,
-                            fontSize: '0.75rem',
-                        }}
+                        className='text-slate-500 hover:text-red-400 hover:bg-red-400/5 h-8 w-8 p-0 opacity-0 group-hover:opacity-100 transition-all'
                     >
-                        ×
-                    </button>
+                        <Trash2 className='w-4 h-4' />
+                    </Button>
                 )}
             </div>
+            
             <GoalFields goal={step.goal} sport={sport} onChange={onGoalChange} />
-            <div style={{ marginTop: '1rem', display: 'flex', gap: '1rem' }}>
-                <div style={{ flex: 1 }}>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem' }}>
-                        Récupération après étape (secondes, optionnel)
-                    </label>
-                    <input
+            
+            <div className='mt-6 grid grid-cols-1 md:grid-cols-2 gap-6'>
+                <div className='space-y-2'>
+                    <Label className='text-[10px] font-black uppercase tracking-[0.2em] text-slate-500'>
+                        Récup après étape (sec)
+                    </Label>
+                    <Input
                         type='number'
                         min='0'
                         value={step.recovery || ''}
                         onChange={e => onRecoveryChange(e.target.value)}
-                        style={{
-                            width: '100%',
-                            padding: '0.5rem',
-                            border: '1px solid #ddd',
-                            borderRadius: '4px',
-                        }}
+                        className='bg-white/5 border-white/5 focus:border-emerald-500/50 text-slate-400'
                         placeholder='Secondes'
                     />
                 </div>
-            </div>
-            <div style={{ marginTop: '1rem' }}>
-                <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem' }}>
-                    Notes (optionnel)
-                </label>
-                <textarea
-                    value={step.note || ''}
-                    onChange={e => onNoteChange(e.target.value)}
-                    rows={2}
-                    style={formStyles.textarea}
-                    placeholder='Notes sur cette étape...'
-                />
+                <div className='space-y-2'>
+                    <Label className='text-[10px] font-black uppercase tracking-[0.2em] text-slate-500'>
+                        Note d'étape
+                    </Label>
+                    <Textarea
+                        value={step.note || ''}
+                        onChange={e => onNoteChange(e.target.value)}
+                        rows={1}
+                        className='bg-white/5 border-white/5 focus:border-emerald-500/50 transition-all resize-none text-slate-400 text-xs py-2'
+                        placeholder='Détails spécifiques...'
+                    />
+                </div>
             </div>
         </div>
     );
