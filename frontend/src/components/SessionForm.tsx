@@ -185,7 +185,7 @@ export const SessionForm = ({ onSubmit, onCancel }: SessionFormProps) => {
                                     onNoteChange={value => updateBlockNote(blockIndex, value)}
                                     onAddStep={() => addStep(blockIndex)}
                                     onRemoveStep={stepIndex => removeStep(blockIndex, stepIndex)}
-                                    onStepGoalChange={(stepIndex, field, value) =>
+                                    onStepChange={(stepIndex, field, value) =>
                                         updateStepGoal(blockIndex, stepIndex, field, value)
                                     }
                                     onStepRecoveryChange={(stepIndex, value) => {

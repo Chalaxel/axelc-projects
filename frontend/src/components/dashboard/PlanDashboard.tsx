@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { TriathlonPlan, Session, UserGoal } from '@shared/types';
+import { TriathlonPlan, UserGoal } from '@shared/types';
 import { planApi } from '../../services/planApi';
-import { sessionApi } from '../../services/sessionApi';
-import { SessionItem } from '../SessionItem';
 import { useAuth } from '../../context/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -12,7 +10,6 @@ import { Trash2, Calendar, Target, Clock, Loader2 } from 'lucide-react';
 export const PlanDashboard: React.FC = () => {
     const { user } = useAuth();
     const [plan, setPlan] = useState<TriathlonPlan | null>(null);
-    const [sessions, setSessions] = useState<Session[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
     const goals = user?.profile?.goals || [];
@@ -23,10 +20,6 @@ export const PlanDashboard: React.FC = () => {
             try {
                 const currentPlan = await planApi.getCurrentPlan();
                 setPlan(currentPlan);
-
-                const allSessions = await sessionApi.getSessions();
-                // Filter sessions for the current week or similar logic
-                setSessions(allSessions.slice(0, 10));
             } catch (error) {
                 console.error('Error fetching dashboard data:', error);
             } finally {
@@ -93,12 +86,12 @@ export const PlanDashboard: React.FC = () => {
     };
 
     return (
-        <div className='mx-auto max-w-5xl px-6 py-12 pb-24'>
+        <div className='space-y-12'>
             <header className='mb-12 flex flex-col gap-8'>
                 <div className='flex items-start justify-between'>
                     <div>
                         <h1 className='text-foreground mb-2 text-4xl font-black tracking-tighter uppercase'>
-                            P3RF DASHBOARD
+                            Plan d&apos;Entraînement
                         </h1>
                         <p className='text-muted-foreground font-medium tracking-wide'>
                             VOTRE PROGRESSION, ANALYSÉE ET OPTIMISÉE POUR LE JOUR J.
@@ -193,35 +186,6 @@ export const PlanDashboard: React.FC = () => {
                     </CardContent>
                 </Card>
             )}
-
-            <section className='space-y-8'>
-                <div className='border-border flex items-end justify-between border-b pb-4'>
-                    <h2 className='text-foreground flex items-center gap-3 text-2xl font-black tracking-tight'>
-                        <div className='bg-primary h-8 w-2 rounded-full'></div>
-                        PROCHAINES SÉANCES
-                    </h2>
-                    <Button
-                        variant='link'
-                        className='text-primary hover:text-primary/80 text-[10px] font-bold tracking-widest uppercase'
-                        onClick={() => (window.location.href = '/sessions')}
-                    >
-                        Voir tout le calendrier
-                    </Button>
-                </div>
-
-                <div className='grid gap-6'>
-                    {sessions.length > 0 ? (
-                        sessions.map(session => <SessionItem key={session.id} session={session} />)
-                    ) : (
-                        <div className='border-border bg-muted/20 text-muted-foreground flex h-48 flex-col items-center justify-center gap-3 rounded-3xl border-2 border-dashed'>
-                            <Calendar className='text-muted-foreground/20 h-10 w-10' />
-                            <p className='text-[10px] font-medium tracking-widest uppercase'>
-                                Aucune séance aujourd&apos;hui
-                            </p>
-                        </div>
-                    )}
-                </div>
-            </section>
         </div>
     );
 };

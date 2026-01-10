@@ -13,32 +13,33 @@ if (!rootElement) {
 import { OnboardingWizard } from './components/onboarding/OnboardingWizard';
 import { PlanDashboard } from './components/dashboard/PlanDashboard';
 import { SessionList } from './components/SessionList';
+import { MainLayout } from './components/layout/MainLayout';
 
 const App = () => {
     const { user, isAuthenticated, isLoading } = useAuth();
 
     if (isLoading) {
         return (
-            <div className='loading-screen'>
-                <p>Initialisation de votre coach...</p>
+            <div className='bg-background flex min-h-screen items-center justify-center'>
+                <div className='flex flex-col items-center gap-4'>
+                    <div className='bg-primary h-12 w-12 animate-bounce rounded-full'></div>
+                    <p className='text-muted-foreground text-xs font-bold tracking-widest uppercase'>
+                        Initialisation de votre coach...
+                    </p>
+                </div>
             </div>
         );
     }
 
     if (!isAuthenticated) return <AuthPage />;
 
-    // Simple routing based on URL or profile
     const path = window.location.pathname;
 
     if (path === '/onboarding' || !user?.profile) {
         return <OnboardingWizard />;
     }
 
-    if (path === '/sessions') {
-        return <SessionList />;
-    }
-
-    return <PlanDashboard />;
+    return <MainLayout>{path === '/sessions' ? <SessionList /> : <PlanDashboard />}</MainLayout>;
 };
 
 createRoot(rootElement).render(

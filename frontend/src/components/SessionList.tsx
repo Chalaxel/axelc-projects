@@ -1,19 +1,14 @@
 import { useState, useEffect } from 'react';
-import { Session, SessionCreationAttributes } from '@shared/types';
+import { Session } from '@shared/types';
 import { SessionItem } from './SessionItem';
-import { SessionForm } from './SessionForm';
 import { sessionApi } from '../services/sessionApi';
-import { useAuth } from '../context/AuthContext';
 import { Button } from '@/components/ui/button';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Plus, LogOut, Loader2, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Loader2, ChevronLeft, ChevronRight } from 'lucide-react';
 
 export const SessionList = () => {
-    const { user, logout } = useAuth();
     const [sessions, setSessions] = useState<Session[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [showForm, setShowForm] = useState(false);
 
     const getStartOfWeek = (date: Date) => {
         const d = new Date(date);
@@ -47,21 +42,6 @@ export const SessionList = () => {
     useEffect(() => {
         loadSessions();
     }, []);
-
-    const handleCreate = async (data: SessionCreationAttributes) => {
-        try {
-            await sessionApi.createSession(data);
-            await loadSessions();
-            setShowForm(false);
-        } catch (err) {
-            setError('Erreur lors de la création de la session');
-            console.error('Error creating session:', err);
-        }
-    };
-
-    const handleCancelCreate = () => {
-        setShowForm(false);
-    };
 
     const navigateWeek = (weeks: number) => {
         const newDate = new Date(currentWeekStart);
@@ -107,38 +87,17 @@ export const SessionList = () => {
     }
 
     return (
-        <div className='mx-auto max-w-4xl px-6 py-12'>
-            <header className='border-border mb-12 flex items-center justify-between border-b pb-8'>
+        <div className='space-y-12'>
+            <section className='border-border flex items-center justify-between border-b pb-8'>
                 <div className='flex flex-col gap-1'>
                     <h1 className='text-foreground text-3xl font-black tracking-tight uppercase'>
                         Mes Séances
                     </h1>
-                    {user && (
-                        <p className='text-muted-foreground text-xs font-bold tracking-widest uppercase'>
-                            Athlète: {user.email}
-                        </p>
-                    )}
+                    <p className='text-muted-foreground text-xs font-bold tracking-widest uppercase'>
+                        Calendrier hebdomadaire
+                    </p>
                 </div>
-                <div className='flex items-center gap-4'>
-                    <Button
-                        variant='ghost'
-                        size='sm'
-                        onClick={() => (window.location.href = '/')}
-                        className='text-muted-foreground hover:bg-primary/5 hover:text-primary transition-all'
-                    >
-                        Dashboard
-                    </Button>
-                    <Button
-                        variant='ghost'
-                        size='sm'
-                        onClick={logout}
-                        className='text-muted-foreground hover:bg-destructive/5 hover:text-destructive transition-all'
-                    >
-                        <LogOut className='mr-2 h-4 w-4' />
-                        Déconnexion
-                    </Button>
-                </div>
-            </header>
+            </section>
 
             {error && (
                 <div className='border-destructive/20 bg-destructive/10 text-destructive mb-8 rounded-lg border p-4 text-sm font-bold'>
@@ -149,15 +108,6 @@ export const SessionList = () => {
             <div className='mb-12'>
                 <div className='mb-8 flex items-center justify-between'>
                     <div className='flex items-center gap-4'>
-                        {!showForm && (
-                            <Button
-                                onClick={() => setShowForm(true)}
-                                className='bg-primary text-primary-foreground h-10 rounded-xl px-6 font-bold shadow-lg transition-all hover:scale-105'
-                            >
-                                <Plus className='mr-2 h-4 w-4' />
-                                Nouvelle séance
-                            </Button>
-                        )}
                         <Button
                             variant='outline'
                             size='sm'
@@ -205,20 +155,6 @@ export const SessionList = () => {
                         </Button>
                     </div>
                 </div>
-
-                {showForm && (
-                    <Card className='border-border bg-card overflow-hidden shadow-2xl'>
-                        <CardHeader className='border-border bg-muted/30 border-b'>
-                            <CardTitle className='flex items-center gap-2 text-xl font-bold'>
-                                <Plus className='text-primary h-5 w-5' />
-                                Créer une nouvelle séance
-                            </CardTitle>
-                        </CardHeader>
-                        <CardContent className='pt-8'>
-                            <SessionForm onSubmit={handleCreate} onCancel={handleCancelCreate} />
-                        </CardContent>
-                    </Card>
-                )}
             </div>
 
             <section className='space-y-12'>
