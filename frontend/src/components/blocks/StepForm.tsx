@@ -28,9 +28,9 @@ export const StepForm = ({
     onRemove,
 }: StepFormProps) => {
     return (
-        <div className='group relative mb-4 rounded-xl border border-white/5 bg-slate-950/30 p-6 transition-all hover:border-emerald-500/20'>
+        <div className='group border-border bg-muted/20 hover:border-primary/20 relative mb-4 rounded-xl border p-6 transition-all'>
             <div className='mb-6 flex items-center justify-between'>
-                <span className='text-[10px] font-black tracking-[0.2em] text-slate-500 uppercase'>
+                <span className='text-muted-foreground text-[10px] font-black tracking-[0.2em] uppercase'>
                     Étape {stepIndex + 1}
                 </span>
                 {totalSteps > 1 && (
@@ -57,7 +57,7 @@ export const StepForm = ({
                         min='0'
                         value={step.recovery || ''}
                         onChange={e => onRecoveryChange(e.target.value)}
-                        className='border-white/5 bg-white/5 text-slate-400 focus:border-emerald-500/50'
+                        className='border-border bg-card text-foreground focus:border-primary/50'
                         placeholder='Secondes'
                     />
                 </div>
@@ -69,7 +69,7 @@ export const StepForm = ({
                         value={step.note || ''}
                         onChange={e => onNoteChange(e.target.value)}
                         rows={1}
-                        className='resize-none border-white/5 bg-white/5 py-2 text-xs text-slate-400 transition-all focus:border-emerald-500/50'
+                        className='border-border bg-card focus:border-primary/50 text-muted-foreground resize-none py-2 text-xs transition-all'
                         placeholder='Détails spécifiques...'
                     />
                 </div>

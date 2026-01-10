@@ -40,8 +40,10 @@ export const PlanDashboard: React.FC = () => {
     if (isLoading) {
         return (
             <div className='flex min-h-[60vh] flex-col items-center justify-center gap-4'>
-                <Loader2 className='h-8 w-8 animate-spin text-blue-500' />
-                <p className='font-medium text-slate-400'>Chargement de votre programme...</p>
+                <Loader2 className='text-primary h-8 w-8 animate-spin' />
+                <p className='text-muted-foreground font-medium'>
+                    Chargement de votre programme...
+                </p>
             </div>
         );
     }
@@ -49,20 +51,22 @@ export const PlanDashboard: React.FC = () => {
     if (!plan && goals.length === 0) {
         return (
             <div className='flex min-h-[80vh] items-center justify-center px-4'>
-                <Card className='w-full max-w-md border-dashed border-white/10 bg-white/5 shadow-2xl backdrop-blur-sm'>
+                <Card className='border-border bg-card w-full max-w-md border-dashed shadow-xl'>
                     <CardHeader className='text-center'>
-                        <div className='mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full border border-blue-500/20 bg-blue-500/10'>
-                            <Target className='h-8 w-8 text-blue-500' />
+                        <div className='border-primary/20 bg-primary/10 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full border'>
+                            <Target className='text-primary h-8 w-8' />
                         </div>
-                        <CardTitle className='text-2xl font-bold'>Aucun objectif fixé</CardTitle>
-                        <CardDescription>
+                        <CardTitle className='text-foreground text-2xl font-bold'>
+                            Aucun objectif fixé
+                        </CardTitle>
+                        <CardDescription className='text-muted-foreground'>
                             Vous n&apos;avez pas encore de programme d&apos;entraînement. Commencez
                             par fixer un nouvel objectif pour générer votre coaching personnalisé.
                         </CardDescription>
                     </CardHeader>
                     <CardContent className='flex justify-center pb-8'>
                         <Button
-                            className='bg-blue-600 px-8 font-bold shadow-lg shadow-blue-500/25 transition-all hover:scale-105 hover:bg-blue-700 active:scale-95'
+                            className='bg-primary text-primary-foreground px-8 font-bold shadow-lg transition-all hover:scale-105 active:scale-95'
                             onClick={() => (window.location.href = '/onboarding')}
                         >
                             Démarrer mon coaching
@@ -93,10 +97,10 @@ export const PlanDashboard: React.FC = () => {
             <header className='mb-12 flex flex-col gap-8'>
                 <div className='flex items-start justify-between'>
                     <div>
-                        <h1 className='mb-2 bg-gradient-to-r from-white to-slate-500 bg-clip-text text-4xl font-black tracking-tighter text-transparent uppercase'>
+                        <h1 className='text-foreground mb-2 text-4xl font-black tracking-tighter uppercase'>
                             P3RF DASHBOARD
                         </h1>
-                        <p className='font-medium tracking-wide text-slate-400'>
+                        <p className='text-muted-foreground font-medium tracking-wide'>
                             VOTRE PROGRESSION, ANALYSÉE ET OPTIMISÉE POUR LE JOUR J.
                         </p>
                     </div>
@@ -104,7 +108,7 @@ export const PlanDashboard: React.FC = () => {
                         variant='destructive'
                         size='sm'
                         onClick={handleDeletePlan}
-                        className='border border-red-500/20 bg-red-500/5 text-red-500 shadow-lg shadow-red-500/5 transition-all hover:bg-red-500 hover:text-white'
+                        className='bg-destructive/10 text-destructive border-destructive/20 hover:bg-destructive hover:text-destructive-foreground border shadow-sm transition-all'
                     >
                         <Trash2 className='mr-2 h-4 w-4' />
                         Réinitialiser
@@ -113,8 +117,8 @@ export const PlanDashboard: React.FC = () => {
 
                 {goals.length > 0 && (
                     <div className='space-y-4'>
-                        <div className='flex items-center text-[10px] font-black tracking-[0.2em] text-slate-500 uppercase'>
-                            <Target className='mr-2 h-3 w-3' />
+                        <div className='text-muted-foreground flex items-center text-[10px] font-black tracking-[0.2em] uppercase'>
+                            <Target className='text-primary mr-2 h-3 w-3' />
                             Objectifs prévus
                         </div>
                         <div className='flex flex-wrap gap-3'>
@@ -122,10 +126,10 @@ export const PlanDashboard: React.FC = () => {
                                 <Badge
                                     key={g.id}
                                     variant='outline'
-                                    className={`rounded-full border-white/5 px-4 py-2 transition-all duration-300 ${
+                                    className={`border-border rounded-full px-4 py-2 transition-all duration-300 ${
                                         g.status === 'active'
-                                            ? 'border-blue-500/20 bg-blue-500/10 text-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.1)]'
-                                            : 'bg-white/5 text-slate-500 hover:bg-white/10'
+                                            ? 'border-primary/20 bg-primary/10 text-primary shadow-sm'
+                                            : 'bg-muted text-muted-foreground hover:bg-muted/80'
                                     }`}
                                 >
                                     <span className='mr-2 font-bold'>{g.targetDistance}</span>
@@ -143,42 +147,42 @@ export const PlanDashboard: React.FC = () => {
             </header>
 
             {activeGoal && (
-                <Card className='group relative mb-16 overflow-hidden border border-none border-white/5 bg-slate-900/40 shadow-2xl backdrop-blur-md'>
-                    <div className='absolute -top-24 -right-24 h-64 w-64 rounded-full bg-blue-500/10 blur-3xl transition-all duration-700 group-hover:bg-blue-500/20'></div>
+                <Card className='border-border bg-card group relative mb-16 overflow-hidden border shadow-xl'>
+                    <div className='from-primary/5 group-hover:from-primary/10 absolute -top-24 -right-24 h-64 w-64 rounded-full bg-gradient-to-br to-transparent blur-3xl transition-all duration-700'></div>
                     <CardHeader className='relative z-10 pb-2'>
-                        <Badge className='mb-3 w-fit rounded-sm bg-blue-600 px-2 py-0.5 text-[10px] font-black tracking-tighter hover:bg-blue-600'>
+                        <Badge className='bg-primary text-primary-foreground hover:bg-primary mb-3 w-fit rounded-sm px-2 py-0.5 text-[10px] font-black tracking-tighter'>
                             ACTIVE PLAN
                         </Badge>
-                        <CardTitle className='flex items-baseline gap-2 text-4xl font-black tracking-tight text-white'>
+                        <CardTitle className='text-foreground flex items-baseline gap-2 text-4xl font-black tracking-tight'>
                             Objectif {activeGoal.targetDistance}
                         </CardTitle>
                     </CardHeader>
                     <CardContent className='relative z-10 flex flex-wrap gap-10 py-6'>
                         <div className='flex items-center gap-4'>
-                            <div className='rounded-xl border border-blue-500/20 bg-blue-500/10 p-3'>
-                                <Clock className='h-6 w-6 text-blue-400' />
+                            <div className='border-primary/20 bg-primary/10 rounded-xl border p-3'>
+                                <Clock className='text-primary h-6 w-6' />
                             </div>
                             <div>
-                                <p className='text-[10px] font-black tracking-widest text-slate-500 uppercase'>
+                                <p className='text-muted-foreground text-[10px] font-black tracking-widest uppercase'>
                                     Volume hebdo
                                 </p>
-                                <p className='text-xl font-bold text-white'>
+                                <p className='text-foreground text-xl font-bold'>
                                     {activeGoal.weeklyAvailability}h{' '}
-                                    <span className='text-sm font-medium text-slate-500'>
+                                    <span className='text-muted-foreground text-sm font-medium'>
                                         estimé
                                     </span>
                                 </p>
                             </div>
                         </div>
                         <div className='flex items-center gap-4'>
-                            <div className='rounded-xl border border-purple-500/20 bg-purple-500/10 p-3'>
-                                <Calendar className='h-6 w-6 text-purple-400' />
+                            <div className='border-secondary/20 bg-secondary/10 rounded-xl border p-3'>
+                                <Calendar className='text-secondary h-6 w-6' />
                             </div>
                             <div>
-                                <p className='text-[10px] font-black tracking-widest text-slate-500 uppercase'>
+                                <p className='text-muted-foreground text-[10px] font-black tracking-widest uppercase'>
                                     Course cible
                                 </p>
-                                <p className='text-xl font-bold text-white'>
+                                <p className='text-foreground text-xl font-bold'>
                                     {new Date(activeGoal.raceDate || '').toLocaleDateString(
                                         'fr-FR',
                                         { day: 'numeric', month: 'long', year: 'numeric' },
@@ -191,14 +195,14 @@ export const PlanDashboard: React.FC = () => {
             )}
 
             <section className='space-y-8'>
-                <div className='flex items-end justify-between border-b border-white/5 pb-4'>
-                    <h2 className='flex items-center gap-3 text-2xl font-black tracking-tight'>
-                        <div className='h-8 w-2 rounded-full bg-blue-500'></div>
+                <div className='border-border flex items-end justify-between border-b pb-4'>
+                    <h2 className='text-foreground flex items-center gap-3 text-2xl font-black tracking-tight'>
+                        <div className='bg-primary h-8 w-2 rounded-full'></div>
                         PROCHAINES SÉANCES
                     </h2>
                     <Button
                         variant='link'
-                        className='text-[10px] font-bold tracking-widest text-blue-400 uppercase hover:text-blue-300'
+                        className='text-primary hover:text-primary/80 text-[10px] font-bold tracking-widest uppercase'
                         onClick={() => (window.location.href = '/sessions')}
                     >
                         Voir tout le calendrier
@@ -209,8 +213,8 @@ export const PlanDashboard: React.FC = () => {
                     {sessions.length > 0 ? (
                         sessions.map(session => <SessionItem key={session.id} session={session} />)
                     ) : (
-                        <div className='flex h-48 flex-col items-center justify-center gap-3 rounded-3xl border-2 border-dashed border-white/5 bg-white/2 text-slate-500 grayscale'>
-                            <Calendar className='h-10 w-10 opacity-20' />
+                        <div className='border-border bg-muted/20 text-muted-foreground flex h-48 flex-col items-center justify-center gap-3 rounded-3xl border-2 border-dashed'>
+                            <Calendar className='text-muted-foreground/20 h-10 w-10' />
                             <p className='text-[10px] font-medium tracking-widest uppercase'>
                                 Aucune séance aujourd&apos;hui
                             </p>

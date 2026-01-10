@@ -20,7 +20,7 @@ export const SessionDetails = ({ notes, onNotesChange }: SessionDetailsProps) =>
                     <Button
                         variant='ghost'
                         size='sm'
-                        className='p-0 text-[10px] font-bold tracking-widest text-slate-400 uppercase transition-all hover:bg-transparent hover:text-blue-400'
+                        className='text-muted-foreground hover:text-primary p-0 text-[10px] font-bold tracking-widest uppercase transition-all hover:bg-transparent'
                     >
                         {isOpen ? (
                             <ChevronDown className='mr-2 h-4 w-4' />
@@ -32,10 +32,10 @@ export const SessionDetails = ({ notes, onNotesChange }: SessionDetailsProps) =>
                 </CollapsibleTrigger>
             </div>
             <CollapsibleContent className='space-y-4 pt-2'>
-                <div className='rounded-xl border border-white/5 bg-white/2 p-6 transition-all hover:bg-white/5'>
+                <div className='border-border bg-muted/10 hover:bg-muted/20 rounded-xl border p-6 transition-all'>
                     <div className='mb-4 flex items-center gap-3'>
-                        <MessageSquare className='h-4 w-4 text-blue-500 opacity-50' />
-                        <Label className='text-[10px] font-black tracking-[0.2em] text-slate-500 uppercase'>
+                        <MessageSquare className='text-primary h-4 w-4 opacity-50' />
+                        <Label className='text-muted-foreground text-[10px] font-black tracking-[0.2em] uppercase'>
                             Instructions générales
                         </Label>
                     </div>
@@ -43,7 +43,7 @@ export const SessionDetails = ({ notes, onNotesChange }: SessionDetailsProps) =>
                         value={notes}
                         onChange={e => onNotesChange(e.target.value)}
                         rows={3}
-                        className='resize-none border-white/5 bg-white/5 text-slate-300 transition-all focus:border-blue-500/50'
+                        className='border-border bg-card text-foreground focus:border-primary/50 resize-none font-medium transition-all'
                         placeholder='Échauffement, météo, sensations...'
                     />
                 </div>

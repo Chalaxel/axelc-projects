@@ -10,7 +10,7 @@ interface BlockDisplayProps {
 export const BlockDisplay = ({ block, sport }: BlockDisplayProps) => {
     if (block.type === SessionBlockType.SIMPLE) {
         return (
-            <div className='mb-4 rounded-lg border border-white/5 bg-white/5 p-4'>
+            <div className='border-border bg-muted/30 mb-4 rounded-lg border p-4'>
                 <div className='mb-3 flex items-center justify-between'>
                     <Badge variant='secondary' className='border-none bg-blue-500/20 text-blue-400'>
                         Bloc simple
@@ -22,7 +22,7 @@ export const BlockDisplay = ({ block, sport }: BlockDisplayProps) => {
                     </div>
                 )}
                 {block.note && (
-                    <div className='mt-3 rounded border border-white/5 bg-slate-950/50 p-3 text-xs text-slate-400 italic'>
+                    <div className='border-border bg-card text-muted-foreground mt-3 rounded border p-3 text-xs italic'>
                         <strong className='mr-1 text-slate-300 not-italic'>Note:</strong>{' '}
                         {block.note}
                     </div>
@@ -32,7 +32,7 @@ export const BlockDisplay = ({ block, sport }: BlockDisplayProps) => {
     }
 
     return (
-        <div className='mb-4 rounded-lg border border-white/5 bg-white/5 p-4'>
+        <div className='border-border bg-muted/20 mb-4 rounded-lg border p-4'>
             <div className='mb-4 flex items-center justify-between'>
                 <Badge
                     variant='secondary'
@@ -47,10 +47,7 @@ export const BlockDisplay = ({ block, sport }: BlockDisplayProps) => {
 
             <div className='space-y-3 border-l-2 border-emerald-500/20 pl-2'>
                 {block.steps?.map((step, stepIndex) => (
-                    <div
-                        key={stepIndex}
-                        className='rounded border border-white/5 bg-slate-950/30 p-3'
-                    >
+                    <div key={stepIndex} className='border-border bg-card rounded border p-3'>
                         <div className='mb-2 flex items-center justify-between'>
                             <span className='text-[10px] font-bold tracking-widest text-slate-500 uppercase'>
                                 Étape {stepIndex + 1}
@@ -74,7 +71,7 @@ export const BlockDisplay = ({ block, sport }: BlockDisplayProps) => {
             </div>
 
             {block.note && (
-                <div className='mt-4 rounded border border-white/5 bg-slate-950/50 p-3 text-xs text-slate-400 italic'>
+                <div className='border-border bg-card text-muted-foreground mt-4 rounded border p-3 text-xs italic'>
                     <strong className='mr-1 text-slate-300 not-italic'>Note série:</strong>{' '}
                     {block.note}
                 </div>

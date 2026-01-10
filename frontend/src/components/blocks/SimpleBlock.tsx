@@ -22,9 +22,9 @@ export const SimpleBlock = ({
     onRemove,
 }: SimpleBlockProps) => {
     return (
-        <div className='group relative mb-6 rounded-2xl border border-white/5 bg-slate-900/40 p-6 transition-all hover:border-blue-500/20'>
+        <div className='group border-border bg-card hover:border-primary/20 relative mb-6 rounded-2xl border p-6 shadow-sm transition-all'>
             <div className='mb-6 flex items-center justify-between'>
-                <Badge className='bg-blue-600 font-bold tracking-tighter uppercase'>
+                <Badge className='bg-primary text-primary-foreground font-bold tracking-tighter uppercase'>
                     Bloc simple
                 </Badge>
                 <Button
@@ -39,15 +39,15 @@ export const SimpleBlock = ({
 
             <GoalFields goal={block.goal} sport={sport} onChange={onGoalChange} />
 
-            <div className='mt-6 space-y-2'>
-                <Label className='text-[10px] font-black tracking-[0.2em] text-slate-500 uppercase'>
-                    Notes complémenaires
+            <div className='border-border mt-6 space-y-2 border-t pt-4'>
+                <Label className='text-muted-foreground text-[10px] font-black tracking-[0.2em] uppercase'>
+                    Notes complémentaires
                 </Label>
                 <Textarea
                     value={block.note || ''}
                     onChange={e => onNoteChange(e.target.value)}
                     rows={2}
-                    className='resize-none border-white/5 bg-white/5 text-slate-300 transition-all focus:border-blue-500/50'
+                    className='border-border bg-muted/30 text-foreground focus:border-primary/50 resize-none transition-all'
                     placeholder="Précisions sur l'allure, le terrain, etc."
                 />
             </div>

@@ -100,21 +100,21 @@ export const SessionList = () => {
     if (loading) {
         return (
             <div className='flex min-h-[60vh] flex-col items-center justify-center gap-4'>
-                <Loader2 className='h-8 w-8 animate-spin text-blue-500' />
-                <p className='font-medium text-slate-400'>Chargement...</p>
+                <Loader2 className='text-primary h-8 w-8 animate-spin' />
+                <p className='text-muted-foreground font-medium'>Chargement...</p>
             </div>
         );
     }
 
     return (
         <div className='mx-auto max-w-4xl px-6 py-12'>
-            <header className='mb-12 flex items-center justify-between border-b border-white/5 pb-8'>
+            <header className='border-border mb-12 flex items-center justify-between border-b pb-8'>
                 <div className='flex flex-col gap-1'>
-                    <h1 className='text-3xl font-black tracking-tight text-white uppercase'>
+                    <h1 className='text-foreground text-3xl font-black tracking-tight uppercase'>
                         Mes Séances
                     </h1>
                     {user && (
-                        <p className='text-xs font-bold tracking-widest text-slate-500 uppercase'>
+                        <p className='text-muted-foreground text-xs font-bold tracking-widest uppercase'>
                             Athlète: {user.email}
                         </p>
                     )}
@@ -124,7 +124,7 @@ export const SessionList = () => {
                         variant='ghost'
                         size='sm'
                         onClick={() => (window.location.href = '/')}
-                        className='text-slate-400 transition-all hover:bg-blue-400/5 hover:text-blue-400'
+                        className='text-muted-foreground hover:bg-primary/5 hover:text-primary transition-all'
                     >
                         Dashboard
                     </Button>
@@ -132,7 +132,7 @@ export const SessionList = () => {
                         variant='ghost'
                         size='sm'
                         onClick={logout}
-                        className='text-slate-400 transition-all hover:bg-red-400/5 hover:text-red-400'
+                        className='text-muted-foreground hover:bg-destructive/5 hover:text-destructive transition-all'
                     >
                         <LogOut className='mr-2 h-4 w-4' />
                         Déconnexion
@@ -141,7 +141,7 @@ export const SessionList = () => {
             </header>
 
             {error && (
-                <div className='mb-8 rounded-lg border border-red-500/20 bg-red-500/10 p-4 text-sm font-bold text-red-400'>
+                <div className='border-destructive/20 bg-destructive/10 text-destructive mb-8 rounded-lg border p-4 text-sm font-bold'>
                     {error}
                 </div>
             )}
@@ -152,7 +152,7 @@ export const SessionList = () => {
                         {!showForm && (
                             <Button
                                 onClick={() => setShowForm(true)}
-                                className='h-10 rounded-xl bg-blue-600 px-6 font-bold text-white shadow-lg shadow-blue-500/20 transition-all hover:scale-105 hover:bg-blue-700'
+                                className='bg-primary text-primary-foreground h-10 rounded-xl px-6 font-bold shadow-lg transition-all hover:scale-105'
                             >
                                 <Plus className='mr-2 h-4 w-4' />
                                 Nouvelle séance
@@ -162,27 +162,27 @@ export const SessionList = () => {
                             variant='outline'
                             size='sm'
                             onClick={goToToday}
-                            className='h-10 border-white/10 bg-white/5 font-bold text-slate-400 hover:bg-white/10 hover:text-white'
+                            className='border-border bg-card text-muted-foreground hover:bg-muted font-bold'
                         >
                             Aujourd&apos;hui
                         </Button>
                     </div>
 
-                    <div className='flex items-center gap-6 rounded-2xl border border-white/5 bg-slate-900/40 p-1 px-4 backdrop-blur-sm'>
+                    <div className='border-border bg-card flex items-center gap-6 rounded-2xl border p-1 px-4 shadow-sm'>
                         <Button
                             variant='ghost'
                             size='icon'
                             onClick={() => navigateWeek(-1)}
-                            className='h-8 w-8 text-slate-400 hover:bg-white/10 hover:text-white'
+                            className='text-muted-foreground hover:bg-muted h-8 w-8'
                         >
                             <ChevronLeft className='h-5 w-5' />
                         </Button>
 
                         <div className='flex min-w-[200px] flex-col items-center'>
-                            <span className='text-[10px] font-black tracking-widest text-blue-500 uppercase'>
+                            <span className='text-primary text-[10px] font-black tracking-widest uppercase'>
                                 Semaine du
                             </span>
-                            <span className='text-sm font-bold text-white'>
+                            <span className='text-foreground text-sm font-bold'>
                                 {currentWeekStart.toLocaleDateString('fr-FR', {
                                     day: 'numeric',
                                     month: 'long',
@@ -199,7 +199,7 @@ export const SessionList = () => {
                             variant='ghost'
                             size='icon'
                             onClick={() => navigateWeek(1)}
-                            className='h-8 w-8 text-slate-400 hover:bg-white/10 hover:text-white'
+                            className='text-muted-foreground hover:bg-muted h-8 w-8'
                         >
                             <ChevronRight className='h-5 w-5' />
                         </Button>
@@ -207,10 +207,10 @@ export const SessionList = () => {
                 </div>
 
                 {showForm && (
-                    <Card className='overflow-hidden border-white/10 bg-slate-900/60 shadow-2xl'>
-                        <CardHeader className='border-b border-white/5 bg-white/5'>
+                    <Card className='border-border bg-card overflow-hidden shadow-2xl'>
+                        <CardHeader className='border-border bg-muted/30 border-b'>
                             <CardTitle className='flex items-center gap-2 text-xl font-bold'>
-                                <Plus className='h-5 w-5 text-blue-400' />
+                                <Plus className='text-primary h-5 w-5' />
                                 Créer une nouvelle séance
                             </CardTitle>
                         </CardHeader>
@@ -224,12 +224,12 @@ export const SessionList = () => {
             <section className='space-y-12'>
                 {sessionsByDay.map(day => (
                     <div key={day.name} className='space-y-4'>
-                        <div className='flex items-center justify-between border-b border-white/5 pb-2'>
+                        <div className='border-border flex items-center justify-between border-b pb-2'>
                             <div className='flex items-baseline gap-3'>
-                                <h3 className='text-lg font-black tracking-tight text-white uppercase'>
+                                <h3 className='text-foreground text-lg font-black tracking-tight uppercase'>
                                     {day.name}
                                 </h3>
-                                <span className='text-xs font-bold text-slate-500'>
+                                <span className='text-muted-foreground text-xs font-bold'>
                                     {day.date.toLocaleDateString('fr-FR', {
                                         day: 'numeric',
                                         month: 'long',
@@ -237,7 +237,7 @@ export const SessionList = () => {
                                 </span>
                             </div>
                             {day.sessions.length > 0 && (
-                                <span className='text-[10px] font-black tracking-widest text-blue-500/60 uppercase'>
+                                <span className='text-primary/60 text-[10px] font-black tracking-widest uppercase'>
                                     {day.sessions.length} séance{day.sessions.length > 1 ? 's' : ''}
                                 </span>
                             )}

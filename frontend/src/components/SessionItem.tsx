@@ -14,24 +14,24 @@ export const SessionItem = ({ session }: SessionItemProps) => {
 
     const getSportIcon = (sport: string) => {
         return (
-            <div className='mr-4 flex h-10 w-10 items-center justify-center rounded-full bg-blue-500/20 font-bold text-blue-400 uppercase'>
+            <div className='bg-primary/10 text-primary mr-4 flex h-10 w-10 items-center justify-center rounded-full font-bold uppercase'>
                 {sport[0]}
             </div>
         );
     };
 
     return (
-        <Card className='group mb-6 overflow-hidden border-white/5 bg-slate-900/40 shadow-xl backdrop-blur-sm'>
+        <Card className='group border-border bg-card mb-6 overflow-hidden shadow-sm'>
             <CardHeader className='flex flex-row items-center justify-between pb-2'>
                 <div className='flex items-center'>
                     {getSportIcon(session.sport)}
                     <div>
-                        <CardTitle className='text-xl font-bold text-white transition-colors group-hover:text-blue-400'>
+                        <CardTitle className='text-foreground group-hover:text-primary text-xl font-bold transition-colors'>
                             {getSportLabel(session.sport)}
                         </CardTitle>
                         <div className='mt-1 flex flex-wrap gap-4'>
-                            <div className='flex items-center text-xs text-slate-400'>
-                                <Layers className='mr-1 h-3 w-3 text-slate-500' />
+                            <div className='text-muted-foreground flex items-center text-xs'>
+                                <Layers className='text-muted-foreground/60 mr-1 h-3 w-3' />
                                 <span className='font-medium'>
                                     {blocksCount} bloc{blocksCount > 1 ? 's' : ''}
                                     {seriesCount > 0 &&
@@ -39,7 +39,7 @@ export const SessionItem = ({ session }: SessionItemProps) => {
                                 </span>
                             </div>
                             {session.date && (
-                                <div className='flex items-center text-xs text-blue-400/80'>
+                                <div className='text-primary/80 flex items-center text-xs'>
                                     <span className='mr-1 font-black tracking-widest uppercase'>
                                         Date:
                                     </span>
@@ -53,7 +53,7 @@ export const SessionItem = ({ session }: SessionItemProps) => {
                                 </div>
                             )}
                             {session.weekNumber && (
-                                <div className='flex items-center text-xs text-emerald-400/80'>
+                                <div className='text-secondary/80 flex items-center text-xs'>
                                     <span className='mr-1 font-black tracking-widest uppercase'>
                                         Semaine:
                                     </span>
@@ -67,8 +67,8 @@ export const SessionItem = ({ session }: SessionItemProps) => {
 
             <CardContent>
                 {session.data?.notes && (
-                    <div className='mb-6 rounded-xl border border-blue-500/10 bg-blue-500/5 p-4 text-sm text-slate-300 italic'>
-                        <span className='mr-2 text-[10px] font-black tracking-widest text-blue-400 uppercase not-italic'>
+                    <div className='border-primary/10 bg-primary/5 text-muted-foreground mb-6 rounded-xl border p-4 text-sm italic'>
+                        <span className='text-primary mr-2 text-[10px] font-black tracking-widest uppercase not-italic'>
                             Objectif:
                         </span>
                         {session.data.notes}
