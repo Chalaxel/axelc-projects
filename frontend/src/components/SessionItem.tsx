@@ -1,21 +1,27 @@
-import { Session, SessionBlockType } from '@shared/types';
+import { Session, SessionBlockType, SportEnum } from '@shared/types';
 import { getSportLabel } from '../utils/sessionHelpers';
 import { BlockDisplay } from './blocks/BlockDisplay';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Layers } from 'lucide-react';
+import { Layers, FootprintsIcon, BikeIcon, WavesIcon } from 'lucide-react';
 
 interface SessionItemProps {
     session: Session;
 }
 
+const sportIcons = {
+    [SportEnum.SWIM]: <WavesIcon className='h-4 w-4' />,
+    [SportEnum.CYCLING]: <BikeIcon className='h-4 w-4' />,
+    [SportEnum.RUN]: <FootprintsIcon className='h-4 w-4' />,
+};
+
 export const SessionItem = ({ session }: SessionItemProps) => {
     const blocksCount = session.blocks?.length || 0;
     const seriesCount = session.blocks?.filter(b => b.type === SessionBlockType.SERIES).length || 0;
 
-    const getSportIcon = (sport: string) => {
+    const getSportIcon = (sport: SportEnum) => {
         return (
-            <div className='bg-primary/10 text-primary mr-4 flex h-10 w-10 items-center justify-center rounded-full font-bold uppercase'>
-                {sport[0]}
+            <div className='bg-primary/10 text-primary mr-4 flex h-8 w-8 items-center justify-center rounded-full font-bold uppercase'>
+                {sportIcons[sport]}
             </div>
         );
     };
