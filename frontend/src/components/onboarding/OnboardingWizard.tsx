@@ -51,16 +51,16 @@ export const OnboardingWizard: React.FC = () => {
     };
 
     return (
-        <div className='flex items-center justify-center min-h-screen bg-background p-4'>
-            <Card className='w-full max-w-[600px] border-none shadow-2xl bg-slate-900/50 backdrop-blur-xl'>
+        <div className='bg-background flex min-h-screen items-center justify-center p-4'>
+            <Card className='w-full max-w-[600px] border-none bg-slate-900/50 shadow-2xl backdrop-blur-xl'>
                 <CardHeader>
-                    <div className='w-full h-1 bg-white/10 rounded-full mb-6 overflow-hidden'>
+                    <div className='mb-6 h-1 w-full overflow-hidden rounded-full bg-white/10'>
                         <div
                             className='h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-500 ease-out'
                             style={{ width: `${(step / 3) * 100}%` }}
                         ></div>
                     </div>
-                    <CardTitle className='text-3xl font-bold bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent'>
+                    <CardTitle className='bg-gradient-to-r from-white to-slate-400 bg-clip-text text-3xl font-bold text-transparent'>
                         {step === 1 && 'Quel est votre objectif ?'}
                         {step === 2 && 'Votre profil de sportif'}
                         {step === 3 && 'Votre date de course'}
@@ -82,7 +82,7 @@ export const OnboardingWizard: React.FC = () => {
                                     variant={newGoal.targetDistance === d ? 'default' : 'outline'}
                                     className={`h-24 text-lg font-bold transition-all ${
                                         newGoal.targetDistance === d
-                                            ? 'bg-blue-600 hover:bg-blue-700 shadow-[0_0_20px_rgba(59,130,246,0.4)]'
+                                            ? 'bg-blue-600 shadow-[0_0_20px_rgba(59,130,246,0.4)] hover:bg-blue-700'
                                             : 'border-white/10 hover:bg-white/5'
                                     }`}
                                     onClick={() => setNewGoal({ ...newGoal, targetDistance: d })}
@@ -96,7 +96,7 @@ export const OnboardingWizard: React.FC = () => {
                     {step === 2 && (
                         <div className='space-y-10'>
                             <div className='space-y-4'>
-                                <Label className='text-sm uppercase tracking-widest text-slate-400'>
+                                <Label className='text-sm tracking-widest text-slate-400 uppercase'>
                                     Niveau actuel
                                 </Label>
                                 <div className='grid grid-cols-3 gap-3'>
@@ -118,8 +118,8 @@ export const OnboardingWizard: React.FC = () => {
                             </div>
 
                             <div className='space-y-6'>
-                                <div className='flex justify-between items-end'>
-                                    <Label className='text-sm uppercase tracking-widest text-slate-400'>
+                                <div className='flex items-end justify-between'>
+                                    <Label className='text-sm tracking-widest text-slate-400 uppercase'>
                                         Temps disponible par semaine
                                     </Label>
                                     <span className='text-2xl font-bold text-blue-400'>
@@ -146,7 +146,7 @@ export const OnboardingWizard: React.FC = () => {
                             <Input
                                 id='race-date'
                                 type='date'
-                                className='h-12 bg-white/5 border-white/10'
+                                className='h-12 border-white/10 bg-white/5'
                                 value={newGoal.raceDate}
                                 onChange={e => setNewGoal({ ...newGoal, raceDate: e.target.value })}
                             />
@@ -166,14 +166,14 @@ export const OnboardingWizard: React.FC = () => {
                     )}
                     {step < 3 ? (
                         <Button
-                            className='flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:opacity-90 transition-opacity'
+                            className='flex-1 bg-gradient-to-r from-blue-600 to-purple-600 transition-opacity hover:opacity-90'
                             onClick={() => setStep(step + 1)}
                         >
                             Suivant
                         </Button>
                     ) : (
                         <Button
-                            className='flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:opacity-90 transition-opacity'
+                            className='flex-1 bg-gradient-to-r from-blue-600 to-purple-600 transition-opacity hover:opacity-90'
                             onClick={handleSubmit}
                             disabled={isLoading}
                         >

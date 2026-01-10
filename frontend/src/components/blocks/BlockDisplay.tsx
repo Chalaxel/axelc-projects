@@ -10,20 +10,21 @@ interface BlockDisplayProps {
 export const BlockDisplay = ({ block, sport }: BlockDisplayProps) => {
     if (block.type === SessionBlockType.SIMPLE) {
         return (
-            <div className='mb-4 p-4 border border-white/5 rounded-lg bg-white/5'>
-                <div className='flex justify-between items-center mb-3'>
-                    <Badge variant='secondary' className='bg-blue-500/20 text-blue-400 border-none'>
+            <div className='mb-4 rounded-lg border border-white/5 bg-white/5 p-4'>
+                <div className='mb-3 flex items-center justify-between'>
+                    <Badge variant='secondary' className='border-none bg-blue-500/20 text-blue-400'>
                         Bloc simple
                     </Badge>
                 </div>
                 {block.goal && (
-                    <div className='text-slate-200 text-sm font-medium'>
+                    <div className='text-sm font-medium text-slate-200'>
                         {formatGoal(block.goal, sport)}
                     </div>
                 )}
                 {block.note && (
-                    <div className='mt-3 p-3 bg-slate-950/50 rounded border border-white/5 text-xs text-slate-400 italic'>
-                        <strong className='text-slate-300 not-italic mr-1'>Note:</strong> {block.note}
+                    <div className='mt-3 rounded border border-white/5 bg-slate-950/50 p-3 text-xs text-slate-400 italic'>
+                        <strong className='mr-1 text-slate-300 not-italic'>Note:</strong>{' '}
+                        {block.note}
                     </div>
                 )}
             </div>
@@ -31,26 +32,27 @@ export const BlockDisplay = ({ block, sport }: BlockDisplayProps) => {
     }
 
     return (
-        <div className='mb-4 p-4 border border-white/5 rounded-lg bg-white/5'>
-            <div className='flex justify-between items-center mb-4'>
-                <Badge variant='secondary' className='bg-emerald-500/20 text-emerald-400 border-none'>
+        <div className='mb-4 rounded-lg border border-white/5 bg-white/5 p-4'>
+            <div className='mb-4 flex items-center justify-between'>
+                <Badge
+                    variant='secondary'
+                    className='border-none bg-emerald-500/20 text-emerald-400'
+                >
                     Série × {block.repetitions}
                 </Badge>
                 {block.recovery !== undefined && (
-                    <span className='text-xs text-slate-400'>
-                        Récup: {block.recovery}s
-                    </span>
+                    <span className='text-xs text-slate-400'>Récup: {block.recovery}s</span>
                 )}
             </div>
 
-            <div className='space-y-3 pl-2 border-l-2 border-emerald-500/20'>
+            <div className='space-y-3 border-l-2 border-emerald-500/20 pl-2'>
                 {block.steps?.map((step, stepIndex) => (
                     <div
                         key={stepIndex}
-                        className='p-3 border border-white/5 rounded bg-slate-950/30'
+                        className='rounded border border-white/5 bg-slate-950/30 p-3'
                     >
-                        <div className='flex justify-between items-center mb-2'>
-                            <span className='text-[10px] uppercase tracking-widest text-slate-500 font-bold'>
+                        <div className='mb-2 flex items-center justify-between'>
+                            <span className='text-[10px] font-bold tracking-widest text-slate-500 uppercase'>
                                 Étape {stepIndex + 1}
                             </span>
                             {step.recovery !== undefined && (
@@ -60,22 +62,21 @@ export const BlockDisplay = ({ block, sport }: BlockDisplayProps) => {
                             )}
                         </div>
                         {step.goal && (
-                            <div className='text-slate-200 text-sm'>
+                            <div className='text-sm text-slate-200'>
                                 {formatGoal(step.goal, sport)}
                             </div>
                         )}
                         {step.note && (
-                            <div className='mt-1 text-xs text-slate-400 italic'>
-                                {step.note}
-                            </div>
+                            <div className='mt-1 text-xs text-slate-400 italic'>{step.note}</div>
                         )}
                     </div>
                 ))}
             </div>
 
             {block.note && (
-                <div className='mt-4 p-3 bg-slate-950/50 rounded border border-white/5 text-xs text-slate-400 italic'>
-                    <strong className='text-slate-300 not-italic mr-1'>Note série:</strong> {block.note}
+                <div className='mt-4 rounded border border-white/5 bg-slate-950/50 p-3 text-xs text-slate-400 italic'>
+                    <strong className='mr-1 text-slate-300 not-italic'>Note série:</strong>{' '}
+                    {block.note}
                 </div>
             )}
         </div>

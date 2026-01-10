@@ -57,7 +57,9 @@ export const useSessionForm = (initialData?: SessionCreationAttributes) => {
     };
 
     const updateSeriesRecovery = (blockIndex: number, value: number | string) => {
-        updateBlock(blockIndex, { recovery: value === '' ? undefined : Number(value) });
+        updateBlock(blockIndex, {
+            recovery: value === '' ? undefined : Number(value),
+        });
     };
 
     const updateBlockGoal = (

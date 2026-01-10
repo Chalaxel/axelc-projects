@@ -8,21 +8,21 @@ export const AuthPage = () => {
     const [activeTab, setActiveTab] = useState<'login' | 'register'>('login');
 
     return (
-        <div className='flex items-center justify-center min-h-screen bg-background'>
+        <div className='bg-background flex min-h-screen items-center justify-center'>
             <Card className='w-full max-w-[500px] shadow-lg'>
                 <CardHeader>
-                    <CardTitle className='text-center text-3xl font-bold text-foreground'>
+                    <CardTitle className='text-foreground text-center text-3xl font-bold'>
                         Mes Séances d'Entraînement
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <div className='flex border-b border-border mb-8'>
+                    <div className='border-border mb-8 flex border-b'>
                         <Button
                             variant='ghost'
-                            className={`flex-1 rounded-none border-b-2 hover:bg-transparent transition-all ${
+                            className={`flex-1 rounded-none border-b-2 transition-all hover:bg-transparent ${
                                 activeTab === 'login'
-                                    ? 'border-primary font-bold text-primary'
-                                    : 'border-transparent text-muted-foreground'
+                                    ? 'border-primary text-primary font-bold'
+                                    : 'text-muted-foreground border-transparent'
                             }`}
                             onClick={() => setActiveTab('login')}
                         >
@@ -30,10 +30,10 @@ export const AuthPage = () => {
                         </Button>
                         <Button
                             variant='ghost'
-                            className={`flex-1 rounded-none border-b-2 hover:bg-transparent transition-all ${
+                            className={`flex-1 rounded-none border-b-2 transition-all hover:bg-transparent ${
                                 activeTab === 'register'
-                                    ? 'border-primary font-bold text-primary'
-                                    : 'border-transparent text-muted-foreground'
+                                    ? 'border-primary text-primary font-bold'
+                                    : 'text-muted-foreground border-transparent'
                             }`}
                             onClick={() => setActiveTab('register')}
                         >

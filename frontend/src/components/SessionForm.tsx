@@ -47,19 +47,19 @@ export const SessionForm = ({ onSubmit, onCancel, initialData }: SessionFormProp
 
     return (
         <form onSubmit={handleSubmit} className='space-y-10'>
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
+            <div className='grid grid-cols-1 gap-8 md:grid-cols-2'>
                 <div className='space-y-3'>
                     <Label
                         htmlFor='sport'
-                        className='text-[10px] font-black uppercase tracking-[0.2em] text-slate-500'
+                        className='text-[10px] font-black tracking-[0.2em] text-slate-500 uppercase'
                     >
                         Discipline d'entraînement *
                     </Label>
                     <Select value={sport} onValueChange={val => setSport(val as SportEnum)}>
-                        <SelectTrigger className='bg-white/5 border-white/10 h-12 text-blue-400 font-bold'>
+                        <SelectTrigger className='h-12 border-white/10 bg-white/5 font-bold text-blue-400'>
                             <SelectValue placeholder='Choisir un sport' />
                         </SelectTrigger>
-                        <SelectContent className='bg-slate-900 border-white/10'>
+                        <SelectContent className='border-white/10 bg-slate-900'>
                             <SelectItem value={SportEnum.RUN}>Course à pied</SelectItem>
                             <SelectItem value={SportEnum.SWIM}>Natation</SelectItem>
                             <SelectItem value={SportEnum.CYCLING}>Cyclisme</SelectItem>
@@ -71,9 +71,9 @@ export const SessionForm = ({ onSubmit, onCancel, initialData }: SessionFormProp
             </div>
 
             <div className='space-y-8'>
-                <div className='flex justify-between items-center border-b border-white/5 pb-4'>
+                <div className='flex items-center justify-between border-b border-white/5 pb-4'>
                     <div className='flex items-center gap-3'>
-                        <div className='w-1 h-6 bg-blue-500 rounded-full'></div>
+                        <div className='h-6 w-1 rounded-full bg-blue-500'></div>
                         <Label className='text-lg font-black tracking-tight text-white uppercase'>
                             Structure de la séance
                         </Label>
@@ -84,9 +84,9 @@ export const SessionForm = ({ onSubmit, onCancel, initialData }: SessionFormProp
                             variant='outline'
                             size='sm'
                             onClick={() => addBlock(SessionBlockType.SIMPLE)}
-                            className='border-blue-500/30 text-blue-400 hover:bg-blue-500 hover:text-white transition-all font-bold text-[10px] uppercase tracking-widest'
+                            className='border-blue-500/30 text-[10px] font-bold tracking-widest text-blue-400 uppercase transition-all hover:bg-blue-500 hover:text-white'
                         >
-                            <Plus className='w-4 h-4 mr-2' />
+                            <Plus className='mr-2 h-4 w-4' />
                             Bloc simple
                         </Button>
                         <Button
@@ -94,21 +94,21 @@ export const SessionForm = ({ onSubmit, onCancel, initialData }: SessionFormProp
                             variant='outline'
                             size='sm'
                             onClick={() => addBlock(SessionBlockType.SERIES)}
-                            className='border-emerald-500/30 text-emerald-400 hover:bg-emerald-500 hover:text-white transition-all font-bold text-[10px] uppercase tracking-widest'
+                            className='border-emerald-500/30 text-[10px] font-bold tracking-widest text-emerald-400 uppercase transition-all hover:bg-emerald-500 hover:text-white'
                         >
-                            <Plus className='w-4 h-4 mr-2' />
+                            <Plus className='mr-2 h-4 w-4' />
                             Série répétée
                         </Button>
                     </div>
                 </div>
 
                 {blocks.length === 0 && (
-                    <div className='py-20 flex flex-col items-center justify-center text-slate-500 border-2 border-dashed border-white/5 rounded-3xl bg-white/2'>
-                        <Info className='w-10 h-10 mb-4 opacity-20 text-blue-400' />
-                        <p className='font-bold uppercase tracking-[0.2em] text-[10px]'>
+                    <div className='flex flex-col items-center justify-center rounded-3xl border-2 border-dashed border-white/5 bg-white/2 py-20 text-slate-500'>
+                        <Info className='mb-4 h-10 w-10 text-blue-400 opacity-20' />
+                        <p className='text-[10px] font-bold tracking-[0.2em] uppercase'>
                             Aucun contenu défini
                         </p>
-                        <p className='text-xs mt-2 opacity-50 font-medium text-center max-w-xs'>
+                        <p className='mt-2 max-w-xs text-center text-xs font-medium opacity-50'>
                             Ajoutez un bloc simple ou une série pour construire votre entraînement.
                         </p>
                     </div>
@@ -165,23 +165,23 @@ export const SessionForm = ({ onSubmit, onCancel, initialData }: SessionFormProp
                 </div>
             </div>
 
-            <div className='flex gap-4 justify-end pt-8 border-t border-white/5'>
+            <div className='flex justify-end gap-4 border-t border-white/5 pt-8'>
                 {onCancel && (
                     <Button
                         type='button'
                         variant='ghost'
                         onClick={onCancel}
-                        className='text-slate-400 hover:text-white uppercase text-[10px] font-black tracking-[0.2em]'
+                        className='text-[10px] font-black tracking-[0.2em] text-slate-400 uppercase hover:text-white'
                     >
-                        <X className='w-4 h-4 mr-2' />
+                        <X className='mr-2 h-4 w-4' />
                         Annuler
                     </Button>
                 )}
                 <Button
                     type='submit'
-                    className='bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 px-10 h-12 uppercase text-[10px] font-black tracking-[0.2em] shadow-xl shadow-blue-500/20 transition-all hover:scale-105 active:scale-95'
+                    className='h-12 bg-gradient-to-r from-blue-600 to-blue-700 px-10 text-[10px] font-black tracking-[0.2em] uppercase shadow-xl shadow-blue-500/20 transition-all hover:scale-105 hover:from-blue-500 hover:to-blue-600 active:scale-95'
                 >
-                    <Check className='w-4 h-4 mr-2' />
+                    <Check className='mr-2 h-4 w-4' />
                     {initialData ? 'Enregistrer les modifications' : 'Confirmer la séance'}
                 </Button>
             </div>

@@ -22,32 +22,32 @@ export const SimpleBlock = ({
     onRemove,
 }: SimpleBlockProps) => {
     return (
-        <div className='p-6 mb-6 border border-white/5 rounded-2xl bg-slate-900/40 relative group transition-all hover:border-blue-500/20'>
-            <div className='flex justify-between items-center mb-6'>
-                <Badge className='bg-blue-600 font-bold uppercase tracking-tighter'>
+        <div className='group relative mb-6 rounded-2xl border border-white/5 bg-slate-900/40 p-6 transition-all hover:border-blue-500/20'>
+            <div className='mb-6 flex items-center justify-between'>
+                <Badge className='bg-blue-600 font-bold tracking-tighter uppercase'>
                     Bloc simple
                 </Badge>
                 <Button
                     variant='ghost'
                     size='sm'
                     onClick={onRemove}
-                    className='text-slate-500 hover:text-red-400 hover:bg-red-400/5 opacity-0 group-hover:opacity-100 transition-all'
+                    className='text-slate-500 opacity-0 transition-all group-hover:opacity-100 hover:bg-red-400/5 hover:text-red-400'
                 >
-                    <Trash2 className='w-4 h-4' />
+                    <Trash2 className='h-4 w-4' />
                 </Button>
             </div>
 
             <GoalFields goal={block.goal} sport={sport} onChange={onGoalChange} />
 
             <div className='mt-6 space-y-2'>
-                <Label className='text-[10px] font-black uppercase tracking-[0.2em] text-slate-500'>
+                <Label className='text-[10px] font-black tracking-[0.2em] text-slate-500 uppercase'>
                     Notes complémenaires
                 </Label>
                 <Textarea
                     value={block.note || ''}
                     onChange={e => onNoteChange(e.target.value)}
                     rows={2}
-                    className='bg-white/5 border-white/5 focus:border-blue-500/50 transition-all resize-none text-slate-300'
+                    className='resize-none border-white/5 bg-white/5 text-slate-300 transition-all focus:border-blue-500/50'
                     placeholder="Précisions sur l'allure, le terrain, etc."
                 />
             </div>

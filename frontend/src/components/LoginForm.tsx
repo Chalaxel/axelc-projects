@@ -33,7 +33,7 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
     return (
         <form onSubmit={handleSubmit} className='space-y-4'>
             {error && (
-                <div className='p-3 bg-destructive/15 text-destructive rounded-md text-sm border border-destructive/20'>
+                <div className='bg-destructive/15 text-destructive border-destructive/20 rounded-md border p-3 text-sm'>
                     {error}
                 </div>
             )}

@@ -64,84 +64,88 @@
   }
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family:
+      "Inter",
+      system-ui,
+      -apple-system,
+      sans-serif;
   }
 }
 
 /* Custom styles below */
 
 .onboarding-container {
-    @apply flex justify-center items-center min-h-screen p-8;
+  @apply flex min-h-screen items-center justify-center p-8;
 }
 
 .onboarding-card {
-    @apply bg-slate-900/70 backdrop-blur-xl border border-white/10 p-12 rounded-[20px] w-[600px] shadow-2xl;
+  @apply w-[600px] rounded-[20px] border border-white/10 bg-slate-900/70 p-12 shadow-2xl backdrop-blur-xl;
 }
 
 .progress-bar {
-    @apply h-1 bg-white/10 mb-12 rounded-sm overflow-hidden;
+  @apply mb-12 h-1 overflow-hidden rounded-sm bg-white/10;
 }
 
 .progress {
-    @apply h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-300;
+  @apply h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-300;
 }
 
 h2 {
-    @apply text-3xl mb-8 font-bold;
+  @apply mb-8 text-3xl font-bold;
 }
 
 .distance-grid,
 .level-grid {
-    @apply grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))] gap-4 mb-8;
+  @apply mb-8 grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))] gap-4;
 }
 
 .distance-btn,
 .level-btn {
-    @apply p-4 bg-white/5 border border-white/10 text-white rounded-xl cursor-pointer transition-all hover:bg-white/10;
+  @apply cursor-pointer rounded-xl border border-white/10 bg-white/5 p-4 text-white transition-all hover:bg-white/10;
 }
 
 .distance-btn.active,
 .level-btn.active {
-    @apply bg-blue-600 border-blue-600 shadow-[0_0_20px_rgba(59,130,246,0.4)];
+  @apply border-blue-600 bg-blue-600 shadow-[0_0_20px_rgba(59,130,246,0.4)];
 }
 
 .next-btn,
 .submit-btn {
-    @apply w-full p-5 bg-gradient-to-r from-blue-500 to-purple-500 border-none text-white font-semibold rounded-xl cursor-pointer text-lg hover:opacity-90 transition-opacity;
+  @apply w-full cursor-pointer rounded-xl border-none bg-gradient-to-r from-blue-500 to-purple-500 p-5 text-lg font-semibold text-white transition-opacity hover:opacity-90;
 }
 
 .dashboard-container {
-    @apply py-16 px-8 max-w-[1000px] mx-auto;
+  @apply mx-auto max-w-[1000px] px-8 py-16;
 }
 
 .dashboard-header {
-    @apply mb-16;
+  @apply mb-16;
 }
 
 .header-top {
-    @apply flex justify-between items-center mb-8;
+  @apply mb-8 flex items-center justify-between;
 }
 
 .delete-plan-btn {
-    @apply bg-red-500 text-white border-none py-2.5 px-5 rounded-lg font-semibold cursor-pointer transition-all text-sm hover:bg-red-600 active:translate-y-px hover:shadow-[0_4px_12px_rgba(239,68,68,0.3)];
+  @apply cursor-pointer rounded-lg border-none bg-red-500 px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-red-600 hover:shadow-[0_4px_12px_rgba(239,68,68,0.3)] active:translate-y-px;
 }
 
 .plan-info span {
-    @apply ml-8 bg-blue-500/10 py-2 px-4 rounded-[20px];
+  @apply ml-8 rounded-[20px] bg-blue-500/10 px-4 py-2;
 }
 
 .goals-badges {
-    @apply flex gap-2 mt-2;
+  @apply mt-2 flex gap-2;
 }
 
 .goal-badge {
-    @apply text-[0.8rem] py-1 px-3 rounded-xl bg-white/10;
+  @apply rounded-xl bg-white/10 px-3 py-1 text-[0.8rem];
 }
 
 .goal-badge.active {
-    @apply bg-blue-500/30 border border-blue-500;
+  @apply border border-blue-500 bg-blue-500/30;
 }
 
 .active-goal-info {
-    @apply bg-white/3 p-8 rounded-2xl mb-12 border border-white/5;
+  @apply mb-12 rounded-2xl border border-white/5 bg-white/3 p-8;
 }

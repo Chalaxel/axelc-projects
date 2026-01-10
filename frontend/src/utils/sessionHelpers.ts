@@ -87,7 +87,10 @@ export const formatGoal = (goal: StepGoal | undefined, sport: SportEnum): string
     return parts.join(' • ');
 };
 
-export const getStrokeOptions = (): Array<{ value: StrokeEnum; label: string }> => {
+export const getStrokeOptions = (): Array<{
+    value: StrokeEnum;
+    label: string;
+}> => {
     return [
         { value: StrokeEnum.CRAWL, label: 'Crawl' },
         { value: StrokeEnum.BREASTSTROKE, label: 'Brasse' },

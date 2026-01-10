@@ -28,9 +28,9 @@ export const StepForm = ({
     onRemove,
 }: StepFormProps) => {
     return (
-        <div className='p-6 mb-4 border border-white/5 rounded-xl bg-slate-950/30 relative group transition-all hover:border-emerald-500/20'>
-            <div className='flex justify-between items-center mb-6'>
-                <span className='text-[10px] font-black uppercase tracking-[0.2em] text-slate-500'>
+        <div className='group relative mb-4 rounded-xl border border-white/5 bg-slate-950/30 p-6 transition-all hover:border-emerald-500/20'>
+            <div className='mb-6 flex items-center justify-between'>
+                <span className='text-[10px] font-black tracking-[0.2em] text-slate-500 uppercase'>
                     Étape {stepIndex + 1}
                 </span>
                 {totalSteps > 1 && (
@@ -38,18 +38,18 @@ export const StepForm = ({
                         variant='ghost'
                         size='sm'
                         onClick={onRemove}
-                        className='text-slate-500 hover:text-red-400 hover:bg-red-400/5 h-8 w-8 p-0 opacity-0 group-hover:opacity-100 transition-all'
+                        className='h-8 w-8 p-0 text-slate-500 opacity-0 transition-all group-hover:opacity-100 hover:bg-red-400/5 hover:text-red-400'
                     >
-                        <Trash2 className='w-4 h-4' />
+                        <Trash2 className='h-4 w-4' />
                     </Button>
                 )}
             </div>
-            
+
             <GoalFields goal={step.goal} sport={sport} onChange={onGoalChange} />
-            
-            <div className='mt-6 grid grid-cols-1 md:grid-cols-2 gap-6'>
+
+            <div className='mt-6 grid grid-cols-1 gap-6 md:grid-cols-2'>
                 <div className='space-y-2'>
-                    <Label className='text-[10px] font-black uppercase tracking-[0.2em] text-slate-500'>
+                    <Label className='text-[10px] font-black tracking-[0.2em] text-slate-500 uppercase'>
                         Récup après étape (sec)
                     </Label>
                     <Input
@@ -57,19 +57,19 @@ export const StepForm = ({
                         min='0'
                         value={step.recovery || ''}
                         onChange={e => onRecoveryChange(e.target.value)}
-                        className='bg-white/5 border-white/5 focus:border-emerald-500/50 text-slate-400'
+                        className='border-white/5 bg-white/5 text-slate-400 focus:border-emerald-500/50'
                         placeholder='Secondes'
                     />
                 </div>
                 <div className='space-y-2'>
-                    <Label className='text-[10px] font-black uppercase tracking-[0.2em] text-slate-500'>
+                    <Label className='text-[10px] font-black tracking-[0.2em] text-slate-500 uppercase'>
                         Note d'étape
                     </Label>
                     <Textarea
                         value={step.note || ''}
                         onChange={e => onNoteChange(e.target.value)}
                         rows={1}
-                        className='bg-white/5 border-white/5 focus:border-emerald-500/50 transition-all resize-none text-slate-400 text-xs py-2'
+                        className='resize-none border-white/5 bg-white/5 py-2 text-xs text-slate-400 transition-all focus:border-emerald-500/50'
                         placeholder='Détails spécifiques...'
                     />
                 </div>
