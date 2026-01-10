@@ -10,7 +10,10 @@ export class SessionService {
     async getAll(userId: string): Promise<Session[]> {
         const sessions = await SessionModel.findAll({
             where: { userId },
-            order: [['createdAt', 'DESC']],
+            order: [
+                ['date', 'DESC'],
+                ['createdAt', 'DESC'],
+            ],
         });
         return sessions.map(session => session.toJSON() as Session);
     }
@@ -30,6 +33,8 @@ export class SessionService {
             sport: data.sport,
             blocks: data.blocks || [],
             data: data.data || {},
+            date: data.date,
+            weekNumber: data.weekNumber,
             userId,
         });
         return session.toJSON() as Session;
@@ -52,6 +57,12 @@ export class SessionService {
         }
         if (data.blocks !== undefined) {
             session.set('blocks', data.blocks);
+        }
+        if (data.date !== undefined) {
+            session.set('date', data.date);
+        }
+        if (data.weekNumber !== undefined) {
+            session.set('weekNumber', data.weekNumber);
         }
 
         const currentData = session.get('data') || {};

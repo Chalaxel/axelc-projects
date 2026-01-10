@@ -197,6 +197,8 @@ export class PlanGeneratorService {
             userId,
             sport,
             blocks,
+            date: date.toISOString().split('T')[0],
+            weekNumber: weekIndex + 1,
             data: {
                 notes: `[Week ${weekIndex + 1}/${totalWeeks} - Phase ${phase}] Type: ${type} | Focus: ${distance} preparation`,
             },

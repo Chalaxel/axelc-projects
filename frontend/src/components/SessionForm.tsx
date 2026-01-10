@@ -12,15 +12,15 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { Input } from '@/components/ui/input';
 import { Plus, Check, X, Info } from 'lucide-react';
 
 interface SessionFormProps {
     onSubmit: (data: SessionCreationAttributes) => void;
     onCancel?: () => void;
-    initialData?: SessionCreationAttributes;
 }
 
-export const SessionForm = ({ onSubmit, onCancel, initialData }: SessionFormProps) => {
+export const SessionForm = ({ onSubmit, onCancel }: SessionFormProps) => {
     const {
         sport,
         setSport,
@@ -37,8 +37,12 @@ export const SessionForm = ({ onSubmit, onCancel, initialData }: SessionFormProp
         updateBlockNote,
         updateSeriesRepetitions,
         updateSeriesRecovery,
+        date,
+        setDate,
+        weekNumber,
+        setWeekNumber,
         getFormData,
-    } = useSessionForm(initialData);
+    } = useSessionForm();
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -47,13 +51,13 @@ export const SessionForm = ({ onSubmit, onCancel, initialData }: SessionFormProp
 
     return (
         <form onSubmit={handleSubmit} className='space-y-10'>
-            <div className='grid grid-cols-1 gap-8 md:grid-cols-2'>
+            <div className='grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4'>
                 <div className='space-y-3'>
                     <Label
                         htmlFor='sport'
                         className='text-[10px] font-black tracking-[0.2em] text-slate-500 uppercase'
                     >
-                        Discipline d'entraînement *
+                        Discipline *
                     </Label>
                     <Select value={sport} onValueChange={val => setSport(val as SportEnum)}>
                         <SelectTrigger className='h-12 border-white/10 bg-white/5 font-bold text-blue-400'>
@@ -67,7 +71,44 @@ export const SessionForm = ({ onSubmit, onCancel, initialData }: SessionFormProp
                     </Select>
                 </div>
 
-                <SessionDetails notes={notes} onNotesChange={setNotes} />
+                <div className='space-y-3'>
+                    <Label
+                        htmlFor='date'
+                        className='text-[10px] font-black tracking-[0.2em] text-slate-500 uppercase'
+                    >
+                        Date de session
+                    </Label>
+                    <Input
+                        id='date'
+                        type='date'
+                        value={date}
+                        onChange={e => setDate(e.target.value)}
+                        className='h-12 border-white/10 bg-white/5 font-bold text-blue-400'
+                    />
+                </div>
+
+                <div className='space-y-3'>
+                    <Label
+                        htmlFor='weekNumber'
+                        className='text-[10px] font-black tracking-[0.2em] text-slate-500 uppercase'
+                    >
+                        Semaine
+                    </Label>
+                    <Input
+                        id='weekNumber'
+                        type='number'
+                        placeholder='ex: 1'
+                        value={weekNumber || ''}
+                        onChange={e =>
+                            setWeekNumber(e.target.value ? Number(e.target.value) : undefined)
+                        }
+                        className='h-12 border-white/10 bg-white/5 font-bold text-blue-400'
+                    />
+                </div>
+
+                <div className='flex items-end pb-1'>
+                    <SessionDetails notes={notes} onNotesChange={setNotes} />
+                </div>
             </div>
 
             <div className='space-y-8'>
@@ -182,7 +223,7 @@ export const SessionForm = ({ onSubmit, onCancel, initialData }: SessionFormProp
                     className='h-12 bg-gradient-to-r from-blue-600 to-blue-700 px-10 text-[10px] font-black tracking-[0.2em] uppercase shadow-xl shadow-blue-500/20 transition-all hover:scale-105 hover:from-blue-500 hover:to-blue-600 active:scale-95'
                 >
                     <Check className='mr-2 h-4 w-4' />
-                    {initialData ? 'Enregistrer les modifications' : 'Confirmer la séance'}
+                    Confirmer la séance
                 </Button>
             </div>
         </form>

@@ -35,6 +35,14 @@ export const initSessionModel = (sequelize: Sequelize): ModelStatic<SessionInsta
                         key: 'id',
                     },
                 },
+                date: {
+                    type: DataTypes.DATEONLY,
+                    allowNull: true,
+                },
+                weekNumber: {
+                    type: DataTypes.INTEGER,
+                    allowNull: true,
+                },
                 createdAt: {
                     type: DataTypes.DATE,
                     allowNull: false,

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
     SessionCreationAttributes,
     SessionBlock,
@@ -8,18 +8,12 @@ import {
     SportEnum,
 } from '@shared/types';
 
-export const useSessionForm = (initialData?: SessionCreationAttributes) => {
-    const [sport, setSport] = useState<SportEnum>(initialData?.sport || SportEnum.RUN);
-    const [blocks, setBlocks] = useState<SessionBlock[]>(initialData?.blocks || []);
-    const [notes, setNotes] = useState<string>(initialData?.data?.notes || '');
-
-    useEffect(() => {
-        if (initialData) {
-            setSport(initialData.sport);
-            setBlocks(initialData.blocks || []);
-            setNotes(initialData.data?.notes || '');
-        }
-    }, [initialData]);
+export const useSessionForm = () => {
+    const [sport, setSport] = useState<SportEnum>(SportEnum.RUN);
+    const [blocks, setBlocks] = useState<SessionBlock[]>([]);
+    const [notes, setNotes] = useState<string>('');
+    const [date, setDate] = useState<string>('');
+    const [weekNumber, setWeekNumber] = useState<number | undefined>();
 
     const createEmptyStep = (): Step => ({ goal: {} });
 
@@ -159,6 +153,8 @@ export const useSessionForm = (initialData?: SessionCreationAttributes) => {
             data: {
                 notes: notes || undefined,
             },
+            date: date || undefined,
+            weekNumber: weekNumber || undefined,
         };
     };
 
@@ -179,6 +175,10 @@ export const useSessionForm = (initialData?: SessionCreationAttributes) => {
         updateBlockNote,
         updateSeriesRepetitions,
         updateSeriesRecovery,
+        date,
+        setDate,
+        weekNumber,
+        setWeekNumber,
         getFormData,
     };
 };

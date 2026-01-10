@@ -2,16 +2,13 @@ import { Session, SessionBlockType } from '@shared/types';
 import { getSportLabel } from '../utils/sessionHelpers';
 import { BlockDisplay } from './blocks/BlockDisplay';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Edit2, Trash2, Layers } from 'lucide-react';
+import { Layers } from 'lucide-react';
 
 interface SessionItemProps {
     session: Session;
-    onEdit: (session: Session) => void;
-    onDelete: (id: string) => void;
 }
 
-export const SessionItem = ({ session, onEdit, onDelete }: SessionItemProps) => {
+export const SessionItem = ({ session }: SessionItemProps) => {
     const blocksCount = session.blocks?.length || 0;
     const seriesCount = session.blocks?.filter(b => b.type === SessionBlockType.SERIES).length || 0;
 
@@ -32,7 +29,7 @@ export const SessionItem = ({ session, onEdit, onDelete }: SessionItemProps) => 
                         <CardTitle className='text-xl font-bold text-white transition-colors group-hover:text-blue-400'>
                             {getSportLabel(session.sport)}
                         </CardTitle>
-                        <div className='mt-1 flex gap-4'>
+                        <div className='mt-1 flex flex-wrap gap-4'>
                             <div className='flex items-center text-xs text-slate-400'>
                                 <Layers className='mr-1 h-3 w-3 text-slate-500' />
                                 <span className='font-medium'>
@@ -41,26 +38,30 @@ export const SessionItem = ({ session, onEdit, onDelete }: SessionItemProps) => 
                                         ` (${seriesCount} série${seriesCount > 1 ? 's' : ''})`}
                                 </span>
                             </div>
+                            {session.date && (
+                                <div className='flex items-center text-xs text-blue-400/80'>
+                                    <span className='mr-1 font-black tracking-widest uppercase'>
+                                        Date:
+                                    </span>
+                                    <span className='font-bold'>
+                                        {new Date(session.date).toLocaleDateString('fr-FR', {
+                                            day: '2-digit',
+                                            month: '2-digit',
+                                            year: 'numeric',
+                                        })}
+                                    </span>
+                                </div>
+                            )}
+                            {session.weekNumber && (
+                                <div className='flex items-center text-xs text-emerald-400/80'>
+                                    <span className='mr-1 font-black tracking-widest uppercase'>
+                                        Semaine:
+                                    </span>
+                                    <span className='font-bold'>{session.weekNumber}</span>
+                                </div>
+                            )}
                         </div>
                     </div>
-                </div>
-                <div className='flex gap-2 opacity-0 transition-all duration-300 group-hover:opacity-100'>
-                    <Button
-                        variant='ghost'
-                        size='icon'
-                        onClick={() => onEdit(session)}
-                        className='h-8 w-8 text-slate-400 hover:bg-white/10 hover:text-white'
-                    >
-                        <Edit2 className='h-4 w-4' />
-                    </Button>
-                    <Button
-                        variant='ghost'
-                        size='icon'
-                        onClick={() => onDelete(session.id)}
-                        className='h-8 w-8 text-slate-400 hover:bg-red-400/10 hover:text-red-400'
-                    >
-                        <Trash2 className='h-4 w-4' />
-                    </Button>
                 </div>
             </CardHeader>
 

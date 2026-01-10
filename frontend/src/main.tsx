@@ -12,6 +12,7 @@ if (!rootElement) {
 
 import { OnboardingWizard } from './components/onboarding/OnboardingWizard';
 import { PlanDashboard } from './components/dashboard/PlanDashboard';
+import { SessionList } from './components/SessionList';
 
 const App = () => {
     const { user, isAuthenticated, isLoading } = useAuth();
@@ -31,6 +32,10 @@ const App = () => {
 
     if (path === '/onboarding' || !user?.profile) {
         return <OnboardingWizard />;
+    }
+
+    if (path === '/sessions') {
+        return <SessionList />;
     }
 
     return <PlanDashboard />;

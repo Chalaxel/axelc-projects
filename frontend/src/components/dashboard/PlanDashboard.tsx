@@ -199,6 +199,7 @@ export const PlanDashboard: React.FC = () => {
                     <Button
                         variant='link'
                         className='text-[10px] font-bold tracking-widest text-blue-400 uppercase hover:text-blue-300'
+                        onClick={() => (window.location.href = '/sessions')}
                     >
                         Voir tout le calendrier
                     </Button>
@@ -206,19 +207,12 @@ export const PlanDashboard: React.FC = () => {
 
                 <div className='grid gap-6'>
                     {sessions.length > 0 ? (
-                        sessions.map(session => (
-                            <SessionItem
-                                key={session.id}
-                                session={session}
-                                onEdit={() => {}}
-                                onDelete={() => {}}
-                            />
-                        ))
+                        sessions.map(session => <SessionItem key={session.id} session={session} />)
                     ) : (
                         <div className='flex h-48 flex-col items-center justify-center gap-3 rounded-3xl border-2 border-dashed border-white/5 bg-white/2 text-slate-500 grayscale'>
                             <Calendar className='h-10 w-10 opacity-20' />
                             <p className='text-[10px] font-medium tracking-widest uppercase'>
-                                Aucune séance aujourd'hui
+                                Aucune séance aujourd&apos;hui
                             </p>
                         </div>
                     )}

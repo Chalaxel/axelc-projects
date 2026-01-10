@@ -66,6 +66,8 @@ export interface Session {
     blocks: SessionBlock[];
     data: SessionData;
     userId?: string;
+    date?: string;
+    weekNumber?: number;
     createdAt: string;
     updatedAt: string;
 }
@@ -75,6 +77,8 @@ export interface SessionCreationAttributes {
     blocks?: SessionBlock[];
     data?: SessionData;
     userId?: string;
+    date?: string;
+    weekNumber?: number;
 }
 
 export interface TriathlonPlan {
