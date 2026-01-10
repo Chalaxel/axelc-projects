@@ -51,6 +51,8 @@ export class PlanGeneratorService {
             for (let s = 0; s < sessionsPerWeek; s++) {
                 const sessionDate = new Date(startDate);
                 sessionDate.setDate(startDate.getDate() + w * 7);
+                console.log(startDate);
+                console.log(sessionDate);
 
                 if (sessionDate > endDate) break;
 

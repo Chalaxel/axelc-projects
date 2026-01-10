@@ -15,6 +15,14 @@ import { Slider } from '@/components/ui/slider';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
+const nextMonday = () => {
+    const today = new Date();
+    const daysUntilNextMonday = (1 - today.getDay() + 7) % 7 || 7;
+    const nextMonday = new Date(today);
+    nextMonday.setDate(today.getDate() + daysUntilNextMonday);
+    return nextMonday.toISOString().split('T')[0];
+};
+
 export const OnboardingWizard: React.FC = () => {
     const { updateUser } = useAuth();
     const [step, setStep] = useState(1);
@@ -33,7 +41,7 @@ export const OnboardingWizard: React.FC = () => {
             const updatedUser = await planApi.addGoal(newGoal);
             updateUser(updatedUser);
 
-            const startDate = new Date().toISOString().split('T')[0];
+            const startDate = nextMonday();
             await planApi.generatePlan({
                 distance: newGoal.targetDistance as TriathlonDistance,
                 weeklyHours: newGoal.weeklyAvailability,

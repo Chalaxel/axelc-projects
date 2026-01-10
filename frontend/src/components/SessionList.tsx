@@ -63,20 +63,6 @@ export const SessionList = () => {
         return sessionDate >= currentWeekStart && sessionDate <= weekEnd;
     });
 
-    const daysOfWeek = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
-
-    const sessionsByDay = daysOfWeek.map((dayName, index) => {
-        const dayDate = new Date(currentWeekStart);
-        dayDate.setDate(dayDate.getDate() + index);
-        const dateStr = dayDate.toISOString().split('T')[0];
-
-        return {
-            name: dayName,
-            date: dayDate,
-            sessions: filteredSessions.filter(s => s.date === dateStr),
-        };
-    });
-
     if (loading) {
         return (
             <div className='flex min-h-[60vh] flex-col items-center justify-center gap-4'>
@@ -158,40 +144,17 @@ export const SessionList = () => {
             </div>
 
             <section className='space-y-12'>
-                {sessionsByDay.map(day => (
-                    <div key={day.name} className='space-y-4'>
-                        <div className='border-border flex items-center justify-between border-b pb-2'>
-                            <div className='flex items-baseline gap-3'>
-                                <h3 className='text-foreground text-lg font-black tracking-tight uppercase'>
-                                    {day.name}
-                                </h3>
-                                <span className='text-muted-foreground text-xs font-bold'>
-                                    {day.date.toLocaleDateString('fr-FR', {
-                                        day: 'numeric',
-                                        month: 'long',
-                                    })}
-                                </span>
-                            </div>
-                            {day.sessions.length > 0 && (
-                                <span className='text-primary/60 text-[10px] font-black tracking-widest uppercase'>
-                                    {day.sessions.length} séance{day.sessions.length > 1 ? 's' : ''}
-                                </span>
-                            )}
-                        </div>
-
-                        <div className='grid gap-4'>
-                            {day.sessions.length > 0 ? (
-                                day.sessions.map(session => (
-                                    <SessionItem key={session.id} session={session} />
-                                ))
-                            ) : (
-                                <p className='py-4 text-xs font-medium text-slate-600 italic'>
-                                    Aucune séance prévue
-                                </p>
-                            )}
-                        </div>
-                    </div>
-                ))}
+                <div className='grid gap-4'>
+                    {filteredSessions.length > 0 ? (
+                        filteredSessions.map(session => (
+                            <SessionItem key={session.id} session={session} />
+                        ))
+                    ) : (
+                        <p className='py-4 text-xs font-medium text-slate-600 italic'>
+                            Aucune séance prévue
+                        </p>
+                    )}
+                </div>
             </section>
         </div>
     );
