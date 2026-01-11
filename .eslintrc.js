@@ -20,6 +20,7 @@ module.exports = {
     'node_modules',
     '*.config.js',
     'vite.config.ts',
+    'vitest.config.ts',
     'tsconfig*.json',
   ],
   parser: '@typescript-eslint/parser',
