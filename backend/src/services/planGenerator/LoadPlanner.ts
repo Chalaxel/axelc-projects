@@ -1,3 +1,4 @@
+import { UserLevel } from '@shared/types';
 import { TrainingWeek } from '@shared/types/training';
 import * as fs from 'fs';
 import { isEmpty } from 'lodash/fp';
@@ -55,7 +56,11 @@ export class LoadPlanner {
         });
     }
 
-    static calculateLoad(weeks: TrainingWeek[], weeklyHoursConstraint: number): TrainingWeek[] {
+    static calculateLoad(
+        weeks: TrainingWeek[],
+        weeklyHoursAvg: number,
+        athleteLevel: UserLevel,
+    ): TrainingWeek[] {
         this.initializeTSS();
         this.initializeHours();
 
