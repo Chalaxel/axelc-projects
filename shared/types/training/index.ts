@@ -1,6 +1,6 @@
 import { SessionCreationAttributes, SportEnum } from '../session';
 
-export enum TrainingPhase {
+export enum TrainingPeriodEnum {
     PREP = 'Prep',
     BASE_1 = 'Base 1',
     BASE_2 = 'Base 2',
@@ -13,9 +13,9 @@ export enum TrainingPhase {
 }
 
 export interface TrainingWeek {
-    weekIndex: number; // 0-indexed from startDate
-    startDate: string; // ISO date
-    phase: TrainingPhase;
+    weekIndex: number;
+    startDate: Date;
+    period: TrainingPeriodEnum;
     isRecovery: boolean;
     targetTss?: number;
     targetHours?: number;
@@ -60,13 +60,13 @@ export interface WorkoutTemplate {
     id: string;
     name: string;
     sport: SportEnum;
-    phases: TrainingPhase[];
+    phases: TrainingPeriodEnum[];
     goal: string;
     durationFactor: number; // multiplier of session duration
     blocks: WorkoutBlock[];
 }
 
 export interface TrainingPeriod {
-    phase: TrainingPhase;
+    type: TrainingPeriodEnum;
     durationWeeks: number;
 }

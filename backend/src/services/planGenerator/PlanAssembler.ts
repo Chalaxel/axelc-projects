@@ -3,8 +3,9 @@ import {
     SessionCreationAttributes,
     TriathlonDistance,
     SportEnum,
+    UserLevel,
 } from '@shared/types';
-import { PhaseAllocator } from './PhaseAllocator';
+import { PeriodGenerator } from './PhaseAllocator';
 import { LoadPlanner } from './LoadPlanner';
 import { WorkoutLibrary } from './WorkoutLibrary';
 import { WorkoutBuilder } from './WorkoutBuilder';
@@ -18,8 +19,10 @@ export class PlanAssembler {
         startDate: Date,
         raceDate: Date,
     ): { plan: TriathlonPlanCreationAttributes; sessions: SessionCreationAttributes[] } {
-        // 1. Allocate Phases
-        let weeks = PhaseAllocator.allocatePhases(startDate, raceDate);
+        let weeks = new PeriodGenerator(raceDate, {
+            age: 21,
+            trainingLevel: UserLevel.INTERMEDIATE,
+        }).generatePeriods();
 
         // 2. Plan Loads
         weeks = LoadPlanner.calculateLoad(weeks, weeklyHours);
@@ -48,7 +51,7 @@ export class PlanAssembler {
         userId: string,
     ): SessionCreationAttributes[] {
         const sessions: SessionCreationAttributes[] = [];
-        const { targetHours = 5, phase } = week;
+        const { targetHours = 5, period: phase } = week;
 
         // Distribution of sports based on Distance & Phase
         // Simple distribution: Swim 20%, Bike 40%, Run 30%, S&C 10%

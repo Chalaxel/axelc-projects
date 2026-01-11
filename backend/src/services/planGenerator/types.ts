@@ -1,13 +1,13 @@
-import { TrainingPhase } from '@shared/types/training';
+import { TrainingPeriodEnum } from '@shared/types/training';
 
 export interface PhaseConfig {
-    phase: TrainingPhase;
+    period: TrainingPeriodEnum;
     durationWeeks: number; // Duration of this specific block
     loadFactor: number; // Multiplier for volume/stress
 }
 
 export interface PhaseDefinition {
-    name: TrainingPhase;
+    name: TrainingPeriodEnum;
     defaultDuration: number; // weeks
     minDuration: number;
     maxDuration: number;
@@ -15,12 +15,12 @@ export interface PhaseDefinition {
 }
 
 export const DEFAULT_PHASE_ORDER = [
-    TrainingPhase.RACE,
-    TrainingPhase.PEAK,
-    TrainingPhase.BUILD_2,
-    TrainingPhase.BUILD_1,
-    TrainingPhase.BASE_3,
-    TrainingPhase.BASE_2,
-    TrainingPhase.BASE_1,
-    TrainingPhase.PREP,
+    TrainingPeriodEnum.RACE,
+    TrainingPeriodEnum.PEAK,
+    TrainingPeriodEnum.BUILD_2,
+    TrainingPeriodEnum.BUILD_1,
+    TrainingPeriodEnum.BASE_3,
+    TrainingPeriodEnum.BASE_2,
+    TrainingPeriodEnum.BASE_1,
+    TrainingPeriodEnum.PREP,
 ];

@@ -3,7 +3,7 @@ import {
     SessionCreationAttributes,
     TriathlonPlanCreationAttributes,
 } from '@shared/types';
-import { PlanAssembler } from './plan-generator/PlanAssembler';
+import { PlanAssembler } from './planGenerator/PlanAssembler';
 
 export class PlanGeneratorService {
     /**

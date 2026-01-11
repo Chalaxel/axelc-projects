@@ -1,5 +1,5 @@
 import { SportEnum } from '@shared/types/session';
-import { TrainingPhase, WorkoutTemplate } from '@shared/types/training';
+import { TrainingPeriodEnum, WorkoutTemplate } from '@shared/types/training';
 
 export const WORKOUT_LIBRARY: WorkoutTemplate[] = [
     // --- SWIM ---
@@ -8,10 +8,10 @@ export const WORKOUT_LIBRARY: WorkoutTemplate[] = [
         name: 'Endurance Swim',
         sport: SportEnum.SWIM,
         phases: [
-            TrainingPhase.PREP,
-            TrainingPhase.BASE_1,
-            TrainingPhase.BASE_2,
-            TrainingPhase.BASE_3,
+            TrainingPeriodEnum.PREP,
+            TrainingPeriodEnum.BASE_1,
+            TrainingPeriodEnum.BASE_2,
+            TrainingPeriodEnum.BASE_3,
         ],
         goal: 'Aerobic Endurance',
         durationFactor: 1.0,
@@ -26,7 +26,7 @@ export const WORKOUT_LIBRARY: WorkoutTemplate[] = [
         id: 'swim_threshold',
         name: 'Threshold Intervals',
         sport: SportEnum.SWIM,
-        phases: [TrainingPhase.BUILD_1, TrainingPhase.BUILD_2],
+        phases: [TrainingPeriodEnum.BUILD_1, TrainingPeriodEnum.BUILD_2],
         goal: 'Threshold Pace',
         durationFactor: 1.0,
         blocks: [
@@ -45,7 +45,7 @@ export const WORKOUT_LIBRARY: WorkoutTemplate[] = [
         id: 'bike_base_long',
         name: 'Long Aerobic Ride',
         sport: SportEnum.CYCLING,
-        phases: [TrainingPhase.BASE_1, TrainingPhase.BASE_2, TrainingPhase.BASE_3],
+        phases: [TrainingPeriodEnum.BASE_1, TrainingPeriodEnum.BASE_2, TrainingPeriodEnum.BASE_3],
         goal: 'Base Miles',
         durationFactor: 1.5, // Longer than average
         blocks: [
@@ -62,7 +62,7 @@ export const WORKOUT_LIBRARY: WorkoutTemplate[] = [
         id: 'bike_intervals_vo2',
         name: 'VO2 Max Intervals',
         sport: SportEnum.CYCLING,
-        phases: [TrainingPhase.BUILD_2, TrainingPhase.PEAK],
+        phases: [TrainingPeriodEnum.BUILD_2, TrainingPeriodEnum.PEAK],
         goal: 'Top End Power',
         durationFactor: 1.0,
         blocks: [
@@ -76,14 +76,14 @@ export const WORKOUT_LIBRARY: WorkoutTemplate[] = [
         name: 'Recovery Spin',
         sport: SportEnum.CYCLING,
         phases: [
-            TrainingPhase.PREP,
-            TrainingPhase.BASE_1,
-            TrainingPhase.BASE_2,
-            TrainingPhase.BASE_3,
-            TrainingPhase.BUILD_1,
-            TrainingPhase.BUILD_2,
-            TrainingPhase.PEAK,
-            TrainingPhase.RACE,
+            TrainingPeriodEnum.PREP,
+            TrainingPeriodEnum.BASE_1,
+            TrainingPeriodEnum.BASE_2,
+            TrainingPeriodEnum.BASE_3,
+            TrainingPeriodEnum.BUILD_1,
+            TrainingPeriodEnum.BUILD_2,
+            TrainingPeriodEnum.PEAK,
+            TrainingPeriodEnum.RACE,
         ], // All phases
         goal: 'Active Recovery',
         durationFactor: 0.7,
@@ -101,7 +101,7 @@ export const WORKOUT_LIBRARY: WorkoutTemplate[] = [
         id: 'run_base_steady',
         name: 'Steady Run',
         sport: SportEnum.RUN,
-        phases: [TrainingPhase.BASE_1, TrainingPhase.BASE_2, TrainingPhase.BASE_3],
+        phases: [TrainingPeriodEnum.BASE_1, TrainingPeriodEnum.BASE_2, TrainingPeriodEnum.BASE_3],
         goal: 'Aerobic Condition',
         durationFactor: 1.0,
         blocks: [
@@ -114,7 +114,7 @@ export const WORKOUT_LIBRARY: WorkoutTemplate[] = [
         id: 'run_tempo',
         name: 'Tempo Run',
         sport: SportEnum.RUN,
-        phases: [TrainingPhase.BASE_3, TrainingPhase.BUILD_1],
+        phases: [TrainingPeriodEnum.BASE_3, TrainingPeriodEnum.BUILD_1],
         goal: 'Muscular Endurance',
         durationFactor: 1.0,
         blocks: [
@@ -127,7 +127,7 @@ export const WORKOUT_LIBRARY: WorkoutTemplate[] = [
         id: 'run_speed',
         name: 'Speed Work',
         sport: SportEnum.RUN,
-        phases: [TrainingPhase.BUILD_2, TrainingPhase.PEAK],
+        phases: [TrainingPeriodEnum.BUILD_2, TrainingPeriodEnum.PEAK],
         goal: 'Leg Speed',
         durationFactor: 0.9,
         blocks: [
@@ -140,7 +140,7 @@ export const WORKOUT_LIBRARY: WorkoutTemplate[] = [
         id: 'brick_session',
         name: 'Brick Session',
         sport: SportEnum.CYCLING, // Primary sport, but note says transition
-        phases: [TrainingPhase.BUILD_2, TrainingPhase.PEAK],
+        phases: [TrainingPeriodEnum.BUILD_2, TrainingPeriodEnum.PEAK],
         goal: 'Transition',
         durationFactor: 1.2,
         blocks: [
@@ -151,12 +151,12 @@ export const WORKOUT_LIBRARY: WorkoutTemplate[] = [
 ];
 
 export class WorkoutLibrary {
-    static getTemplatesForPhase(phase: TrainingPhase): WorkoutTemplate[] {
-        let templates = WORKOUT_LIBRARY.filter(t => t.phases.includes(phase));
+    static getTemplatesForPhase(period: TrainingPeriodEnum): WorkoutTemplate[] {
+        let templates = WORKOUT_LIBRARY.filter(t => t.phases.includes(period));
 
         // Fallback: if no specific templates, grab Base templates
         if (templates.length === 0) {
-            templates = WORKOUT_LIBRARY.filter(t => t.phases.includes(TrainingPhase.BASE_1));
+            templates = WORKOUT_LIBRARY.filter(t => t.phases.includes(TrainingPeriodEnum.BASE_1));
         }
 
         return templates;
