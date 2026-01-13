@@ -1,8 +1,9 @@
 import { UserLevel } from '@shared/types';
 import { TrainingPeriodEnum, TrainingWeek } from '@shared/types/training';
 import { differenceInCalendarWeeks, nextMonday, previousMonday, startOfToday } from 'date-fns';
+import { HOURS_DICT, TSS_DICT } from './loadDicts';
 
-interface RecoveryProps {
+interface PlanGenerationContext {
     age: number;
     trainingLevel: UserLevel;
     yearsOfPractice?: number;
@@ -15,14 +16,18 @@ export class PeriodGenerator {
     private startDate: Date;
     private totalWeeks: number;
     private periodsCycle: number;
+    private tssLoadDict;
+    private hoursLoadDict;
 
     constructor(
         private raceDate: Date,
-        private recoveryProps: RecoveryProps,
+        private planGenerationContext: PlanGenerationContext,
     ) {
         this.startDate = this.setStartDate();
         this.totalWeeks = this.setTotalWeeks();
         this.periodsCycle = this.setPeriodsCycle();
+        this.tssLoadDict = TSS_DICT[15];
+        this.hoursLoadDict = HOURS_DICT[300];
     }
 
     private setStartDate() {
@@ -54,7 +59,7 @@ export class PeriodGenerator {
             weeklyVolumeHours = 0,
             hasRecentInjury = false,
             goal = 'finish',
-        } = this.recoveryProps;
+        } = this.planGenerationContext;
 
         let score = 0;
 
@@ -88,6 +93,8 @@ export class PeriodGenerator {
                 startDate: previousMonday(this.raceDate),
                 period: TrainingPeriodEnum.RACE,
                 isRecovery: false,
+                targetTSS: this.tssLoadDict[TrainingPeriodEnum.RACE]['All'],
+                targetHours: this.hoursLoadDict[TrainingPeriodEnum.RACE]['All'],
                 sessions: [],
             };
 
@@ -102,6 +109,8 @@ export class PeriodGenerator {
                 startDate: previousMonday(lastSetWeek.startDate),
                 period: TrainingPeriodEnum.PEAK,
                 isRecovery: false,
+                targetTSS: this.tssLoadDict[TrainingPeriodEnum.PEAK]['2'],
+                targetHours: this.hoursLoadDict[TrainingPeriodEnum.PEAK]['2'],
                 sessions: [],
             };
 
@@ -187,7 +196,7 @@ export class PeriodGenerator {
     }
 
     private buildPeriodsToInclude() {
-        const { trainingLevel } = this.recoveryProps;
+        const { trainingLevel } = this.planGenerationContext;
 
         if (trainingLevel === UserLevel.BEGINNER || this.totalWeeks <= 20) {
             return 0;
@@ -214,6 +223,8 @@ export class PeriodGenerator {
             startDate: lastWeekDate,
             period: trainingPhase,
             isRecovery: true,
+            targetTSS: this.tssLoadDict[trainingPhase][this.periodsCycle],
+            targetHours: this.hoursLoadDict[trainingPhase][this.periodsCycle],
             sessions: [],
         };
 
@@ -224,6 +235,8 @@ export class PeriodGenerator {
                 ...lastWeek,
                 isRecovery: false,
                 weekIndex: lastWeekIndex - i,
+                targetTSS: this.tssLoadDict[trainingPhase][this.periodsCycle - i],
+                targetHours: this.hoursLoadDict[trainingPhase][this.periodsCycle - i],
                 startDate: previousMonday(weeks[0].startDate),
             });
         }

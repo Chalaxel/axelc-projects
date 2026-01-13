@@ -6,7 +6,7 @@ import {
     UserLevel,
 } from '@shared/types';
 import { PeriodGenerator } from './PhaseAllocator';
-import { LoadPlanner } from './LoadPlanner';
+import { LoadPlanner } from './loadDicts';
 import { WorkoutLibrary } from './WorkoutLibrary';
 import { WorkoutBuilder } from './WorkoutBuilder';
 import { TrainingWeek } from '@shared/types/training';

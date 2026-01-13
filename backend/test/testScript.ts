@@ -1,3 +1,3 @@
-import { LoadPlanner } from '../src/services/planGenerator/LoadPlanner';
+import { LoadPlanner } from '../src/services/planGenerator/loadDicts';
 
 LoadPlanner.initializeTSS();

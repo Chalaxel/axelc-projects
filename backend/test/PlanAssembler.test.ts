@@ -3,7 +3,7 @@ import { TrainingPeriodEnum } from '@shared/types/training';
 import { PeriodGenerator } from '../src/services/planGenerator/PhaseAllocator';
 import { UserLevel } from '@shared/types';
 import { startOfToday } from 'date-fns';
-import { LoadPlanner } from '../src/services/planGenerator/LoadPlanner';
+import { LoadPlanner } from '../src/services/planGenerator/loadDicts';
 
 // Mock date-fns
 vi.mock('date-fns', async () => {
@@ -38,12 +38,6 @@ describe('PlanAssembler', () => {
             });
 
             const weeks = phaseAllocator.generatePeriods();
-
-            const weeklyHours = 6;
-
-            const weeksWithLoad = LoadPlanner.calculateLoad(weeks, weeklyHours);
-
-            console.log(weeksWithLoad);
 
             // Last week should be Race
             expect(weeks[weeks.length - 1].period).toBe(TrainingPeriodEnum.RACE);

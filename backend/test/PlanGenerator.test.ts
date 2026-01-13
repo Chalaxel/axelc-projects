@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { TrainingPeriodEnum } from '@shared/types/training';
 import { PeriodGenerator } from '../src/services/planGenerator/PhaseAllocator';
-import { LoadPlanner } from '../src/services/planGenerator/LoadPlanner';
+import { LoadPlanner } from '../src/services/planGenerator/loadDicts';
 
 describe('PlanGenerator', () => {
     // describe('PhaseAllocator', () => {
