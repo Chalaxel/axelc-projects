@@ -1,9 +1,8 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { TrainingPeriodEnum } from '@shared/types/training';
 import { PeriodGenerator } from '../src/services/planGenerator/PhaseAllocator';
-import { UserLevel } from '@shared/types';
+import { TriathlonDistance, UserLevel } from '@shared/types';
 import { startOfToday } from 'date-fns';
-import { LoadPlanner } from '../src/services/planGenerator/loadDicts';
 
 // Mock date-fns
 vi.mock('date-fns', async () => {
@@ -32,9 +31,10 @@ describe('PlanAssembler', () => {
                 age: 21,
                 trainingLevel: UserLevel.INTERMEDIATE,
                 yearsOfPractice: 1,
-                weeklyVolumeHours: 6,
-                hasRecentInjury: false,
-                goal: 'performance',
+                recentWeeklyVolumeHours: 6,
+                injuryHistory: 'none',
+                objective: 'performance',
+                raceDistance: TriathlonDistance.M,
             });
 
             const weeks = phaseAllocator.generatePeriods();

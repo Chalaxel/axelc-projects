@@ -1,15 +1,24 @@
-import { UserLevel } from '@shared/types';
+import { TriathlonDistance, UserLevel } from '@shared/types';
 import { TrainingPeriodEnum, TrainingWeek } from '@shared/types/training';
 import { differenceInCalendarWeeks, nextMonday, previousMonday, startOfToday } from 'date-fns';
 import { HOURS_DICT, TSS_DICT } from './loadDicts';
+import { PlanLoadCalculator } from './PlanLoadCalculator';
 
-interface PlanGenerationContext {
-    age: number;
-    trainingLevel: UserLevel;
+export interface PlanGenerationContext {
     yearsOfPractice?: number;
-    weeklyVolumeHours?: number;
-    hasRecentInjury?: boolean;
-    goal?: 'finish' | 'performance';
+    age: number;
+
+    trainingLevel: UserLevel; // Beginner, Intermediate, Advanced
+    recentWeeklyVolumeHours?: number;
+    recentWeeklyTss?: number;
+    sessionsPerWeek?: number;
+
+    raceDistance?: TriathlonDistance;
+
+    injuryHistory?: 'none' | 'minor' | 'major';
+    lifeStress?: 'low' | 'moderate' | 'high';
+
+    objective?: 'finish' | 'performance';
 }
 
 export class PeriodGenerator {
@@ -26,8 +35,10 @@ export class PeriodGenerator {
         this.startDate = this.setStartDate();
         this.totalWeeks = this.setTotalWeeks();
         this.periodsCycle = this.setPeriodsCycle();
-        this.tssLoadDict = TSS_DICT[15];
-        this.hoursLoadDict = HOURS_DICT[300];
+        const annualVolumeCalculator = new PlanLoadCalculator(this.planGenerationContext);
+        const { annualHours, annualTSS } = annualVolumeCalculator.getFloorAnnualVolume();
+        this.tssLoadDict = TSS_DICT[annualTSS];
+        this.hoursLoadDict = HOURS_DICT[annualHours];
     }
 
     private setStartDate() {
@@ -56,9 +67,9 @@ export class PeriodGenerator {
             age,
             trainingLevel,
             yearsOfPractice = 0,
-            weeklyVolumeHours = 0,
-            hasRecentInjury = false,
-            goal = 'finish',
+            recentWeeklyVolumeHours = 0,
+            injuryHistory = 'none',
+            objective = 'finish',
         } = this.planGenerationContext;
 
         let score = 0;
@@ -71,10 +82,12 @@ export class PeriodGenerator {
 
         if (yearsOfPractice < 2) score += 2;
 
-        if (weeklyVolumeHours > 0 && weeklyVolumeHours < 6) score += 1;
+        if (recentWeeklyVolumeHours > 0 && recentWeeklyVolumeHours < 6) score += 1;
 
-        if (hasRecentInjury) score += 3;
-        if (goal === 'finish') score += 1;
+        if (injuryHistory === 'major') score += 3;
+        else if (injuryHistory === 'minor') score += 1;
+
+        if (objective === 'finish') score += 1;
 
         const SOFT = 3;
         const REGULAR = 4;

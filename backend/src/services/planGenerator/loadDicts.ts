@@ -2,7 +2,7 @@ import { TrainingPeriodEnum } from '@shared/types';
 
 // Données TSS hebdomadaires par période et semaine
 export const TSS_DICT = {
-    [15]: {
+    [15000]: {
         [TrainingPeriodEnum.PREP]: { All: 240 },
         [TrainingPeriodEnum.BASE_1]: { '1': 280, '2': 310, '3': 350, '4': 240 },
         [TrainingPeriodEnum.BASE_2]: { '1': 290, '2': 330, '3': 370, '4': 240 },
@@ -13,7 +13,7 @@ export const TSS_DICT = {
         [TrainingPeriodEnum.RACE]: { All: 240 },
         [TrainingPeriodEnum.TRANSITION]: { All: 240 },
     },
-    [17.5]: {
+    [17500]: {
         [TrainingPeriodEnum.PREP]: { All: 280 },
         [TrainingPeriodEnum.BASE_1]: { '1': 330, '2': 370, '3': 400, '4': 280 },
         [TrainingPeriodEnum.BASE_2]: { '1': 335, '2': 385, '3': 440, '4': 280 },
@@ -24,7 +24,7 @@ export const TSS_DICT = {
         [TrainingPeriodEnum.RACE]: { All: 280 },
         [TrainingPeriodEnum.TRANSITION]: { All: 280 },
     },
-    [20]: {
+    [20000]: {
         [TrainingPeriodEnum.PREP]: { All: 320 },
         [TrainingPeriodEnum.BASE_1]: { '1': 380, '2': 420, '3': 460, '4': 320 },
         [TrainingPeriodEnum.BASE_2]: { '1': 380, '2': 440, '3': 500, '4': 320 },
@@ -35,7 +35,7 @@ export const TSS_DICT = {
         [TrainingPeriodEnum.RACE]: { All: 320 },
         [TrainingPeriodEnum.TRANSITION]: { All: 320 },
     },
-    [22.5]: {
+    [22500]: {
         [TrainingPeriodEnum.PREP]: { All: 360 },
         [TrainingPeriodEnum.BASE_1]: { '1': 430, '2': 470, '3': 520, '4': 360 },
         [TrainingPeriodEnum.BASE_2]: { '1': 430, '2': 500, '3': 560, '4': 360 },
@@ -46,7 +46,7 @@ export const TSS_DICT = {
         [TrainingPeriodEnum.RACE]: { All: 360 },
         [TrainingPeriodEnum.TRANSITION]: { All: 360 },
     },
-    [25]: {
+    [25000]: {
         [TrainingPeriodEnum.PREP]: { All: 400 },
         [TrainingPeriodEnum.BASE_1]: { '1': 480, '2': 530, '3': 580, '4': 400 },
         [TrainingPeriodEnum.BASE_2]: { '1': 480, '2': 550, '3': 630, '4': 400 },
@@ -57,7 +57,7 @@ export const TSS_DICT = {
         [TrainingPeriodEnum.RACE]: { All: 400 },
         [TrainingPeriodEnum.TRANSITION]: { All: 400 },
     },
-    [27.5]: {
+    [27500]: {
         [TrainingPeriodEnum.PREP]: { All: 440 },
         [TrainingPeriodEnum.BASE_1]: { '1': 520, '2': 580, '3': 630, '4': 440 },
         [TrainingPeriodEnum.BASE_2]: { '1': 520, '2': 600, '3': 690, '4': 440 },
@@ -68,7 +68,7 @@ export const TSS_DICT = {
         [TrainingPeriodEnum.RACE]: { All: 440 },
         [TrainingPeriodEnum.TRANSITION]: { All: 440 },
     },
-    [30]: {
+    [30000]: {
         [TrainingPeriodEnum.PREP]: { All: 480 },
         [TrainingPeriodEnum.BASE_1]: { '1': 570, '2': 630, '3': 690, '4': 480 },
         [TrainingPeriodEnum.BASE_2]: { '1': 570, '2': 660, '3': 750, '4': 480 },
@@ -79,7 +79,7 @@ export const TSS_DICT = {
         [TrainingPeriodEnum.RACE]: { All: 480 },
         [TrainingPeriodEnum.TRANSITION]: { All: 480 },
     },
-    [32.5]: {
+    [32500]: {
         [TrainingPeriodEnum.PREP]: { All: 520 },
         [TrainingPeriodEnum.BASE_1]: { '1': 620, '2': 680, '3': 750, '4': 520 },
         [TrainingPeriodEnum.BASE_2]: { '1': 620, '2': 720, '3': 810, '4': 520 },
@@ -90,7 +90,7 @@ export const TSS_DICT = {
         [TrainingPeriodEnum.RACE]: { All: 520 },
         [TrainingPeriodEnum.TRANSITION]: { All: 520 },
     },
-    [35]: {
+    [35000]: {
         [TrainingPeriodEnum.PREP]: { All: 560 },
         [TrainingPeriodEnum.BASE_1]: { '1': 670, '2': 730, '3': 810, '4': 560 },
         [TrainingPeriodEnum.BASE_2]: { '1': 670, '2': 770, '3': 880, '4': 560 },
@@ -101,7 +101,7 @@ export const TSS_DICT = {
         [TrainingPeriodEnum.RACE]: { All: 560 },
         [TrainingPeriodEnum.TRANSITION]: { All: 560 },
     },
-    [37.5]: {
+    [37500]: {
         [TrainingPeriodEnum.PREP]: { All: 600 },
         [TrainingPeriodEnum.BASE_1]: { '1': 710, '2': 780, '3': 860, '4': 600 },
         [TrainingPeriodEnum.BASE_2]: { '1': 710, '2': 820, '3': 940, '4': 600 },
@@ -112,7 +112,7 @@ export const TSS_DICT = {
         [TrainingPeriodEnum.RACE]: { All: 600 },
         [TrainingPeriodEnum.TRANSITION]: { All: 600 },
     },
-    [40]: {
+    [40000]: {
         [TrainingPeriodEnum.PREP]: { All: 640 },
         [TrainingPeriodEnum.BASE_1]: { '1': 760, '2': 840, '3': 920, '4': 640 },
         [TrainingPeriodEnum.BASE_2]: { '1': 760, '2': 880, '3': 1000, '4': 640 },
@@ -123,7 +123,7 @@ export const TSS_DICT = {
         [TrainingPeriodEnum.RACE]: { All: 640 },
         [TrainingPeriodEnum.TRANSITION]: { All: 640 },
     },
-    [42.5]: {
+    [42500]: {
         [TrainingPeriodEnum.PREP]: { All: 700 },
         [TrainingPeriodEnum.BASE_1]: { '1': 810, '2': 890, '3': 980, '4': 700 },
         [TrainingPeriodEnum.BASE_2]: { '1': 810, '2': 940, '3': 1060, '4': 700 },
@@ -134,7 +134,7 @@ export const TSS_DICT = {
         [TrainingPeriodEnum.RACE]: { All: 700 },
         [TrainingPeriodEnum.TRANSITION]: { All: 700 },
     },
-    [45]: {
+    [45000]: {
         [TrainingPeriodEnum.PREP]: { All: 720 },
         [TrainingPeriodEnum.BASE_1]: { '1': 850, '2': 950, '3': 1030, '4': 720 },
         [TrainingPeriodEnum.BASE_2]: { '1': 850, '2': 990, '3': 1120, '4': 720 },
@@ -145,7 +145,7 @@ export const TSS_DICT = {
         [TrainingPeriodEnum.RACE]: { All: 720 },
         [TrainingPeriodEnum.TRANSITION]: { All: 720 },
     },
-    [47.5]: {
+    [47500]: {
         [TrainingPeriodEnum.PREP]: { All: 760 },
         [TrainingPeriodEnum.BASE_1]: { '1': 900, '2': 1000, '3': 1090, '4': 760 },
         [TrainingPeriodEnum.BASE_2]: { '1': 900, '2': 1040, '3': 1190, '4': 760 },
@@ -156,7 +156,7 @@ export const TSS_DICT = {
         [TrainingPeriodEnum.RACE]: { All: 760 },
         [TrainingPeriodEnum.TRANSITION]: { All: 760 },
     },
-    [50]: {
+    [50000]: {
         [TrainingPeriodEnum.PREP]: { All: 800 },
         [TrainingPeriodEnum.BASE_1]: { '1': 950, '2': 1050, '3': 1150, '4': 800 },
         [TrainingPeriodEnum.BASE_2]: { '1': 950, '2': 1100, '3': 1250, '4': 800 },
@@ -167,7 +167,7 @@ export const TSS_DICT = {
         [TrainingPeriodEnum.RACE]: { All: 800 },
         [TrainingPeriodEnum.TRANSITION]: { All: 800 },
     },
-    [52.5]: {
+    [52500]: {
         [TrainingPeriodEnum.PREP]: { All: 840 },
         [TrainingPeriodEnum.BASE_1]: { '1': 1000, '2': 1100, '3': 1210, '4': 840 },
         [TrainingPeriodEnum.BASE_2]: { '1': 1000, '2': 1150, '3': 1310, '4': 840 },
@@ -178,7 +178,7 @@ export const TSS_DICT = {
         [TrainingPeriodEnum.RACE]: { All: 840 },
         [TrainingPeriodEnum.TRANSITION]: { All: 840 },
     },
-    [55]: {
+    [55000]: {
         [TrainingPeriodEnum.PREP]: { All: 880 },
         [TrainingPeriodEnum.BASE_1]: { '1': 1040, '2': 1150, '3': 1260, '4': 880 },
         [TrainingPeriodEnum.BASE_2]: { '1': 1040, '2': 1210, '3': 1370, '4': 880 },
@@ -189,7 +189,7 @@ export const TSS_DICT = {
         [TrainingPeriodEnum.RACE]: { All: 880 },
         [TrainingPeriodEnum.TRANSITION]: { All: 880 },
     },
-    [57.5]: {
+    [57500]: {
         [TrainingPeriodEnum.PREP]: { All: 920 },
         [TrainingPeriodEnum.BASE_1]: { '1': 1090, '2': 1210, '3': 1320, '4': 920 },
         [TrainingPeriodEnum.BASE_2]: { '1': 1090, '2': 1260, '3': 1440, '4': 920 },
@@ -200,7 +200,7 @@ export const TSS_DICT = {
         [TrainingPeriodEnum.RACE]: { All: 920 },
         [TrainingPeriodEnum.TRANSITION]: { All: 920 },
     },
-    [60]: {
+    [60000]: {
         [TrainingPeriodEnum.PREP]: { All: 960 },
         [TrainingPeriodEnum.BASE_1]: { '1': 1140, '2': 1260, '3': 1380, '4': 960 },
         [TrainingPeriodEnum.BASE_2]: { '1': 1140, '2': 1320, '3': 1500, '4': 960 },
