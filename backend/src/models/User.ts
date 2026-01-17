@@ -1,7 +1,7 @@
 import { DataTypes, Model, ModelStatic, Sequelize } from 'sequelize';
 import { User, UserCreationAttributes } from '@shared/types';
 
-interface UserInstance extends Model<User, UserCreationAttributes>, User {}
+export interface UserInstance extends Model<User, UserCreationAttributes>, User {}
 
 let UserModel: ModelStatic<UserInstance> | null = null;
 

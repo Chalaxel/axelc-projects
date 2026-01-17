@@ -1,7 +1,7 @@
 import { DataTypes, Model, ModelStatic, Sequelize } from 'sequelize';
 import { Session, SessionCreationAttributes } from '@shared/types';
 
-interface SessionInstance extends Model<Session, SessionCreationAttributes>, Session {}
+export interface SessionInstance extends Model<Session, SessionCreationAttributes>, Session {}
 
 let SessionModel: ModelStatic<SessionInstance> | null = null;
 

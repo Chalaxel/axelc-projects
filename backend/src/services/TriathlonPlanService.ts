@@ -1,7 +1,3 @@
-import { getDatabase } from '../utils/dbSync';
-import { initTriathlonPlanModel, getTriathlonPlanModel } from '../models/TriathlonPlan';
-import { getSessionModel } from '../models/Session';
-import { getUserModel } from '../models/User';
 import {
     TriathlonPlan,
     TriathlonDistance,
@@ -12,16 +8,11 @@ import {
 } from '@shared/types';
 import { PlanGeneratorService } from './PlanGeneratorService';
 import crypto from 'crypto';
-
-const db = getDatabase();
-initTriathlonPlanModel(db);
-const TriathlonPlanModel = getTriathlonPlanModel();
-const SessionModel = getSessionModel();
-const UserModel = getUserModel();
+import { models } from 'src/models/models';
 
 export class TriathlonPlanService {
     async getCurrentPlan(userId: string): Promise<TriathlonPlan | null> {
-        const plan = await TriathlonPlanModel.findOne({
+        const plan = await models.TriathlonPlan.findOne({
             where: { userId },
             order: [['createdAt', 'DESC']],
         });
@@ -50,11 +41,11 @@ export class TriathlonPlanService {
             new Date(data.endDate),
         );
 
-        const plan = await TriathlonPlanModel.create(planData);
+        const plan = await models.TriathlonPlan.create(planData);
 
         // Bulk create sessions
         if (sessions.length > 0) {
-            await SessionModel.bulkCreate(
+            await models.Session.bulkCreate(
                 sessions.map(s => ({
                     ...s,
                     userId,
@@ -66,7 +57,7 @@ export class TriathlonPlanService {
     }
 
     async updateUserProfile(userId: string, profile: UserProfile): Promise<UserPublic> {
-        const user = await UserModel.findByPk(userId);
+        const user = await models.User.findByPk(userId);
         if (!user) throw new Error('User not found');
 
         user.set('profile', profile);
@@ -76,50 +67,72 @@ export class TriathlonPlanService {
     }
 
     async addGoal(userId: string, goal: Omit<UserGoal, 'id' | 'status'>): Promise<UserPublic> {
-        const user = await UserModel.findByPk(userId);
+        const user = await models.User.findByPk(userId);
         if (!user) throw new Error('User not found');
 
-        const currentProfile = (user.get('profile') as UserProfile) || { goals: [] };
-        if (!currentProfile.goals) currentProfile.goals = [];
+        // Deactivate other active goals
+        await models.Goal.update(
+            { status: UserGoalStatus.COMPLETED },
+            {
+                where: {
+                    userId,
+                    status: UserGoalStatus.ACTIVE,
+                },
+            },
+        );
 
-        const newGoal: UserGoal = {
+        // Create new goal
+        await models.Goal.create({
             ...goal,
             id: crypto.randomUUID(),
+            userId,
             status: UserGoalStatus.ACTIVE,
-        };
+        });
 
-        // Deactivate other goals if this one is active
-        currentProfile.goals = currentProfile.goals.map(g => ({
-            ...g,
-            status: UserGoalStatus.COMPLETED,
-        }));
+        // Refetch user with goals
+        const updatedUser = await models.User.findByPk(userId, {
+            include: [{ model: models.Goal, as: 'goals' }],
+        });
 
-        currentProfile.goals.push(newGoal);
-        user.set('profile', currentProfile);
-        user.changed('profile', true);
-        await user.save();
+        if (!updatedUser) throw new Error('User fetch failed');
 
-        return user.toJSON() as UserPublic;
+        const userData = updatedUser.toJSON() as UserPublic & { goals?: UserGoal[] };
+        const profile = userData.profile || { goals: [] };
+        if (userData.goals) {
+            profile.goals = userData.goals.map(g => ({
+                _id: g.id,
+                targetDistance: g.targetDistance as any,
+                raceDate: g.raceDate ? new Date(g.raceDate) : new Date(),
+                weeklyTrainingNumbers: g.weeklyAvailability,
+            }));
+        }
+
+        return { ...userData, profile };
     }
+
     async deleteCurrentPlan(userId: string): Promise<void> {
         // Delete all sessions for the user
-        await SessionModel.destroy({
+        await models.Session.destroy({
             where: { userId },
         });
 
         // Delete all plans for the user
-        await TriathlonPlanModel.destroy({
+        await models.TriathlonPlan.destroy({
             where: { userId },
         });
 
-        // Clear goals in user profile
-        const user = await UserModel.findByPk(userId);
+        // Clear goals (delete them)
+        await models.Goal.destroy({
+            where: { userId },
+        });
+
+        // Also clear profile goals just in case there are vestiges
+        const user = await models.User.findByPk(userId);
         if (user) {
             const profile = (user.get('profile') as UserProfile) || { goals: [] };
             profile.goals = [];
             user.set('profile', profile);
-            user.changed('profile', true);
-            await user.save();
+            user.save();
         }
     }
 }

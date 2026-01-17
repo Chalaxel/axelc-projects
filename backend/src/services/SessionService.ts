@@ -1,14 +1,9 @@
-import { getDatabase } from '../utils/dbSync';
-import { initSessionModel, getSessionModel } from '../models/Session';
+import { models } from '../models/models';
 import { Session, SessionCreationAttributes, SessionData } from '@shared/types';
-
-const db = getDatabase();
-initSessionModel(db);
-const SessionModel = getSessionModel();
 
 export class SessionService {
     async getAll(userId: string): Promise<Session[]> {
-        const sessions = await SessionModel.findAll({
+        const sessions = await models.Session.findAll({
             where: { userId },
             order: [
                 ['date', 'DESC'],
@@ -19,7 +14,7 @@ export class SessionService {
     }
 
     async getById(id: string, userId: string): Promise<Session | null> {
-        const session = await SessionModel.findOne({
+        const session = await models.Session.findOne({
             where: { id, userId },
         });
         if (!session) {
@@ -29,7 +24,7 @@ export class SessionService {
     }
 
     async create(data: SessionCreationAttributes, userId: string): Promise<Session> {
-        const session = await SessionModel.create({
+        const session = await models.Session.create({
             sport: data.sport,
             blocks: data.blocks || [],
             data: data.data || {},
@@ -45,7 +40,7 @@ export class SessionService {
         data: Partial<SessionCreationAttributes>,
         userId: string,
     ): Promise<Session | null> {
-        const session = await SessionModel.findOne({
+        const session = await models.Session.findOne({
             where: { id, userId },
         });
         if (!session) {
@@ -78,7 +73,7 @@ export class SessionService {
     }
 
     async delete(id: string, userId: string): Promise<boolean> {
-        const session = await SessionModel.findOne({
+        const session = await models.Session.findOne({
             where: { id, userId },
         });
         if (!session) {

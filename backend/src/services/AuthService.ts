@@ -1,12 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt, { Secret } from 'jsonwebtoken';
-import { getDatabase } from '../utils/dbSync';
-import { initUserModel, getUserModel } from '../models/User';
+import { models } from '../models/models';
 import { User, UserCreationAttributes, UserPublic } from '@shared/types';
-
-const db = getDatabase();
-initUserModel(db);
-const UserModel = getUserModel();
 
 const JWT_SECRET = (process.env.JWT_SECRET || 'your-secret-key-change-in-production') as Secret;
 const JWT_EXPIRES_IN = Number(process.env.JWT_EXPIRES_IN) || 24 * 60 * 60 * 1000;
@@ -18,7 +13,7 @@ export interface JWTPayload {
 
 export class AuthService {
     async register(data: UserCreationAttributes): Promise<{ user: UserPublic; token: string }> {
-        const existingUser = await UserModel.findOne({
+        const existingUser = await models.User.findOne({
             where: { email: data.email },
         });
 
@@ -29,7 +24,7 @@ export class AuthService {
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(data.password, saltRounds);
 
-        const user = await UserModel.create({
+        const user = await models.User.create({
             email: data.email,
             password: hashedPassword,
         });
@@ -53,7 +48,7 @@ export class AuthService {
     }
 
     async login(email: string, password: string): Promise<{ user: UserPublic; token: string }> {
-        const user = await UserModel.findOne({
+        const user = await models.User.findOne({
             where: { email },
         });
 
@@ -96,7 +91,7 @@ export class AuthService {
     }
 
     async getUserById(userId: string): Promise<UserPublic | null> {
-        const user = await UserModel.findByPk(userId);
+        const user = await models.User.findByPk(userId);
         if (!user) {
             return null;
         }

@@ -1,7 +1,7 @@
 import { DataTypes, Model, ModelStatic, Sequelize } from 'sequelize';
 import { TriathlonPlan, TriathlonPlanCreationAttributes, TriathlonDistance } from '@shared/types';
 
-interface TriathlonPlanInstance
+export interface TriathlonPlanInstance
     extends Model<TriathlonPlan, TriathlonPlanCreationAttributes>, TriathlonPlan {}
 
 let TriathlonPlanModel: ModelStatic<TriathlonPlanInstance> | null = null;
