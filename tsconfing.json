@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@shared/types": ["./shared/types"]
+    }
+  },
+  "exclude": ["node_modules"]
+}

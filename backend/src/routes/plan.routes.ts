@@ -64,6 +64,10 @@ router.post('/goal', async (req: AuthenticatedRequest, res: Response) => {
     }
 });
 
+router.put('/goal', async (req: AuthenticatedRequest, res: Response) => {
+    return res.status(200).json({ success: true, message: 'Goal updated successfully' });
+});
+
 router.delete('/current', async (req: AuthenticatedRequest, res: Response) => {
     try {
         if (!req.user) return res.status(401).json({ success: false, message: 'Non autorisé' });

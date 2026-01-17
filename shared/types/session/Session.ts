@@ -5,7 +5,6 @@ export enum SportEnum {
 }
 
 export enum TriathlonDistance {
-    XS = 'XS',
     S = 'S',
     M = 'M',
     L = 'L',

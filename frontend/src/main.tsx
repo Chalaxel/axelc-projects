@@ -1,6 +1,10 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { AuthPage } from './components/AuthPage';
+import { PlanDashboard } from './components/dashboard/PlanDashboard';
+import { MainLayout } from './components/layout/MainLayout';
+import { OnboardingWizard } from './components/onboarding/OnboardingWizard';
+import { SessionList } from './components/SessionList';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import './index.css';
 
@@ -10,13 +14,8 @@ if (!rootElement) {
     throw new Error('Root element #root not found');
 }
 
-import { OnboardingWizard } from './components/onboarding/OnboardingWizard';
-import { PlanDashboard } from './components/dashboard/PlanDashboard';
-import { SessionList } from './components/SessionList';
-import { MainLayout } from './components/layout/MainLayout';
-
 const App = () => {
-    const { user, isAuthenticated, isLoading } = useAuth();
+    const { isAuthenticated, isLoading } = useAuth();
 
     if (isLoading) {
         return (
@@ -35,7 +34,7 @@ const App = () => {
 
     const path = window.location.pathname;
 
-    if (path === '/onboarding' || !user?.profile) {
+    if (path === '/onboarding') {
         return <OnboardingWizard />;
     }
 

@@ -30,7 +30,7 @@ module.exports = {
     ecmaFeatures: {
       jsx: true,
     },
-    project: true, // Trouve automatiquement le tsconfig.json le plus proche
+    project: true,
   },
   plugins: ['react', 'react-hooks', '@typescript-eslint', 'prettier'],
   settings: {

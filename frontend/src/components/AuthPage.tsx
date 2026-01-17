@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { LoginForm } from './LoginForm';
 import { RegisterForm } from './RegisterForm';
+import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 
 export const AuthPage = () => {
     const [activeTab, setActiveTab] = useState<'login' | 'register'>('login');

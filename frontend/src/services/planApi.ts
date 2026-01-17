@@ -1,6 +1,7 @@
-import { TriathlonDistance, TriathlonPlan, UserProfile, UserPublic, UserGoal } from '@shared/types';
+import { TriathlonDistance, TriathlonPlan, UserProfile, UserPublic } from '@shared/types';
 import axios from 'axios';
 import { TOKEN_KEY } from './authApi';
+import { GoalForm } from '@shared/types/goal/Goal';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
 
@@ -34,8 +35,8 @@ export const planApi = {
         return response.data.data;
     },
 
-    async addGoal(goal: Omit<UserGoal, 'id' | 'status'>): Promise<UserPublic> {
-        const response = await axios.post(`${API_URL}/plans/goal`, goal, getAuthHeaders());
+    async setGoal(goal: GoalForm): Promise<UserPublic> {
+        const response = await axios.put(`${API_URL}/plans/goal`, goal, getAuthHeaders());
         return response.data.data;
     },
 

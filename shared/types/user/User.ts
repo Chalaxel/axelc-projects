@@ -19,6 +19,8 @@ export interface UserGoal {
     status: UserGoalStatus;
 }
 
+export type UserGoalCreationAttributes = Omit<UserGoal, 'id' | 'status'>;
+
 export interface UserProfile {
     goals: UserGoal[];
 }
