@@ -32,17 +32,11 @@ export const PlanDashboard: React.FC = () => {
     }, []);
 
     const handleDeletePlan = async () => {
-        if (
-            window.confirm(
-                'Voulez-vous vraiment supprimer votre programme actuel ? Cette action est irréversible.',
-            )
-        ) {
-            try {
-                await planApi.deleteCurrentPlan();
-                window.location.reload();
-            } catch {
-                alert('Erreur lors de la suppression du programme');
-            }
+        try {
+            await planApi.deleteCurrentPlan();
+            window.location.reload();
+        } catch {
+            alert('Erreur lors de la suppression du programme');
         }
     };
 

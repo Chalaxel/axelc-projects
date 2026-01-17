@@ -1,10 +1,13 @@
 import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui/button';
 import { LogOut, LayoutDashboard, Calendar, User } from 'lucide-react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export const Header = () => {
     const { user, logout } = useAuth();
-    const path = window.location.pathname;
+    const location = useLocation();
+    const navigate = useNavigate();
+    const path = location.pathname;
 
     return (
         <header className='bg-background/80 border-border sticky top-0 z-50 w-full border-b backdrop-blur-md'>
@@ -12,7 +15,7 @@ export const Header = () => {
                 <div className='flex items-center gap-8'>
                     <div
                         className='hover:text-primary cursor-pointer text-xl font-black tracking-tighter uppercase transition-colors'
-                        onClick={() => (window.location.href = '/')}
+                        onClick={() => navigate('/')}
                     >
                         P3RF
                     </div>
@@ -21,7 +24,7 @@ export const Header = () => {
                         <Button
                             variant='ghost'
                             size='sm'
-                            onClick={() => (window.location.href = '/')}
+                            onClick={() => navigate('/')}
                             className={`text-xs font-bold tracking-widest uppercase transition-all ${
                                 path === '/'
                                     ? 'bg-primary/10 text-primary'
@@ -34,7 +37,7 @@ export const Header = () => {
                         <Button
                             variant='ghost'
                             size='sm'
-                            onClick={() => (window.location.href = '/sessions')}
+                            onClick={() => navigate('/sessions')}
                             className={`text-xs font-bold tracking-widest uppercase transition-all ${
                                 path === '/sessions'
                                     ? 'bg-primary/10 text-primary'

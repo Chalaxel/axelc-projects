@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import { planApi } from '../../services/planApi';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
@@ -23,13 +25,14 @@ export const OnboardingWizard: React.FC = () => {
     const [newGoal, setNewGoal] = useState<Partial<GoalForm>>({});
 
     const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
 
     const handleSubmit = async () => {
         setIsLoading(true);
         try {
             await planApi.setGoal(newGoal as GoalForm);
 
-            window.location.href = '/dashboard';
+            navigate('/');
         } catch (error) {
             console.error('Error during onboarding:', error);
             alert('Une erreur est survenue lors de la création de votre programme.');
@@ -39,7 +42,7 @@ export const OnboardingWizard: React.FC = () => {
     };
 
     return (
-        <div className='bg-background flex min-h-screen items-center justify-center p-4'>
+        <div className='bg-background flex items-center justify-center p-4'>
             <Card className='border-border bg-card w-full max-w-[600px] border shadow-2xl'>
                 <CardHeader>
                     <div className='bg-muted mb-6 h-1 w-full overflow-hidden rounded-full'>

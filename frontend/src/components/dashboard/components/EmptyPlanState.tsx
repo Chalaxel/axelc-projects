@@ -2,8 +2,11 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Target } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export const EmptyPlanState: React.FC = () => {
+    const navigate = useNavigate();
+
     return (
         <div className='flex min-h-[80vh] items-center justify-center px-4'>
             <Card className='border-border bg-card w-full max-w-md border-dashed shadow-xl'>
@@ -22,7 +25,7 @@ export const EmptyPlanState: React.FC = () => {
                 <CardContent className='flex justify-center pb-8'>
                     <Button
                         className='bg-primary text-primary-foreground px-8 font-bold shadow-lg transition-all hover:scale-105 active:scale-95'
-                        onClick={() => (window.location.href = '/onboarding')}
+                        onClick={() => navigate('/onboarding')}
                     >
                         Démarrer mon coaching
                     </Button>

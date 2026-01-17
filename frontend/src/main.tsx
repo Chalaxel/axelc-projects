@@ -1,5 +1,6 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import { AuthPage } from './components/AuthPage';
 import { PlanDashboard } from './components/dashboard/PlanDashboard';
 import { MainLayout } from './components/layout/MainLayout';
@@ -14,7 +15,7 @@ if (!rootElement) {
     throw new Error('Root element #root not found');
 }
 
-const App = () => {
+const ProtectedRoute = () => {
     const { isAuthenticated, isLoading } = useAuth();
 
     if (isLoading) {
@@ -32,13 +33,30 @@ const App = () => {
 
     if (!isAuthenticated) return <AuthPage />;
 
-    const path = window.location.pathname;
+    return <Outlet />;
+};
 
-    if (path === '/onboarding') {
-        return <OnboardingWizard />;
-    }
-
-    return <MainLayout>{path === '/sessions' ? <SessionList /> : <PlanDashboard />}</MainLayout>;
+const App = () => {
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route element={<ProtectedRoute />}>
+                    <Route
+                        element={
+                            <MainLayout>
+                                <Outlet />
+                            </MainLayout>
+                        }
+                    >
+                        <Route path='/onboarding' element={<OnboardingWizard />} />
+                        <Route path='/sessions' element={<SessionList />} />
+                        <Route path='/' element={<PlanDashboard />} />
+                        <Route path='*' element={<Navigate to='/' replace />} />
+                    </Route>
+                </Route>
+            </Routes>
+        </BrowserRouter>
+    );
 };
 
 createRoot(rootElement).render(
