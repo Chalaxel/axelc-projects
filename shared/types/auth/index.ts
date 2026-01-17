@@ -1,4 +1,4 @@
-import { UserPublic } from '../user/User';
+import { UserWithGoals } from '../user/User';
 
 export interface LoginRequest {
     email: string;
@@ -13,7 +13,7 @@ export interface RegisterRequest {
 export interface AuthResponse {
     success: boolean;
     token?: string;
-    user?: UserPublic;
+    user?: UserWithGoals;
     message?: string;
 }
 

@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import { LoginRequest, RegisterRequest, AuthResponse, UserPublic } from '@shared/types';
+import { LoginRequest, RegisterRequest, AuthResponse, UserWithGoals } from '@shared/types';
 
 const api: AxiosInstance = axios.create({
     baseURL: '/api',
@@ -34,14 +34,14 @@ export const authApi = {
         return response.data;
     },
 
-    async getCurrentUser(): Promise<UserPublic | null> {
+    async getCurrentUser(): Promise<UserWithGoals | null> {
         try {
             const token = this.getToken();
             if (!token) {
                 return null;
             }
 
-            const response = await api.get<{ success: boolean; user?: UserPublic }>('/auth/me', {
+            const response = await api.get<{ success: boolean; user?: UserWithGoals }>('/auth/me', {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

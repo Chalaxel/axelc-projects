@@ -1,11 +1,7 @@
 import { DataTypes, Model, ModelStatic, Sequelize, Optional } from 'sequelize';
-import { UserGoal, UserGoalStatus, UserLevel } from '@shared/types';
+import { GoalAttributes, GoalStatus } from '@shared/types';
 
-interface GoalAttributes extends UserGoal {
-    userId: string;
-}
-
-interface GoalCreationAttributes extends Optional<GoalAttributes, 'id'> {}
+type GoalCreationAttributes = Optional<GoalAttributes, 'id'>;
 
 export interface GoalInstance
     extends Model<GoalAttributes, GoalCreationAttributes>, GoalAttributes {}
@@ -30,12 +26,7 @@ export const initGoalModel = (sequelize: Sequelize): ModelStatic<GoalInstance> =
                         key: 'id',
                     },
                 },
-                level: {
-                    type: DataTypes.ENUM(...Object.values(UserLevel)),
-                    allowNull: false,
-                    defaultValue: UserLevel.BEGINNER,
-                },
-                weeklyAvailability: {
+                weeklyTrainingNumbers: {
                     type: DataTypes.INTEGER,
                     allowNull: false,
                 },
@@ -48,8 +39,8 @@ export const initGoalModel = (sequelize: Sequelize): ModelStatic<GoalInstance> =
                     allowNull: true,
                 },
                 status: {
-                    type: DataTypes.ENUM(...Object.values(UserGoalStatus)),
-                    defaultValue: UserGoalStatus.ACTIVE,
+                    type: DataTypes.STRING,
+                    defaultValue: GoalStatus.ACTIVE,
                 },
             },
             {

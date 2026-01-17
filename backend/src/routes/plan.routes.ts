@@ -1,7 +1,7 @@
 import { Router, Response } from 'express';
 import { AuthenticatedRequest } from '../middleware/auth';
 import { triathlonPlanService } from '../services/TriathlonPlanService';
-import { UserGoal, Goal, UserProfile } from '@shared/types';
+import { GoalAttributes, UserProfile } from '@shared/types';
 import { UserService } from 'src/services/UserService';
 
 const router = Router();
@@ -51,7 +51,7 @@ router.put('/profile', async (req: AuthenticatedRequest<UserProfile>, res: Respo
     }
 });
 
-router.post('/goal', async (req: AuthenticatedRequest<UserGoal>, res: Response) => {
+router.post('/goal', async (req: AuthenticatedRequest<GoalAttributes>, res: Response) => {
     try {
         if (!req.user) {
             return res
@@ -66,7 +66,7 @@ router.post('/goal', async (req: AuthenticatedRequest<UserGoal>, res: Response) 
     }
 });
 
-router.put('/goal', async (req: AuthenticatedRequest<Goal>, res: Response) => {
+router.put('/goal', async (req: AuthenticatedRequest<GoalAttributes>, res: Response) => {
     if (!req.user) {
         return res
             .status(401)
@@ -89,7 +89,7 @@ router.post('/goal/:date/resetPeriods', async (req: AuthenticatedRequest, res: R
         const dateStr = req.params.date;
         const date = new Date(dateStr);
 
-        const goalToReset = user?.profile?.goals.find(goal => {
+        const goalToReset = user?.goals.find(goal => {
             const goalDate = new Date(goal.raceDate);
 
             return goalDate.toDateString() === date.toDateString();

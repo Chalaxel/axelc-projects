@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt, { Secret } from 'jsonwebtoken';
 import { models } from '../models/models';
-import { User, UserCreationAttributes, UserPublic } from '@shared/types';
+import { User, UserCreationAttributes, UserWithGoals } from '@shared/types';
 
 const JWT_SECRET = (process.env.JWT_SECRET || 'your-secret-key-change-in-production') as Secret;
 const JWT_EXPIRES_IN = Number(process.env.JWT_EXPIRES_IN) || 24 * 60 * 60 * 1000;
@@ -12,7 +12,7 @@ export interface JWTPayload {
 }
 
 export class AuthService {
-    async register(data: UserCreationAttributes): Promise<{ user: UserPublic; token: string }> {
+    async register(data: UserCreationAttributes): Promise<{ user: UserWithGoals; token: string }> {
         const existingUser = await models.User.findOne({
             where: { email: data.email },
         });
@@ -47,7 +47,7 @@ export class AuthService {
         };
     }
 
-    async login(email: string, password: string): Promise<{ user: UserPublic; token: string }> {
+    async login(email: string, password: string): Promise<{ user: UserWithGoals; token: string }> {
         const user = await models.User.findOne({
             where: { email },
         });
@@ -90,7 +90,7 @@ export class AuthService {
         }
     }
 
-    async getUserById(userId: string): Promise<UserPublic | null> {
+    async getUserById(userId: string): Promise<UserWithGoals | null> {
         const user = await models.User.findByPk(userId);
         if (!user) {
             return null;

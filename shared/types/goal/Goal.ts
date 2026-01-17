@@ -1,13 +1,24 @@
 import { TriathlonDistance } from '..';
 
-export interface Goal {
+export type GoalId = string;
+
+export enum GoalStatus {
+    ACTIVE = 'active',
+    COMPLETED = 'completed',
+    DRAFT = 'draft',
+}
+
+export interface GoalAttributes {
+    id: GoalId;
     targetDistance: TriathlonDistance;
     raceDate: Date;
     weeklyTrainingNumbers: number;
+    userId: string;
+    status: GoalStatus;
 }
 
-export interface GoalForm {
+export interface GoalCreationAttributes {
     targetDistance: TriathlonDistance;
-    raceDate: string | Date;
+    raceDate: Date;
     weeklyTrainingNumbers: number;
 }

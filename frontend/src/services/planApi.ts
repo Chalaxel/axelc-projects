@@ -1,4 +1,4 @@
-import { TriathlonDistance, TriathlonPlan, UserProfile, UserPublic } from '@shared/types';
+import { TriathlonDistance, TriathlonPlan, UserProfile, UserWithGoals } from '@shared/types';
 import axios from 'axios';
 import { TOKEN_KEY } from './authApi';
 import { GoalForm } from '@shared/types/goal/Goal';
@@ -30,12 +30,12 @@ export const planApi = {
         return response.data.data;
     },
 
-    async updateProfile(profile: UserProfile): Promise<UserPublic> {
+    async updateProfile(profile: UserProfile): Promise<UserWithGoals> {
         const response = await axios.put(`${API_URL}/plans/profile`, profile, getAuthHeaders());
         return response.data.data;
     },
 
-    async setGoal(goal: GoalForm): Promise<UserPublic> {
+    async setGoal(goal: GoalForm): Promise<UserWithGoals> {
         const response = await axios.put(`${API_URL}/plans/goal`, goal, getAuthHeaders());
         return response.data.data;
     },

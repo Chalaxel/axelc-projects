@@ -13,7 +13,7 @@ export const PlanDashboard: React.FC = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [isResetting, setIsResetting] = useState(false);
 
-    const goals = user?.profile?.goals || [];
+    const goals = user?.goals || [];
     const activeGoal = goals[0];
 
     useEffect(() => {

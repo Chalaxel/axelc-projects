@@ -1,14 +1,14 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { authApi } from '../services/authApi';
-import { UserPublic } from '@shared/types';
+import { UserWithGoals } from '@shared/types';
 
 interface AuthContextType {
-    user: UserPublic | null;
+    user: UserWithGoals | null;
     isAuthenticated: boolean;
     isLoading: boolean;
     login: (email: string, password: string) => Promise<void>;
     register: (email: string, password: string) => Promise<void>;
-    updateUser: (user: UserPublic) => void;
+    updateUser: (user: UserWithGoals) => void;
     logout: () => void;
 }
 
@@ -27,7 +27,7 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-    const [user, setUser] = useState<UserPublic | null>(null);
+    const [user, setUser] = useState<UserWithGoals | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -75,7 +75,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setUser(null);
     };
 
-    const updateUser = (updatedUser: UserPublic) => {
+    const updateUser = (updatedUser: UserWithGoals) => {
         setUser(updatedUser);
     };
 

@@ -2,12 +2,12 @@ import {
     TriathlonPlan,
     TriathlonDistance,
     UserProfile,
-    UserPublic,
-    UserGoal,
-    UserGoalStatus,
+    UserWithGoals,
+    GoalAttributes,
+    GoalStatus,
+    GoalCreationAttributes,
 } from '@shared/types';
 import { PlanGeneratorService } from './PlanGeneratorService';
-import crypto from 'crypto';
 import { models } from 'src/models/models';
 
 export class TriathlonPlanService {
@@ -56,27 +56,27 @@ export class TriathlonPlanService {
         return plan.toJSON() as TriathlonPlan;
     }
 
-    async updateUserProfile(userId: string, profile: UserProfile): Promise<UserPublic> {
+    async updateUserProfile(userId: string, profile: UserProfile): Promise<UserWithGoals> {
         const user = await models.User.findByPk(userId);
         if (!user) throw new Error('User not found');
 
         user.set('profile', profile);
         await user.save();
 
-        return user.toJSON() as UserPublic;
+        return user.toJSON() as UserWithGoals;
     }
 
-    async addGoal(userId: string, goal: Omit<UserGoal, 'id' | 'status'>): Promise<UserPublic> {
+    async addGoal(userId: string, goal: GoalCreationAttributes): Promise<UserWithGoals> {
         const user = await models.User.findByPk(userId);
         if (!user) throw new Error('User not found');
 
         // Deactivate other active goals
         await models.Goal.update(
-            { status: UserGoalStatus.COMPLETED },
+            { status: GoalStatus.COMPLETED },
             {
                 where: {
                     userId,
-                    status: UserGoalStatus.ACTIVE,
+                    status: GoalStatus.ACTIVE,
                 },
             },
         );
@@ -84,9 +84,8 @@ export class TriathlonPlanService {
         // Create new goal
         await models.Goal.create({
             ...goal,
-            id: crypto.randomUUID(),
             userId,
-            status: UserGoalStatus.ACTIVE,
+            status: GoalStatus.ACTIVE,
         });
 
         // Refetch user with goals
@@ -96,18 +95,9 @@ export class TriathlonPlanService {
 
         if (!updatedUser) throw new Error('User fetch failed');
 
-        const userData = updatedUser.toJSON() as UserPublic & { goals?: UserGoal[] };
-        const profile = userData.profile || { goals: [] };
-        if (userData.goals) {
-            profile.goals = userData.goals.map(g => ({
-                _id: g.id,
-                targetDistance: g.targetDistance as any,
-                raceDate: g.raceDate ? new Date(g.raceDate) : new Date(),
-                weeklyTrainingNumbers: g.weeklyAvailability,
-            }));
-        }
+        const userData = updatedUser.toJSON() as UserWithGoals & { goals?: GoalAttributes[] };
 
-        return { ...userData, profile };
+        return { ...userData };
     }
 
     async deleteCurrentPlan(userId: string): Promise<void> {
@@ -125,15 +115,6 @@ export class TriathlonPlanService {
         await models.Goal.destroy({
             where: { userId },
         });
-
-        // Also clear profile goals just in case there are vestiges
-        const user = await models.User.findByPk(userId);
-        if (user) {
-            const profile = (user.get('profile') as UserProfile) || { goals: [] };
-            profile.goals = [];
-            user.set('profile', profile);
-            user.save();
-        }
     }
 }
 

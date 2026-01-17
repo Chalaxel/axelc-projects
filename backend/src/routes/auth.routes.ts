@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express';
 import { authService } from '../services/AuthService';
 import { AuthenticatedRequest } from '../middleware/auth';
 import { RegisterRequest, LoginRequest, AuthResponse, AuthErrorResponse } from '@shared/types';
+import { UserService } from 'src/services/UserService';
 
 const router = Router();
 
@@ -85,7 +86,7 @@ router.get(
                 });
             }
 
-            const user = await authService.getUserById(req.user.userId);
+            const user = await UserService.getUserById(req.user.userId);
 
             if (!user) {
                 return res.status(404).json({
