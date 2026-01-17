@@ -3,6 +3,7 @@ import { AuthenticatedRequest } from '../middleware/auth';
 import { triathlonPlanService } from '../services/TriathlonPlanService';
 import { GoalAttributes, UserProfile } from '@shared/types';
 import { UserService } from 'src/services/UserService';
+import { models } from 'src/models/models';
 
 const router = Router();
 
@@ -77,23 +78,17 @@ router.put('/goal', async (req: AuthenticatedRequest<GoalAttributes>, res: Respo
     return res.status(200).json({ success: true, message: 'Goal updated successfully' });
 });
 
-router.post('/goal/:date/resetPeriods', async (req: AuthenticatedRequest, res: Response) => {
+router.post('/goal/:id/resetPeriods', async (req: AuthenticatedRequest, res: Response) => {
     try {
         if (!req.user) {
             return res
                 .status(401)
                 .json({ success: false, message: 'Non autorisé - Session expirée ou invalide' });
         }
-        const user = await UserService.getUserById(req.user.userId);
 
-        const dateStr = req.params.date;
-        const date = new Date(dateStr);
+        const id = req.params.id;
 
-        const goalToReset = user?.goals.find(goal => {
-            const goalDate = new Date(goal.raceDate);
-
-            return goalDate.toDateString() === date.toDateString();
-        });
+        const goalToReset = await models.Goal.findByPk(id);
 
         if (!goalToReset) {
             return res.status(404).json({ success: false, message: 'Goal not found' });

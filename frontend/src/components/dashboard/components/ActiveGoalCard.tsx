@@ -3,11 +3,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Clock, Calendar, RefreshCcw } from 'lucide-react';
-import { Goal } from '@shared/types';
+import { GoalAttributes } from '@shared/types';
 import { format } from 'date-fns';
 
 interface ActiveGoalCardProps {
-    goal: Goal;
+    goal: GoalAttributes;
     onResetPeriods: (goalId: string) => void;
     isResetting?: boolean;
 }
@@ -33,7 +33,7 @@ export const ActiveGoalCard: React.FC<ActiveGoalCardProps> = ({
                     <Button
                         variant='outline'
                         size='sm'
-                        onClick={() => onResetPeriods(format(goal.raceDate, 'yyyy-MM-dd'))}
+                        onClick={() => onResetPeriods(goal.id)}
                         disabled={isResetting}
                         className='ml-4 hidden sm:flex'
                     >

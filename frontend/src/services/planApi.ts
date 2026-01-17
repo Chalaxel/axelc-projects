@@ -44,7 +44,7 @@ export const planApi = {
         await axios.delete(`${API_URL}/plans/current`, getAuthHeaders());
     },
 
-    async resetGoalPeriods(date: string): Promise<void> {
-        await axios.post(`${API_URL}/plans/goal/${date}/resetPeriods`, {}, getAuthHeaders());
+    async resetGoalPeriods(id: string): Promise<void> {
+        await axios.post(`${API_URL}/plans/goal/${id}/resetPeriods`, {}, getAuthHeaders());
     },
 };
