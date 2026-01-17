@@ -1,3 +1,5 @@
+import { Goal } from '../goal';
+
 export enum UserLevel {
     BEGINNER = 'beginner',
     INTERMEDIATE = 'intermediate',
@@ -22,7 +24,7 @@ export interface UserGoal {
 export type UserGoalCreationAttributes = Omit<UserGoal, 'id' | 'status'>;
 
 export interface UserProfile {
-    goals: UserGoal[];
+    goals: Goal[];
 }
 
 export interface User {

@@ -1,6 +1,8 @@
 import { Router, Response } from 'express';
 import { AuthenticatedRequest } from '../middleware/auth';
 import { triathlonPlanService } from '../services/TriathlonPlanService';
+import { UserGoal, Goal, UserProfile } from '@shared/types';
+import { UserService } from 'src/services/UserService';
 
 const router = Router();
 
@@ -38,7 +40,7 @@ router.post('/generate', async (req: AuthenticatedRequest, res: Response) => {
     }
 });
 
-router.put('/profile', async (req: AuthenticatedRequest, res: Response) => {
+router.put('/profile', async (req: AuthenticatedRequest<UserProfile>, res: Response) => {
     try {
         if (!req.user) return res.status(401).json({ success: false, message: 'Non autorisé' });
         const user = await triathlonPlanService.updateUserProfile(req.user.userId, req.body);
@@ -49,7 +51,7 @@ router.put('/profile', async (req: AuthenticatedRequest, res: Response) => {
     }
 });
 
-router.post('/goal', async (req: AuthenticatedRequest, res: Response) => {
+router.post('/goal', async (req: AuthenticatedRequest<UserGoal>, res: Response) => {
     try {
         if (!req.user) {
             return res
@@ -64,7 +66,14 @@ router.post('/goal', async (req: AuthenticatedRequest, res: Response) => {
     }
 });
 
-router.put('/goal', async (req: AuthenticatedRequest, res: Response) => {
+router.put('/goal', async (req: AuthenticatedRequest<Goal>, res: Response) => {
+    if (!req.user) {
+        return res
+            .status(401)
+            .json({ success: false, message: 'Non autorisé - Session expirée ou invalide' });
+    }
+
+    await UserService.addGoal(req.user.userId, req.body);
     return res.status(200).json({ success: true, message: 'Goal updated successfully' });
 });
 

@@ -1,8 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import { authService, JWTPayload } from '../services/AuthService';
 
-export interface AuthenticatedRequest extends Request {
+export interface AuthenticatedRequest<T = unknown> extends Request {
     user?: JWTPayload;
+    body: T;
 }
 
 export const getUserMiddleware = async (

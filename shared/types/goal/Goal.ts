@@ -1,6 +1,6 @@
 import { TriathlonDistance } from '..';
 
-export interface GoalForm {
+export interface Goal {
     targetDistance: TriathlonDistance;
     raceDate: Date;
     weeklyTrainingNumbers: number;

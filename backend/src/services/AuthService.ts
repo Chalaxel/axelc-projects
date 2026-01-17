@@ -90,6 +90,7 @@ export class AuthService {
             const decoded = jwt.verify(token, JWT_SECRET) as JWTPayload;
             return decoded;
         } catch (error) {
+            console.error('Error verifying token:', error);
             throw new Error('Token invalide ou expiré');
         }
     }
