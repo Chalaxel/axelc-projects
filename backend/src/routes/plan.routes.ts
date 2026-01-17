@@ -77,6 +77,35 @@ router.put('/goal', async (req: AuthenticatedRequest<Goal>, res: Response) => {
     return res.status(200).json({ success: true, message: 'Goal updated successfully' });
 });
 
+router.post('/goal/:date/resetPeriods', async (req: AuthenticatedRequest, res: Response) => {
+    try {
+        if (!req.user) {
+            return res
+                .status(401)
+                .json({ success: false, message: 'Non autorisé - Session expirée ou invalide' });
+        }
+        const user = await UserService.getUserById(req.user.userId);
+
+        const dateStr = req.params.date;
+        const date = new Date(dateStr);
+
+        const goalToReset = user?.profile?.goals.find(goal => {
+            const goalDate = new Date(goal.raceDate);
+
+            return goalDate.toDateString() === date.toDateString();
+        });
+
+        if (!goalToReset) {
+            return res.status(404).json({ success: false, message: 'Goal not found' });
+        }
+
+        res.json({ success: true, message: 'Goal periods reset successfully', goalToReset });
+    } catch (error) {
+        console.error('Error resetting goal periods:', error);
+        res.status(500).json({ success: false, message: 'Failed to reset goal periods' });
+    }
+});
+
 router.delete('/current', async (req: AuthenticatedRequest, res: Response) => {
     try {
         if (!req.user) return res.status(401).json({ success: false, message: 'Non autorisé' });
