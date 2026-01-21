@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Clock, Calendar, RefreshCcw } from 'lucide-react';
 import { GoalAttributes } from '@shared/types';
-import { format } from 'date-fns';
+import { PeriodDisplay } from './PeriodDisplay';
 
 interface ActiveGoalCardProps {
     goal: GoalAttributes;
@@ -44,40 +44,44 @@ export const ActiveGoalCard: React.FC<ActiveGoalCardProps> = ({
                     </Button>
                 </div>
             </CardHeader>
-            <CardContent className='relative z-10 flex flex-wrap gap-10 py-6'>
-                <div className='flex items-center gap-4'>
-                    <div className='border-primary/20 bg-primary/10 rounded-xl border p-3'>
-                        <Clock className='text-primary h-6 w-6' />
+            <CardContent className='relative z-10 py-6'>
+                <div className='flex flex-wrap gap-10'>
+                    <div className='flex items-center gap-4'>
+                        <div className='border-primary/20 bg-primary/10 rounded-xl border p-3'>
+                            <Clock className='text-primary h-6 w-6' />
+                        </div>
+                        <div>
+                            <p className='text-muted-foreground text-[10px] font-black tracking-widest uppercase'>
+                                Volume hebdo
+                            </p>
+                            <p className='text-foreground text-xl font-bold'>
+                                {goal.weeklyTrainingNumbers}
+                                <span className='text-muted-foreground text-sm font-medium'>
+                                    séances / semaine
+                                </span>
+                            </p>
+                        </div>
                     </div>
-                    <div>
-                        <p className='text-muted-foreground text-[10px] font-black tracking-widest uppercase'>
-                            Volume hebdo
-                        </p>
-                        <p className='text-foreground text-xl font-bold'>
-                            {goal.weeklyTrainingNumbers}
-                            <span className='text-muted-foreground text-sm font-medium'>
-                                séances / semaine
-                            </span>
-                        </p>
+                    <div className='flex items-center gap-4'>
+                        <div className='border-secondary/20 bg-secondary/10 rounded-xl border p-3'>
+                            <Calendar className='text-secondary h-6 w-6' />
+                        </div>
+                        <div>
+                            <p className='text-muted-foreground text-[10px] font-black tracking-widest uppercase'>
+                                Course cible
+                            </p>
+                            <p className='text-foreground text-xl font-bold'>
+                                {new Date(goal.raceDate || '').toLocaleDateString('fr-FR', {
+                                    day: 'numeric',
+                                    month: 'long',
+                                    year: 'numeric',
+                                })}
+                            </p>
+                        </div>
                     </div>
                 </div>
-                <div className='flex items-center gap-4'>
-                    <div className='border-secondary/20 bg-secondary/10 rounded-xl border p-3'>
-                        <Calendar className='text-secondary h-6 w-6' />
-                    </div>
-                    <div>
-                        <p className='text-muted-foreground text-[10px] font-black tracking-widest uppercase'>
-                            Course cible
-                        </p>
-                        <p className='text-foreground text-xl font-bold'>
-                            {new Date(goal.raceDate || '').toLocaleDateString('fr-FR', {
-                                day: 'numeric',
-                                month: 'long',
-                                year: 'numeric',
-                            })}
-                        </p>
-                    </div>
-                </div>
+
+                <PeriodDisplay periods={goal.periods} />
             </CardContent>
         </Card>
     );
