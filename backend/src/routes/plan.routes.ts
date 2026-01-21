@@ -94,6 +94,8 @@ router.post('/goal/:id/resetPeriods', async (req: AuthenticatedRequest, res: Res
             return res.status(404).json({ success: false, message: 'Goal not found' });
         }
 
+        await UserService.resetGoalPeriods(goalToReset);
+
         res.json({ success: true, message: 'Goal periods reset successfully', goalToReset });
     } catch (error) {
         console.error('Error resetting goal periods:', error);

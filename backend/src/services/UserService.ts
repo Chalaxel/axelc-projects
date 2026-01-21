@@ -1,5 +1,6 @@
 import { GoalAttributes, User } from '@shared/types';
 import { models } from 'src/models/models';
+import { setPeriods } from './userService/setPeriods';
 
 export class UserService {
     static async getUserById(
@@ -21,5 +22,11 @@ export class UserService {
             ...goal,
             userId,
         });
+    }
+
+    static async resetGoalPeriods(goalToReset: GoalAttributes): Promise<void> {
+        const periods = setPeriods(goalToReset);
+
+        await models.Goal.update({ periods }, { where: { id: goalToReset.id } });
     }
 }

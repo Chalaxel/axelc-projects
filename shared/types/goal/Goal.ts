@@ -15,6 +15,12 @@ export interface GoalAttributes {
     weeklyTrainingNumbers: number;
     userId: string;
     status: GoalStatus;
+    periods: {
+        preparation: number;
+        general: number;
+        specific: number;
+        taper: number;
+    };
 }
 
 export interface GoalCreationAttributes {

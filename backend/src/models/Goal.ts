@@ -42,6 +42,11 @@ export const initGoalModel = (sequelize: Sequelize): ModelStatic<GoalInstance> =
                     type: DataTypes.STRING,
                     defaultValue: GoalStatus.ACTIVE,
                 },
+                periods: {
+                    type: DataTypes.JSONB,
+                    allowNull: false,
+                    defaultValue: {},
+                },
             },
             {
                 tableName: 'goals',
