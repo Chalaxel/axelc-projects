@@ -1,5 +1,5 @@
 import { GoalAttributes } from '@shared/types';
-import { nextMonday } from 'date-fns';
+import { add, nextMonday } from 'date-fns';
 
 export const setPeriods = (goal: GoalAttributes) => {
     const startDate = nextMonday(new Date());
@@ -30,9 +30,18 @@ export const setPeriods = (goal: GoalAttributes) => {
     }
 
     return {
-        preparation: prepNb,
-        general: generalNb,
-        specific: specificNb,
-        taper: taperNb,
+        preparation: { startDate: startDate.toISOString(), duration: prepNb },
+        general: {
+            startDate: add(startDate, { weeks: prepNb }).toISOString(),
+            duration: generalNb,
+        },
+        specific: {
+            startDate: add(startDate, { weeks: prepNb + generalNb }).toISOString(),
+            duration: specificNb,
+        },
+        taper: {
+            startDate: add(startDate, { weeks: prepNb + generalNb + specificNb }).toISOString(),
+            duration: taperNb,
+        },
     };
 };

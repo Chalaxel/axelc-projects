@@ -1,7 +1,8 @@
 import React from 'react';
 import { GoalAttributes } from '@shared/types';
 import { cn } from '@/lib/utils';
-import { Dumbbell, TrendingUp, Zap, Flag } from 'lucide-react';
+import { differenceInCalendarDays, startOfDay } from 'date-fns';
+import { Activity, Dumbbell, Flag, Hourglass, TrendingUp, Zap } from 'lucide-react';
 
 interface PeriodDisplayProps {
     periods: GoalAttributes['periods'];
@@ -44,11 +45,16 @@ const PERIOD_CONFIG = {
 };
 
 export const PeriodDisplay: React.FC<PeriodDisplayProps> = ({ periods, className }) => {
-    // Define the correct order of phases
     const orderedPhases: (keyof typeof periods)[] = ['preparation', 'general', 'specific', 'taper'];
 
-    // Calculate total duration to verify proportions if needed, though flex-grow handles visual ratio
-    const totalWeeks = Object.values(periods).reduce((a, b) => a + b, 0);
+    const totalWeeks = Object.values(periods).reduce((acc, period) => acc + period.duration, 0);
+
+    const startDate = new Date(periods.preparation.startDate);
+    const today = startOfDay(new Date());
+    const daysPassed = differenceInCalendarDays(today, startDate);
+    const weeksPassed = Math.max(0, daysPassed / 7);
+    const progressPercent = (weeksPassed / totalWeeks) * 100;
+    const hasStarted = daysPassed >= 0;
 
     return (
         <div className={cn('mt-6 w-full', className)}>
@@ -58,36 +64,81 @@ export const PeriodDisplay: React.FC<PeriodDisplayProps> = ({ periods, className
                 </p>
             </div>
 
-            {/* Visual Bar */}
-            <div className='border-border/50 mb-6 flex h-8 w-full overflow-hidden rounded-full border shadow-xs'>
-                {orderedPhases.map(phase => {
-                    const weeks = periods[phase];
-                    if (weeks === 0) return null;
-
-                    const config = PERIOD_CONFIG[phase as keyof typeof PERIOD_CONFIG];
-                    const widthPercent = (weeks / totalWeeks) * 100;
-
-                    return (
+            <div className='relative mx-1 mt-12 mb-8'>
+                <div
+                    className='absolute -top-5 z-20 flex w-[110px] -translate-x-1/2 flex-col items-center transition-all duration-500'
+                    style={{ left: `${Math.max(0, Math.min(100, progressPercent))}%` }}
+                >
+                    <div className={'flex flex-col items-center'}>
                         <div
-                            key={phase}
                             className={cn(
-                                'group relative flex h-full items-center justify-center transition-all duration-300',
-                                config.color,
+                                'flex items-center gap-1.5 rounded-full px-3 py-1 text-[10px] font-bold shadow-lg ring-2 ring-white transition-colors',
+                                hasStarted
+                                    ? 'bg-primary text-primary-foreground'
+                                    : 'bg-zinc-800 text-white',
                             )}
-                            style={{ width: `${widthPercent}%` }}
-                            title={`${config.label}: ${weeks} semaines`}
                         >
-                            {/* Hover Overlay */}
-                            <div className='absolute inset-0 bg-white/20 opacity-0 transition-opacity group-hover:opacity-100' />
+                            {hasStarted ? (
+                                <>
+                                    <Activity className='h-3 w-3' />
+                                    <span>SEMAINE {Math.ceil(weeksPassed)}</span>
+                                </>
+                            ) : (
+                                <>
+                                    <Hourglass className='h-3 w-3' />
+                                    <span>Bientôt</span>
+                                </>
+                            )}
                         </div>
-                    );
-                })}
+                        <div
+                            className={cn(
+                                'mt-1 h-6 w-0.5 rounded-full',
+                                hasStarted ? 'bg-primary' : 'bg-zinc-800',
+                            )}
+                        />
+                    </div>
+                </div>
+
+                <div className='border-border/50 flex h-8 w-full overflow-hidden rounded-full border shadow-xs'>
+                    {orderedPhases.map(phase => {
+                        const weeks = periods[phase].duration;
+                        if (weeks === 0) return null;
+
+                        const config = PERIOD_CONFIG[phase as keyof typeof PERIOD_CONFIG];
+                        const widthPercent = (weeks / totalWeeks) * 100;
+
+                        return (
+                            <div
+                                key={phase}
+                                className={cn(
+                                    'group relative flex h-full items-center justify-center transition-all duration-300',
+                                    config.color,
+                                    !hasStarted && 'opacity-60 saturate-50',
+                                )}
+                                style={{ width: `${widthPercent}%` }}
+                                title={`${config.label}: ${weeks} semaines`}
+                            >
+                                {/* Pattern overlap for not started */}
+                                {!hasStarted && (
+                                    <div
+                                        className='absolute inset-0 opacity-10'
+                                        style={{
+                                            backgroundImage:
+                                                'repeating-linear-gradient(45deg, transparent, transparent 10px, #000 10px, #000 20px)',
+                                        }}
+                                    />
+                                )}
+                                {/* Hover Overlay */}
+                                <div className='absolute inset-0 bg-white/20 opacity-0 transition-opacity group-hover:opacity-100' />
+                            </div>
+                        );
+                    })}
+                </div>
             </div>
 
-            {/* Legend / Details Grid */}
             <div className='grid grid-cols-2 gap-3 lg:grid-cols-4'>
                 {orderedPhases.map(phase => {
-                    const weeks = periods[phase];
+                    const weeks = periods[phase].duration;
                     const config = PERIOD_CONFIG[phase as keyof typeof PERIOD_CONFIG];
                     const Icon = config.icon;
 

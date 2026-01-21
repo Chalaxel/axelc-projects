@@ -8,6 +8,11 @@ export enum GoalStatus {
     DRAFT = 'draft',
 }
 
+interface Period {
+    startDate: string;
+    duration: number;
+}
+
 export interface GoalAttributes {
     id: GoalId;
     targetDistance: TriathlonDistance;
@@ -16,10 +21,10 @@ export interface GoalAttributes {
     userId: string;
     status: GoalStatus;
     periods: {
-        preparation: number;
-        general: number;
-        specific: number;
-        taper: number;
+        preparation: Period;
+        general: Period;
+        specific: Period;
+        taper: Period;
     };
 }
 
